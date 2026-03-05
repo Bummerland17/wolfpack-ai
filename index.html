@@ -709,6 +709,167 @@
 
     .footer-right a:hover { color: var(--white); }
 
+    /* ── Services Section ── */
+    #services {
+      border-top: 1px solid var(--border);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .service-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      transition: border-color 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .service-card:hover {
+      border-color: rgba(0,102,255,0.45);
+      transform: translateY(-3px);
+    }
+
+    .service-card.highlight {
+      background: rgba(0,102,255,0.07);
+      border-color: rgba(0,102,255,0.45);
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), transparent);
+      border-radius: 16px 16px 0 0;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .service-card:hover::before, .service-card.highlight::before { opacity: 1; }
+
+    .service-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .service-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 0.5rem;
+    }
+
+    .service-name {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.4rem;
+    }
+
+    .service-price {
+      margin-bottom: 1rem;
+    }
+
+    .service-price-main {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: var(--white);
+    }
+
+    .service-price-suffix {
+      font-size: 0.88rem;
+      color: var(--steel);
+      margin-left: 0.3rem;
+    }
+
+    .service-desc {
+      font-size: 0.9rem;
+      color: var(--steel);
+      line-height: 1.65;
+      margin-bottom: 1.5rem;
+      flex: 1;
+    }
+
+    .service-features {
+      list-style: none;
+      margin-bottom: 1.75rem;
+    }
+
+    .service-features li {
+      font-size: 0.85rem;
+      padding: 0.38rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      color: var(--white);
+    }
+
+    .service-features li::before {
+      content: '→';
+      color: var(--blue);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .service-target {
+      font-size: 0.75rem;
+      color: var(--steel);
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+
+    .btn-service {
+      display: block;
+      text-align: center;
+      font-family: var(--font);
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+      cursor: pointer;
+      letter-spacing: -0.01em;
+    }
+
+    .btn-service-outline {
+      background: transparent;
+      border: 1px solid var(--blue);
+      color: var(--blue);
+    }
+
+    .btn-service-outline:hover {
+      background: var(--blue);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .btn-service-solid {
+      background: var(--blue);
+      border: 1px solid var(--blue);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(0,102,255,0.25);
+    }
+
+    .btn-service-solid:hover {
+      background: var(--blue-hot);
+      border-color: var(--blue-hot);
+      transform: translateY(-1px);
+      box-shadow: 0 0 35px rgba(0,102,255,0.4);
+    }
+
     /* ── Responsive ── */
     @media (max-width: 640px) {
       nav { padding: 1rem 1.25rem; }
@@ -726,7 +887,11 @@
   <!-- NAV -->
   <nav>
     <div class="nav-logo">Wolfpack<span>AI</span></div>
-    <a href="mailto:hello@pantrymate.net" class="nav-cta">Deploy Your Pack →</a>
+    <div style="display:flex;align-items:center;gap:1.5rem;">
+      <a href="#services" style="font-size:0.85rem;font-weight:600;color:var(--steel);transition:color 0.2s;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--steel)'">Services</a>
+      <a href="#pricing" style="font-size:0.85rem;font-weight:600;color:var(--steel);transition:color 0.2s;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--steel)'">Pricing</a>
+      <a href="mailto:hello@pantrymate.net" class="nav-cta">Deploy Your Pack →</a>
+    </div>
   </nav>
 
   <!-- HERO -->
@@ -833,6 +998,87 @@
         <div class="step-num">03</div>
         <h3>You close the deals</h3>
         <p>Kai surfaces the warm replies and interested prospects. You get a calendar full of people who already want to talk. You close. Pack hunts again.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-label">Services</div>
+    <h2>Done-for-you AI.<br />Three ways to start.</h2>
+    <p class="section-intro">
+      Whether you need a roadmap, a custom agent stack, or ongoing AI governance — we've got a package that fits.
+    </p>
+    <div class="services-grid">
+
+      <!-- Service 1: Audit -->
+      <div class="service-card">
+        <div class="service-icon">🗺️</div>
+        <div class="service-tag">Product 1</div>
+        <div class="service-name">AI Transformation Audit</div>
+        <div class="service-price">
+          <span class="service-price-main">$2,500</span>
+          <span class="service-price-suffix">one-time</span>
+        </div>
+        <div class="service-desc">
+          A focused 1-day engagement where we map every workflow in your business, identify the highest-ROI automation opportunities, and hand you a 90-day AI implementation roadmap — with exact tools, costs, and projected savings.
+        </div>
+        <ul class="service-features">
+          <li>Full workflow audit &amp; bottleneck analysis</li>
+          <li>90-day AI implementation roadmap</li>
+          <li>Tool recommendations (with pricing)</li>
+          <li>Cost savings projection report</li>
+          <li>Delivered as a detailed PDF playbook</li>
+        </ul>
+        <div class="service-target">Best for: SMBs, e-commerce brands, agencies, medical practices</div>
+        <a href="mailto:hello@pantrymate.net?subject=Wolfpack AI Inquiry – AI Transformation Audit" class="btn-service btn-service-outline">Book a Strategy Call →</a>
+      </div>
+
+      <!-- Service 2: Custom Agent Build -->
+      <div class="service-card highlight">
+        <div class="service-icon">🤖</div>
+        <div class="service-tag">Product 2 · Most Popular</div>
+        <div class="service-name">Custom Agent Build</div>
+        <div class="service-price">
+          <span class="service-price-main">from $2,500</span>
+          <span class="service-price-suffix">+ $1,497/mo</span>
+        </div>
+        <div class="service-desc">
+          We design, build, and deploy custom AI agents that integrate directly into your existing stack — CRM, email, Slack, phone. Your sales, customer service, and lead gen on autopilot. Done for you, end to end.
+        </div>
+        <ul class="service-features">
+          <li>Custom AI agents built to your workflows</li>
+          <li>CRM, email, Slack &amp; phone integrations</li>
+          <li>Sales outreach + lead qualification agents</li>
+          <li>Customer service automation</li>
+          <li>Ongoing optimization &amp; monthly strategy call</li>
+        </ul>
+        <div class="service-target">Best for: Growth-stage businesses ready to scale without headcount</div>
+        <a href="mailto:hello@pantrymate.net?subject=Wolfpack AI Inquiry – Custom Agent Build" class="btn-service btn-service-solid">Get a Quote →</a>
+      </div>
+
+      <!-- Service 3: Risk Retainer -->
+      <div class="service-card">
+        <div class="service-icon">🛡️</div>
+        <div class="service-tag">Product 3</div>
+        <div class="service-name">AI Risk &amp; Policy Retainer</div>
+        <div class="service-price">
+          <span class="service-price-main">$750</span>
+          <span class="service-price-suffix">/mo</span>
+        </div>
+        <div class="service-desc">
+          AI regulations are evolving fast. We monitor changes, audit your AI tools for compliance risks, and update your internal policies — so you stay ahead of liability without dedicating internal resources to it.
+        </div>
+        <ul class="service-features">
+          <li>Monthly AI tool compliance review</li>
+          <li>Risk flagging &amp; mitigation guidance</li>
+          <li>Policy drafting &amp; updates (GDPR, EU AI Act, etc.)</li>
+          <li>Regulatory watch — we track changes for you</li>
+          <li>Direct access via async Slack/email advisory</li>
+        </ul>
+        <div class="service-target">Best for: Businesses using AI tools who need governance without a legal team</div>
+        <a href="mailto:hello@pantrymate.net?subject=Wolfpack AI Inquiry – AI Risk Retainer" class="btn-service btn-service-outline">Book a Call →</a>
       </div>
 
     </div>
