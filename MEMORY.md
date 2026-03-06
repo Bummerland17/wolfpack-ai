@@ -7,7 +7,7 @@
 ---
 
 ## Wolfgang — Personal Context
-- Based in Star Valley Ranch, Wyoming (MST = UTC-7)
+- American — from Star Valley Ranch, Wyoming (MST = UTC-7). Currently in Namibia (CAT = UTC+2)
 - Currently in Namibia (CAT = UTC+2) — 9hr ahead of Wyoming
 - Jackson WY business hours (9am-5pm MST) = 6pm-2am Namibia time
 - Doesn't like cold calling — prefers async (email, DMs, contact forms)

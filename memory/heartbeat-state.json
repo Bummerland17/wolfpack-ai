@@ -1,12 +1,12 @@
 {
   "lastChecks": {
     "github": 1772787576,
-    "reddit": null,
-    "email": 1772787576,
+    "reddit": 1772795126,
+    "email": 1772795126,
     "calendar": null,
     "weather": null,
-    "stripe": 1772787576,
-    "redditRateLimited": true,
+    "stripe": 1772795126,
+    "redditRateLimited": false,
     "lastEvolutionCheck": 1772727000
   },
   "stripe": {
@@ -27,7 +27,7 @@
     ]
   },
   "email": {
-    "lastChecked": "2026-03-06T08:58:00Z",
+    "lastChecked": "2026-03-06T11:02:00Z",
     "newClientReplies": [],
     "zohoOutgoingBlocked": true,
     "saashubNeedsDetails": true
@@ -39,5 +39,5 @@
     "failed": 8,
     "error": "Zoho 550 unusual sending activity \u2014 block still active"
   },
-  "notes": "SaaSHub emails = newsletter confirmations only. No real client replies. Reddit still rate-limited."
+  "notes": "Brave Search working again as of 11:03 UTC March 6. Reddit threads found and batched."
 }

@@ -45,8 +45,8 @@ services:
       # X / TWITTER — FREE TIER HAS NO WRITE ACCESS. Requires Basic ($100/mo) or above.
       # Create app at: https://developer.twitter.com/en/portal/dashboard
       # Permissions needed: Read + Write. Enable OAuth 2.0 with PKCE.
-      X_API_KEY: 'PLACEHOLDER_X_API_KEY'
-      X_API_SECRET: 'PLACEHOLDER_X_API_SECRET'
+      X_API_KEY: 'YkxSUjdkcWN6eTRyZjZEaEpIUnc6MTpjaQ'
+      X_API_SECRET: 'n3IfJdpmnn6yQlCo1iwr5tnr_9p0EYKObO_K9LWx8sqGejYigv'
       # LINKEDIN — FREE developer access. Requires "Share on LinkedIn" product approval.
       # Create app at: https://www.linkedin.com/developers/apps/new
       # Scopes needed: w_member_social, r_basicprofile
@@ -62,15 +62,17 @@ services:
       BEEHIIVE_API_KEY: ''
       BEEHIIVE_PUBLICATION_ID: ''
       # THREADS — Requires Facebook developer app (same app as Instagram).
-      THREADS_APP_ID: 'PLACEHOLDER_FACEBOOK_APP_ID'
-      THREADS_APP_SECRET: 'PLACEHOLDER_FACEBOOK_APP_SECRET'
+      THREADS_APP_ID: '218029166130619'
+      THREADS_APP_SECRET: 'eb8266b692fe0dfa94556ce044b43338'
       # FACEBOOK + INSTAGRAM — FREE developer access. Same Meta app covers both.
       # Create app at: https://developers.facebook.com/apps/creation/
       # App type: Business. Add products: Facebook Login + Instagram Graph API
       # Permissions: pages_manage_posts, pages_read_engagement, instagram_basic,
       #              instagram_content_publish, instagram_manage_insights
-      FACEBOOK_APP_ID: 'PLACEHOLDER_FACEBOOK_APP_ID'
-      FACEBOOK_APP_SECRET: 'PLACEHOLDER_FACEBOOK_APP_SECRET'
+      FACEBOOK_APP_ID: '218029166130619'
+      INSTAGRAM_APP_ID: '1535700575227366'
+      INSTAGRAM_APP_SECRET: 'e71e85a02b06237280f2b57ea509caa2'
+      FACEBOOK_APP_SECRET: 'eb8266b692fe0dfa94556ce044b43338'
       # YOUTUBE — FREE developer access via Google Cloud Console.
       # Create at: https://console.cloud.google.com → APIs & Services → Credentials
       # Enable: YouTube Data API v3. Scopes: https://www.googleapis.com/auth/youtube.upload

@@ -1,0 +1,1155 @@
+{
+  "campaign": "Caribbean Tourism - Coco Outbound Calls",
+  "date": "2026-03-06",
+  "fired_at": "2026-03-06T13:22:12.905646+00:00",
+  "offer": "Website $599 + SEO $250/mo",
+  "agent_id": "ec36dfb3-9f0b-4f8e-9abb-53314b174831",
+  "phone_number_id": "23eacc2d-e19d-4410-98dd-aef4ab564b63",
+  "total_leads": 50,
+  "skipped": [
+    {
+      "name": "JJ's Guest House",
+      "reason": "no_phone"
+    },
+    {
+      "name": "Hilltop View Guesthouse",
+      "reason": "saint_lucia_skip",
+      "phone": "+1 758-722-6459"
+    },
+    {
+      "name": "Aquaholics Kitesurfing School",
+      "reason": "saint_lucia_skip",
+      "phone": "+1 758-726-0600"
+    },
+    {
+      "name": "Great Stirrup Cay Flighthouse Zipline Adventure",
+      "reason": "no_phone"
+    },
+    {
+      "name": "Guest House",
+      "reason": "no_phone"
+    }
+  ],
+  "calls": [
+    {
+      "index": 1,
+      "business_name": "Team99 Vybez ATV Tours Tobago",
+      "phone": "+18683343129",
+      "island": "Tobago",
+      "business_type": "activity",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (4) \u2014 low search visibility",
+        "below-average rating (3) \u2014 reputation management needed"
+      ],
+      "fired_at": "2026-03-06T13:22:13.109576+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-1bac-7aa4-b5cd-bf97d2507583",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 2,
+      "business_name": "Hard Play Fishing Charters, Grenada",
+      "phone": "+14734586130",
+      "island": "Grenada",
+      "business_type": "fishing_charter",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (0) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:22:15.267897+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-241d-7aa4-b5cd-d0712e877862",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 3,
+      "business_name": "cultural banana TOUR PLACENCIA BELIZE",
+      "phone": "+5016081643",
+      "island": "Belize",
+      "business_type": "tour_operator",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (0) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:22:17.488595+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-2c8f-788b-bed2-6cfe90ce793e",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 4,
+      "business_name": "Samadhi Yoga and Pilates TT",
+      "phone": "+18687958958",
+      "island": "Trinidad",
+      "business_type": "spa_retreat",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (0) \u2014 low search visibility",
+        "website found via search \u2014 not in Google Maps listing"
+      ],
+      "fired_at": "2026-03-06T13:22:19.676447+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-3534-7222-9cb9-37fa25fbef9b",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 5,
+      "business_name": "Rick's Dive World",
+      "phone": "+18686343483",
+      "island": "Trinidad",
+      "business_type": "dive_shop",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (12) \u2014 low search visibility",
+        "below-average rating (3.9) \u2014 reputation management needed",
+        "website found via search \u2014 not in Google Maps listing"
+      ],
+      "fired_at": "2026-03-06T13:22:21.842394+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-3dc9-755c-accc-bfb266603442",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 6,
+      "business_name": "Grenada Cultural Foundation",
+      "phone": "+14734352839",
+      "island": "Grenada",
+      "business_type": "tour_operator",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (9) \u2014 low search visibility",
+        "below-average rating (3.8) \u2014 reputation management needed"
+      ],
+      "fired_at": "2026-03-06T13:22:24.008040+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-4630-7222-9cb9-4f85e1fec082",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 7,
+      "business_name": "Extreme Belize San Pedro Water Sports Rentals",
+      "phone": "+5012264826",
+      "island": "Belize",
+      "business_type": "water_activity",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (5) \u2014 low search visibility",
+        "below-average rating (3.6) \u2014 reputation management needed"
+      ],
+      "fired_at": "2026-03-06T13:22:26.131317+00:00",
+      "fire_result": {
+        "status": "api_error",
+        "code": 400,
+        "error": "{\"message\":[\"customer.name must be shorter than or equal to 40 characters\"],\"error\":\"Bad Request\",\"statusCode\":400}"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 8,
+      "business_name": "Codrington Riding Stables",
+      "phone": "+12464298227",
+      "island": "Barbados",
+      "business_type": "activity",
+      "digital_gaps": [
+        "using OTA/platform as primary web presence \u2014 paying 15-25% commission",
+        "very few reviews (7) \u2014 low search visibility",
+        "below-average rating (3.7) \u2014 reputation management needed"
+      ],
+      "fired_at": "2026-03-06T13:22:28.395967+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-5706-7442-bbd5-9c590ef20705",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 9,
+      "business_name": "Port Lodge",
+      "phone": "+18683647826",
+      "island": "Trinidad",
+      "business_type": "guesthouse",
+      "digital_gaps": [
+        "no website found",
+        "low review count (45) \u2014 SEO opportunity",
+        "below-average rating (3.4) \u2014 reputation management needed",
+        "website found via search \u2014 not in Google Maps listing"
+      ],
+      "fired_at": "2026-03-06T13:22:30.591872+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-5fee-7dd3-9eda-2d131ca293f4",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 10,
+      "business_name": "St. James Guesthouse",
+      "phone": "+18763459780",
+      "island": "Trinidad",
+      "business_type": "guesthouse",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (17) \u2014 low search visibility",
+        "below-average rating (3.8) \u2014 reputation management needed",
+        "website found via search \u2014 not in Google Maps listing"
+      ],
+      "fired_at": "2026-03-06T13:22:32.745583+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-6867-788b-bed2-8d8fd79702f2",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 11,
+      "business_name": "Concordia Estate Tobago",
+      "phone": "+18683941940",
+      "island": "Tobago",
+      "business_type": "activity",
+      "digital_gaps": [
+        "no website found",
+        "low review count (47) \u2014 SEO opportunity"
+      ],
+      "fired_at": "2026-03-06T13:22:34.945625+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-70d7-7881-a6d3-c5803558ddc2",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 12,
+      "business_name": "North Front Street Guest House",
+      "phone": "+5016398556",
+      "island": "Belize",
+      "business_type": "guesthouse",
+      "digital_gaps": [
+        "no website found",
+        "low review count (39) \u2014 SEO opportunity",
+        "below-average rating (3.5) \u2014 reputation management needed"
+      ],
+      "fired_at": "2026-03-06T13:22:37.117042+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-7965-733b-be63-7f3122672f9a",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 13,
+      "business_name": "Viking Hill",
+      "phone": "+971524775521",
+      "island": "Nassau",
+      "business_type": "guesthouse",
+      "digital_gaps": [
+        "no website found",
+        "low review count (40) \u2014 SEO opportunity",
+        "below-average rating (3.4) \u2014 reputation management needed"
+      ],
+      "fired_at": "2026-03-06T13:22:39.287432+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-81f2-7222-8c4a-2e5f5fe18222",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 14,
+      "business_name": "Holiday Home - Guest House",
+      "phone": "+18769932425",
+      "island": "Jamaica",
+      "business_type": "guesthouse",
+      "digital_gaps": [
+        "no website found",
+        "low review count (41) \u2014 SEO opportunity",
+        "below-average rating (3.5) \u2014 reputation management needed"
+      ],
+      "fired_at": "2026-03-06T13:22:41.497970+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-8a60-755d-addb-b80f5cccb97d",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 15,
+      "business_name": "Helliconia Guesthouse",
+      "phone": "+18686230008",
+      "island": "Trinidad",
+      "business_type": "guesthouse",
+      "digital_gaps": [
+        "no website found",
+        "below-average rating (3.4) \u2014 reputation management needed",
+        "website found via search \u2014 not in Google Maps listing"
+      ],
+      "fired_at": "2026-03-06T13:22:43.670921+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-9313-7000-85f2-fa89a602b6b0",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 16,
+      "business_name": "The Palms Yoga and Wellness Studio",
+      "phone": "+18687889884",
+      "island": "Trinidad",
+      "business_type": "spa_retreat",
+      "digital_gaps": [
+        "DIY website builder detected",
+        "very few reviews (0) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:22:45.829112+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-9b7e-7222-8c4a-481d4b78ceda",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 17,
+      "business_name": "Green Tobago Tours",
+      "phone": "+18687508369",
+      "island": "Tobago",
+      "business_type": "activity",
+      "digital_gaps": [
+        "using OTA/platform as primary web presence \u2014 paying 15-25% commission",
+        "very few reviews (5) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:22:47.990635+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-a3ec-755c-accc-f54015eadb79",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 18,
+      "business_name": "Shalom Guest House",
+      "phone": "+18687485985",
+      "island": "Trinidad",
+      "business_type": "guesthouse",
+      "digital_gaps": [
+        "no website found",
+        "low review count (48) \u2014 SEO opportunity",
+        "below-average rating (3.9) \u2014 reputation management needed",
+        "website found via search \u2014 not in Google Maps listing"
+      ],
+      "fired_at": "2026-03-06T13:22:50.146839+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-ac58-777e-b8cf-132f3451da6c",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 19,
+      "business_name": "Caribbean Lodge",
+      "phone": "+18686847699",
+      "island": "Trinidad",
+      "business_type": "guesthouse",
+      "digital_gaps": [
+        "no website found",
+        "low review count (20) \u2014 SEO opportunity",
+        "below-average rating (3.8) \u2014 reputation management needed",
+        "website found via search \u2014 not in Google Maps listing"
+      ],
+      "fired_at": "2026-03-06T13:22:52.295695+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-b4c8-722c-b51e-002db609df61",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 20,
+      "business_name": "Mt. Irvine Bay Surfing",
+      "phone": "+18683164744",
+      "island": "Trinidad",
+      "business_type": "surf_school",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (3) \u2014 low search visibility",
+        "website found via search \u2014 not in Google Maps listing"
+      ],
+      "fired_at": "2026-03-06T13:22:54.431123+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-bd24-7881-95a8-2b5713f4060c",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 21,
+      "business_name": "Belize Atv Jungle Tours And Rentals",
+      "phone": "+5016715281",
+      "island": "Trinidad",
+      "business_type": "activity",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (11) \u2014 low search visibility",
+        "only OTA profiles found in web search"
+      ],
+      "fired_at": "2026-03-06T13:22:56.596843+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-c58e-7dd3-9eda-8a5dcbbe0a10",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 22,
+      "business_name": "Birdman Tobago Tours",
+      "phone": "+18687592576",
+      "island": "Tobago",
+      "business_type": "tour_operator",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (11) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:22:58.898492+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-ce8e-7558-a4a3-5ffd12d072a4",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 23,
+      "business_name": "Trabotgo Island Adventures & Services Ltd",
+      "phone": "+18683603751",
+      "island": "Tobago",
+      "business_type": "activity",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (4) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:23:01.039384+00:00",
+      "fire_result": {
+        "status": "api_error",
+        "code": 400,
+        "error": "{\"message\":[\"customer.name must be shorter than or equal to 40 characters\"],\"error\":\"Bad Request\",\"statusCode\":400}"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 24,
+      "business_name": "Waterholics",
+      "phone": "+18683171607",
+      "island": "Tobago",
+      "business_type": "water_activity",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (12) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:23:03.205123+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-df63-7996-b8c4-36b6c7c62ce8",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 25,
+      "business_name": "Sunsation Tours",
+      "phone": "+14734441594",
+      "island": "Grenada",
+      "business_type": "tour_operator",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (15) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:23:05.382691+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-e7d6-7445-90ad-afd2f048484a",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 26,
+      "business_name": "Grenada High Wire",
+      "phone": "+14734061233",
+      "island": "Grenada",
+      "business_type": "activity",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (5) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:23:07.622332+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-f075-7000-85f3-60e01c72329a",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 27,
+      "business_name": "Wave Rider Surf School Barbados",
+      "phone": "+12462301514",
+      "island": "Barbados",
+      "business_type": "surf_school",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (19) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:23:09.772293+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc350-f90a-7558-a4a3-948ad882cc11",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 28,
+      "business_name": "Five Gaits Equestrian Center at Brighton Beach",
+      "phone": "+12462592138",
+      "island": "Barbados",
+      "business_type": "activity",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (14) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:23:11.909017+00:00",
+      "fire_result": {
+        "status": "api_error",
+        "code": 400,
+        "error": "{\"message\":[\"customer.name must be shorter than or equal to 40 characters\"],\"error\":\"Bad Request\",\"statusCode\":400}"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 29,
+      "business_name": "Mountain View Ranch",
+      "phone": "+5016273661",
+      "island": "Belize",
+      "business_type": "activity",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (16) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:23:14.098167+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc351-09df-7881-95a8-78ceef072489",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 30,
+      "business_name": "Mountain Rider Belize",
+      "phone": "+5016631343",
+      "island": "Belize",
+      "business_type": "activity",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (16) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:23:16.271831+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc351-1257-755c-accd-1b2b2a896538",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 31,
+      "business_name": "JetSurf Bahamas",
+      "phone": "+12428026878",
+      "island": "Nassau",
+      "business_type": "surf_school",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (2) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:23:18.428012+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc351-1ad6-7881-a6d4-0a7ccb609dc7",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 32,
+      "business_name": "Camperdown Equestrian Centre",
+      "phone": "+12423242065",
+      "island": "Nassau",
+      "business_type": "activity",
+      "digital_gaps": [
+        "no website found",
+        "low review count (29) \u2014 SEO opportunity"
+      ],
+      "fired_at": "2026-03-06T13:23:21.238647+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc351-25c8-722c-b51e-abe7eb4bc6a4",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 33,
+      "business_name": "La Hipica Stables",
+      "phone": "+12424240683",
+      "island": "Nassau",
+      "business_type": "activity",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (9) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:23:23.391891+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc351-2e3e-722c-b51e-cbf27063ee47",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 34,
+      "business_name": "Ambassabeth Ecolodge",
+      "phone": "+18764628163",
+      "island": "Jamaica",
+      "business_type": "eco_lodge",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (14) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:23:25.565062+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc351-36ae-7442-bbd6-7f81c8529b7c",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 35,
+      "business_name": "Sea rasta fishing snorkeling & tours",
+      "phone": "+18768691645",
+      "island": "Jamaica",
+      "business_type": "water_activity",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (12) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:23:27.754930+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc351-3f39-7000-85f4-0bff9f90d4ad",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 36,
+      "business_name": "Falmouth Fishing Charters with Irie Catch",
+      "phone": "+18768777347",
+      "island": "Jamaica",
+      "business_type": "fishing_charter",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (8) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:23:29.967754+00:00",
+      "fire_result": {
+        "status": "api_error",
+        "code": 400,
+        "error": "{\"message\":[\"customer.name must be shorter than or equal to 40 characters\"],\"error\":\"Bad Request\",\"statusCode\":400}"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 37,
+      "business_name": "Island Dog Water Sports",
+      "phone": "+18763678342",
+      "island": "Jamaica",
+      "business_type": "fishing_charter",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (13) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:23:32.145985+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc351-505d-7ee0-aff2-58bb79449631",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 38,
+      "business_name": "Eko Cozy Guest House",
+      "phone": "+12687708545",
+      "island": "Antigua",
+      "business_type": "guesthouse",
+      "digital_gaps": [
+        "no website found",
+        "low review count (48) \u2014 SEO opportunity",
+        "below-average rating (3.6) \u2014 reputation management needed"
+      ],
+      "fired_at": "2026-03-06T13:23:34.309729+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc351-58d6-7442-bbd6-9498fdb160ea",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 39,
+      "business_name": "Carter Guesthouse",
+      "phone": "+12685622956",
+      "island": "Antigua",
+      "business_type": "guesthouse",
+      "digital_gaps": [
+        "no website found",
+        "low review count (46) \u2014 SEO opportunity",
+        "below-average rating (3.9) \u2014 reputation management needed"
+      ],
+      "fired_at": "2026-03-06T13:23:36.483063+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc351-6149-733e-9681-7ee638253dd7",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 40,
+      "business_name": "Antigua Travel Atv",
+      "phone": "+50254797495",
+      "island": "Antigua",
+      "business_type": "activity",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (15) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:23:38.697835+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc351-69f3-788b-bed3-ad92fdb8892c",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 41,
+      "business_name": "Triflexcursion Bike Kayak Hike Tours Antigua",
+      "phone": "+12687218121",
+      "island": "Antigua",
+      "business_type": "water_activity",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (14) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:23:40.807257+00:00",
+      "fire_result": {
+        "status": "api_error",
+        "code": 400,
+        "error": "{\"message\":[\"customer.name must be shorter than or equal to 40 characters\"],\"error\":\"Bad Request\",\"statusCode\":400}"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 42,
+      "business_name": "Shuttle service, pr\u00edvate shuttle and shared shuttle",
+      "phone": "+50238574067",
+      "island": "Antigua",
+      "business_type": "transport",
+      "digital_gaps": [
+        "no website found",
+        "very few reviews (6) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:23:42.941004+00:00",
+      "fire_result": {
+        "status": "api_error",
+        "code": 400,
+        "error": "{\"message\":[\"customer.name must be shorter than or equal to 40 characters\"],\"error\":\"Bad Request\",\"statusCode\":400}"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 43,
+      "business_name": "Moonstruck Charters",
+      "phone": "+18686822032",
+      "island": "Trinidad",
+      "business_type": "boat_charter",
+      "digital_gaps": [
+        "using OTA/platform as primary web presence \u2014 paying 15-25% commission",
+        "very few reviews (15) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:23:45.103280+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc351-8305-755c-accd-a9410e4cca2e",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 44,
+      "business_name": "Hydro-Therapy DDI/ Fishing Charters",
+      "phone": "+18684897456",
+      "island": "Trinidad",
+      "business_type": "boat_charter",
+      "digital_gaps": [
+        "using OTA/platform as primary web presence \u2014 paying 15-25% commission",
+        "very few reviews (6) \u2014 low search visibility"
+      ],
+      "fired_at": "2026-03-06T13:23:47.858368+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc351-8b83-7229-bf5f-108d6be1dd58",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 45,
+      "business_name": "Bonanza Horse Farm & Riding School",
+      "phone": "+18686821860",
+      "island": "Trinidad",
+      "business_type": "activity",
+      "digital_gaps": [
+        "no website found"
+      ],
+      "fired_at": "2026-03-06T13:23:49.992858+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc351-962c-7881-a6d4-60b20d81347e",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 46,
+      "business_name": "The Seaside Garden Guesthouse",
+      "phone": "+18687073035",
+      "island": "Tobago",
+      "business_type": "guesthouse",
+      "digital_gaps": [
+        "no website found",
+        "website found via search \u2014 not in Google Maps listing"
+      ],
+      "fired_at": "2026-03-06T13:23:52.156789+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc351-9e95-7442-bbd6-d8b0df83e1c2",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 47,
+      "business_name": "Asha's Eco Resort Tobago",
+      "phone": "+18683533317",
+      "island": "Tobago",
+      "business_type": "eco_lodge",
+      "digital_gaps": [
+        "no website found"
+      ],
+      "fired_at": "2026-03-06T13:23:54.425436+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc351-a71d-7445-90ae-1bbc43214be3",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 48,
+      "business_name": "The Sunset Stay",
+      "phone": "+12428099600",
+      "island": "Nassau",
+      "business_type": "guesthouse",
+      "digital_gaps": [
+        "no website found",
+        "below-average rating (3.6) \u2014 reputation management needed"
+      ],
+      "fired_at": "2026-03-06T13:23:56.594448+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc351-afe2-7000-82fb-c62bd4922140",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 49,
+      "business_name": "VIVIENNE'S GUEST HOUSE",
+      "phone": "+18769187761",
+      "island": "Jamaica",
+      "business_type": "guesthouse",
+      "digital_gaps": [
+        "no website found",
+        "below-average rating (3.9) \u2014 reputation management needed"
+      ],
+      "fired_at": "2026-03-06T13:23:58.757866+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc351-b863-755d-addc-bf8ed50c955b",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    },
+    {
+      "index": 50,
+      "business_name": "Captains Watersports",
+      "phone": "+18765502248",
+      "island": "Jamaica",
+      "business_type": "water_activity",
+      "digital_gaps": [
+        "no website found"
+      ],
+      "fired_at": "2026-03-06T13:24:00.928784+00:00",
+      "fire_result": {
+        "status": "initiated",
+        "call_id": "019cc351-c0da-733b-be64-34d097494f99",
+        "vapi_status": "queued"
+      },
+      "final_status": null,
+      "ended_reason": null,
+      "duration_s": null,
+      "cost_usd": null,
+      "summary": null
+    }
+  ]
+}
