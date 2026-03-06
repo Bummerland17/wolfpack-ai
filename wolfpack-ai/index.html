@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wolfpack AI — We Deploy AI Sales Teams</title>
-  <meta name="description" content="Wolfpack AI deploys coordinated AI sales agents that research leads, send outreach, and hand warm prospects directly to you." />
+  <title>Wolfpack AI — We Deploy AI Workers. Not Promises.</title>
+  <meta name="description" content="Wolfpack AI deploys autonomous AI workers for service businesses in premium markets. AI Receptionist, AI Sales Agent, AI Visibility. Running by Monday." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -47,7 +47,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 1.25rem 2rem;
-      background: rgba(10,10,10,0.85);
+      background: rgba(10,10,10,0.88);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
@@ -89,7 +89,6 @@
       text-align: center;
     }
 
-    /* CSS wolf — geometric shapes in background */
     #hero::before {
       content: '';
       position: absolute;
@@ -100,7 +99,6 @@
         radial-gradient(ellipse 30% 50% at 80% 80%, rgba(0,102,255,0.04) 0%, transparent 60%);
     }
 
-    /* Grid overlay */
     #hero::after {
       content: '';
       position: absolute;
@@ -112,12 +110,6 @@
       pointer-events: none;
     }
 
-    .wolf-shape {
-      position: absolute;
-      pointer-events: none;
-    }
-
-    /* Geometric wolf head — pure CSS */
     .wolf-bg {
       position: absolute;
       top: 50%;
@@ -125,7 +117,7 @@
       transform: translate(-50%, -50%);
       width: 500px;
       height: 500px;
-      opacity: 0.035;
+      opacity: 0.03;
     }
 
     .wolf-bg::before {
@@ -139,24 +131,10 @@
       transform: translate(-50%, -50%);
     }
 
-    /* Ears */
-    .wolf-bg::after {
-      content: '';
-      position: absolute;
-      width: 200px;
-      height: 100px;
-      background: transparent;
-      left: 50%; top: calc(50% - 110px);
-      transform: translateX(-50%);
-      border-left: 55px solid transparent;
-      border-right: 55px solid transparent;
-      border-bottom: 0;
-    }
-
     .hero-content {
       position: relative;
       z-index: 2;
-      max-width: 800px;
+      max-width: 820px;
     }
 
     .hero-badge {
@@ -190,7 +168,7 @@
     }
 
     h1 {
-      font-size: clamp(2.4rem, 7vw, 5rem);
+      font-size: clamp(2.6rem, 7vw, 5.2rem);
       font-weight: 700;
       letter-spacing: -0.03em;
       line-height: 1.05;
@@ -202,9 +180,15 @@
     .hero-sub {
       font-size: clamp(1rem, 2.5vw, 1.25rem);
       color: var(--steel);
-      max-width: 560px;
+      max-width: 580px;
       margin: 0 auto 2.5rem;
       font-weight: 400;
+      line-height: 1.65;
+    }
+
+    .hero-sub strong {
+      color: var(--white);
+      font-weight: 600;
     }
 
     .hero-cta-group {
@@ -221,7 +205,7 @@
       font-family: var(--font);
       font-size: 1rem;
       font-weight: 600;
-      padding: 0.85rem 2rem;
+      padding: 0.9rem 2.2rem;
       border-radius: 8px;
       transition: background 0.2s, transform 0.15s;
       letter-spacing: -0.01em;
@@ -236,7 +220,7 @@
       font-family: var(--font);
       font-size: 1rem;
       font-weight: 500;
-      padding: 0.85rem 2rem;
+      padding: 0.9rem 2.2rem;
       border-radius: 8px;
       border: 1px solid var(--border);
       transition: border-color 0.2s, color 0.2s;
@@ -244,31 +228,27 @@
 
     .btn-ghost:hover { border-color: var(--steel); color: var(--white); }
 
-    .hero-stats {
+    .hero-proof {
       display: flex;
-      gap: 2.5rem;
+      gap: 2rem;
       justify-content: center;
       margin-top: 4rem;
       flex-wrap: wrap;
+      align-items: center;
     }
 
-    .hero-stat {
-      text-align: center;
-    }
-
-    .hero-stat-num {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--blue);
-      letter-spacing: -0.03em;
-    }
-
-    .hero-stat-label {
-      font-size: 0.78rem;
+    .proof-item {
+      font-size: 0.82rem;
       color: var(--steel);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-top: 0.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .proof-item::before {
+      content: '✓';
+      color: var(--blue);
+      font-weight: 700;
     }
 
     /* ── Section base ── */
@@ -298,37 +278,97 @@
     .section-intro {
       color: var(--steel);
       font-size: 1.05rem;
-      max-width: 540px;
+      max-width: 560px;
       margin-bottom: 3.5rem;
+      line-height: 1.65;
     }
 
-    /* ── Pack section ── */
-    #pack {
+    /* ── Problem section ── */
+    #problem {
       border-top: 1px solid var(--border);
     }
 
-    .pack-grid {
+    .problem-layout {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .problem-stat {
+      font-size: clamp(5rem, 12vw, 9rem);
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: -0.05em;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .problem-stat-label {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .problem-stat-sub {
+      color: var(--steel);
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+
+    .problem-points {
+      display: flex;
+      flex-direction: column;
       gap: 1.25rem;
     }
 
-    .agent-card {
+    .problem-point {
       background: var(--bg2);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 1.5rem;
+      padding: 1.25rem 1.5rem;
+      border-left: 3px solid rgba(0,102,255,0.4);
+    }
+
+    .problem-point h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .problem-point p {
+      font-size: 0.85rem;
+      color: var(--steel);
+      line-height: 1.55;
+    }
+
+    /* ── Deploy section ── */
+    #deploy {
+      border-top: 1px solid var(--border);
+    }
+
+    .deploy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .deploy-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem;
       position: relative;
       overflow: hidden;
       transition: border-color 0.2s, transform 0.2s;
     }
 
-    .agent-card:hover {
+    .deploy-card:hover {
       border-color: rgba(0,102,255,0.4);
       transform: translateY(-2px);
     }
 
-    .agent-card::before {
+    .deploy-card::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
@@ -338,97 +378,138 @@
       transition: opacity 0.2s;
     }
 
-    .agent-card:hover::before { opacity: 1; }
+    .deploy-card:hover::before { opacity: 1; }
 
-    .agent-icon {
-      width: 40px;
-      height: 40px;
+    .deploy-icon {
+      width: 44px;
+      height: 44px;
       background: rgba(0,102,255,0.12);
-      border-radius: 8px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
+      font-size: 1.3rem;
+      margin-bottom: 1.25rem;
     }
 
-    .agent-name {
-      font-size: 1rem;
+    .deploy-name {
+      font-size: 1.1rem;
       font-weight: 700;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.2rem;
       letter-spacing: -0.01em;
     }
 
-    .agent-role {
+    .deploy-tag {
       font-size: 0.72rem;
       color: var(--blue);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.85rem;
     }
 
-    .agent-desc {
-      font-size: 0.85rem;
+    .deploy-desc {
+      font-size: 0.88rem;
       color: var(--steel);
-      line-height: 1.5;
-    }
-
-    /* ── How it works ── */
-    #how {
-      border-top: 1px solid var(--border);
-    }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      position: relative;
-    }
-
-    .step {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 2rem;
-      position: relative;
-    }
-
-    .step-num {
-      font-size: 3.5rem;
-      font-weight: 700;
-      color: rgba(0,102,255,0.15);
-      letter-spacing: -0.04em;
-      line-height: 1;
+      line-height: 1.6;
       margin-bottom: 1rem;
     }
 
-    .step h3 {
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.01em;
+    .deploy-bullets {
+      list-style: none;
     }
 
-    .step p {
+    .deploy-bullets li {
+      font-size: 0.83rem;
       color: var(--steel);
-      font-size: 0.9rem;
-      line-height: 1.6;
+      padding: 0.3rem 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.45rem;
     }
 
-    .step-arrow {
-      position: absolute;
-      right: -1.5rem;
-      top: 50%;
-      transform: translateY(-50%);
+    .deploy-bullets li::before {
+      content: '→';
       color: var(--blue);
-      font-size: 1.2rem;
-      z-index: 2;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 0.05rem;
+    }
+
+    /* ── Who it's for ── */
+    #who {
+      border-top: 1px solid var(--border);
+    }
+
+    .who-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .who-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: border-color 0.2s;
+    }
+
+    .who-card:hover { border-color: rgba(0,102,255,0.3); }
+
+    .who-icon { font-size: 1.3rem; }
+
+    .who-qualifiers {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem 2.5rem;
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+
+    .qualifier {
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .qualifier-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--steel);
+      margin-bottom: 0.4rem;
+    }
+
+    .qualifier-value {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--white);
     }
 
     /* ── Pricing ── */
     #pricing {
       border-top: 1px solid var(--border);
+    }
+
+    .pricing-note {
+      font-size: 0.88rem;
+      color: var(--steel);
+      margin-bottom: 3rem;
+      background: rgba(0,102,255,0.07);
+      border: 1px solid rgba(0,102,255,0.15);
+      border-radius: 8px;
+      padding: 0.85rem 1.25rem;
+      display: inline-block;
     }
 
     .pricing-grid {
@@ -463,8 +544,9 @@
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 0.25rem 0.75rem;
+      padding: 0.25rem 0.85rem;
       border-radius: 999px;
+      white-space: nowrap;
     }
 
     .price-tier {
@@ -473,22 +555,22 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--blue);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
     }
 
     .price-name {
       font-size: 1.3rem;
       font-weight: 700;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
       letter-spacing: -0.02em;
     }
 
     .price-amount {
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.2rem;
     }
 
     .price-number {
-      font-size: 2.4rem;
+      font-size: 2.6rem;
       font-weight: 700;
       letter-spacing: -0.04em;
     }
@@ -496,14 +578,14 @@
     .price-period {
       font-size: 0.85rem;
       color: var(--steel);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
     }
 
     .price-desc {
       font-size: 0.88rem;
       color: var(--steel);
       margin-bottom: 1.5rem;
-      line-height: 1.55;
+      line-height: 1.6;
     }
 
     .price-features {
@@ -512,11 +594,11 @@
     }
 
     .price-features li {
-      font-size: 0.88rem;
+      font-size: 0.87rem;
       padding: 0.4rem 0;
       border-bottom: 1px solid var(--border);
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 0.5rem;
     }
 
@@ -525,6 +607,7 @@
       color: var(--blue);
       font-weight: 700;
       flex-shrink: 0;
+      margin-top: 0.05rem;
     }
 
     .btn-price {
@@ -536,7 +619,7 @@
       font-family: var(--font);
       font-size: 0.9rem;
       font-weight: 600;
-      padding: 0.75rem 1rem;
+      padding: 0.8rem 1rem;
       border-radius: 8px;
       transition: background 0.2s, color 0.2s;
       cursor: pointer;
@@ -547,103 +630,15 @@
       color: #fff;
     }
 
-    /* ── Results ── */
-    #results {
-      border-top: 1px solid var(--border);
-    }
-
-    .results-wrapper {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 3rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .results-wrapper::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--blue), transparent);
-    }
-
-    .results-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 2rem;
-      flex-wrap: wrap;
-      margin-bottom: 3rem;
-    }
-
-    .results-headline h2 {
-      margin-bottom: 0.5rem;
-    }
-
-    .results-headline p {
-      color: var(--steel);
-      font-size: 0.95rem;
-    }
-
-    .results-proof {
-      background: rgba(0,102,255,0.08);
-      border: 1px solid rgba(0,102,255,0.2);
-      border-radius: 10px;
-      padding: 1rem 1.5rem;
-      font-size: 0.85rem;
-      color: var(--blue-hot);
-      white-space: nowrap;
-      font-weight: 600;
-    }
-
-    .results-proof strong {
-      display: block;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--steel);
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .stat-box {
-      text-align: center;
-      padding: 1.5rem;
-      background: var(--bg3);
-      border-radius: 12px;
-      border: 1px solid var(--border);
-    }
-
-    .stat-box-num {
-      font-size: 2.8rem;
-      font-weight: 700;
-      color: var(--blue);
-      letter-spacing: -0.04em;
-      line-height: 1;
-    }
-
-    .stat-box-label {
-      font-size: 0.78rem;
-      color: var(--steel);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-top: 0.5rem;
-    }
-
     /* ── CTA ── */
     #cta {
       border-top: 1px solid var(--border);
       text-align: center;
       padding: 7rem 2rem;
+      max-width: 100%;
     }
+
+    #cta .section-label { display: inline-block; }
 
     #cta h2 {
       font-size: clamp(2rem, 5vw, 3.5rem);
@@ -653,8 +648,9 @@
     #cta p {
       color: var(--steel);
       font-size: 1.05rem;
-      max-width: 480px;
+      max-width: 500px;
       margin: 0 auto 2.5rem;
+      line-height: 1.65;
     }
 
     .cta-glow {
@@ -664,7 +660,7 @@
       font-family: var(--font);
       font-size: 1.1rem;
       font-weight: 700;
-      padding: 1rem 2.5rem;
+      padding: 1rem 2.75rem;
       border-radius: 10px;
       letter-spacing: -0.01em;
       transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
@@ -676,6 +672,12 @@
       transform: translateY(-2px);
       box-shadow: 0 0 50px rgba(0,102,255,0.5);
       color: #fff;
+    }
+
+    .cta-fine {
+      margin-top: 1.25rem;
+      font-size: 0.82rem;
+      color: var(--steel);
     }
 
     /* ── Footer ── */
@@ -710,13 +712,14 @@
     .footer-right a:hover { color: var(--white); }
 
     /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .problem-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+
     @media (max-width: 640px) {
       nav { padding: 1rem 1.25rem; }
       section { padding: 4rem 1.25rem; }
-      .steps { grid-template-columns: 1fr; }
-      .step-arrow { display: none; }
-      .results-wrapper { padding: 1.75rem; }
-      .results-top { flex-direction: column; }
+      .who-qualifiers { flex-direction: column; gap: 1.5rem; }
       footer { flex-direction: column; text-align: center; }
     }
   </style>
@@ -726,234 +729,236 @@
   <!-- NAV -->
   <nav>
     <div class="nav-logo">Wolfpack<span>AI</span></div>
-    <a href="mailto:hello@pantrymate.net" class="nav-cta">Deploy Your Pack →</a>
+    <a href="https://calendly.com/wolfpackai/15min" class="nav-cta" target="_blank">Book a 15-Min Call →</a>
   </nav>
 
   <!-- HERO -->
   <section id="hero" style="max-width:100%; padding-left: 2rem; padding-right: 2rem;">
     <div class="wolf-bg"></div>
     <div class="hero-content">
-      <div class="hero-badge">AI Sales Automation · Live Now</div>
-      <h1>We Deploy<br /><span>AI Sales Teams.</span></h1>
+      <div class="hero-badge">Agentic AI · Premium Markets · Live Workers</div>
+      <h1>We Deploy<br /><span>AI Workers.</span><br />Not Promises.</h1>
       <p class="hero-sub">
-        A coordinated pack of AI agents that researches your leads, sends personalized outreach, and delivers warm prospects straight to your calendar.
+        Stop paying $4,000 a month for a full-time employee to answer phones, chase leads, and follow up on quotes.
+        Our AI workers do it for <strong>$497/mo</strong> — 24 hours a day, without sick days or no-shows.
       </p>
       <div class="hero-cta-group">
-        <a href="mailto:hello@pantrymate.net" class="btn-primary">Deploy Your Pack →</a>
-        <a href="#how" class="btn-ghost">See How It Works</a>
+        <a href="https://calendly.com/wolfpackai/15min" class="btn-primary" target="_blank">Book a 15-Min Call →</a>
+        <a href="#problem" class="btn-ghost">See the Problem First</a>
       </div>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <div class="hero-stat-num">72</div>
-          <div class="hero-stat-label">Businesses Queued</div>
+      <div class="hero-proof">
+        <span class="proof-item">No 6-month pilots</span>
+        <span class="proof-item">Running by Monday</span>
+        <span class="proof-item">Jackson · Telluride · Aspen</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE PROBLEM -->
+  <section id="problem">
+    <div class="problem-layout">
+      <div>
+        <div class="section-label">The Problem</div>
+        <div class="problem-stat">95%</div>
+        <div class="problem-stat-label">of AI pilots never make it to production.</div>
+        <p class="problem-stat-sub">
+          Most businesses have sat through a demo, signed up for a free trial, and handed it off to someone on the team to "figure out." Three months later, nothing's running and the tab's canceled.<br /><br />
+          That's pilot purgatory. We skip it entirely.
+        </p>
+      </div>
+      <div class="problem-points">
+        <div class="problem-point">
+          <h3>You're not failing at AI. The model is broken.</h3>
+          <p>Vendors sell tools. Tools require someone to run them. You're a service business — you don't have a dedicated AI ops team. You need something that shows up and works.</p>
         </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">110</div>
-          <div class="hero-stat-label">Emails Deployed</div>
+        <div class="problem-point">
+          <h3>The math on human staff doesn't work anymore.</h3>
+          <p>A receptionist in Jackson is $3,500–$4,500/month — and she goes home at 5. Your best leads call at 7pm when they just walked in from skiing. An AI worker doesn't miss that call.</p>
         </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">1</div>
-          <div class="hero-stat-label">Day to Build & Test</div>
+        <div class="problem-point">
+          <h3>Your competitors are figuring this out.</h3>
+          <p>Premium markets move fast. The first interior designer, med spa, or contractor who deploys AI in your zip code owns the attention. We help you be first.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- THE PACK -->
-  <section id="pack">
-    <div class="section-label">The Pack</div>
-    <h2>Five agents.<br />One mission.</h2>
+  <!-- WHAT WE DEPLOY -->
+  <section id="deploy">
+    <div class="section-label">What We Deploy</div>
+    <h2>Three AI workers.<br />Covering your entire front end.</h2>
     <p class="section-intro">
-      Each agent has a role. Together they run a full outbound sales operation — 24 hours a day, without a salary.
+      Not tools. Not dashboards. Deployed workers — configured for your business, running autonomously from day one.
     </p>
-    <div class="pack-grid">
+    <div class="deploy-grid">
 
-      <div class="agent-card">
-        <div class="agent-icon">🔍</div>
-        <div class="agent-name">Alex</div>
-        <div class="agent-role">Lead Scout</div>
-        <div class="agent-desc">Identifies and qualifies your ideal prospects. Builds targeted lists so the pack always hunts the right targets.</div>
+      <div class="deploy-card">
+        <div class="deploy-icon">📞</div>
+        <div class="deploy-name">AI Receptionist</div>
+        <div class="deploy-tag">SmartBook AI</div>
+        <div class="deploy-desc">
+          Answers your phones, qualifies callers, and books appointments directly into your calendar — at 2am or 2pm. Sounds human. Works 24/7.
+        </div>
+        <ul class="deploy-bullets">
+          <li>Handles inbound calls & texts</li>
+          <li>Books, confirms, and reschedules appointments</li>
+          <li>Qualifies leads before they hit your calendar</li>
+          <li>Syncs with your existing calendar system</li>
+        </ul>
       </div>
 
-      <div class="agent-card">
-        <div class="agent-icon">✉️</div>
-        <div class="agent-name">Maya</div>
-        <div class="agent-role">Outreach Writer</div>
-        <div class="agent-desc">Crafts personalized cold emails that sound human, not spammy. No templates. No copy-paste. Every message is tailored.</div>
+      <div class="deploy-card">
+        <div class="deploy-icon">🐺</div>
+        <div class="deploy-name">AI Sales Agent</div>
+        <div class="deploy-tag">Wolf · Outbound AI</div>
+        <div class="deploy-desc">
+          Prospects, qualifies, and books sales meetings on autopilot. Wolf calls leads, handles objections, and puts warm prospects on your calendar. You just close.
+        </div>
+        <ul class="deploy-bullets">
+          <li>Outbound calling & follow-up sequences</li>
+          <li>Lead qualification before handoff</li>
+          <li>Meetings booked directly to your calendar</li>
+          <li>Runs nights and weekends when humans can't</li>
+        </ul>
       </div>
 
-      <div class="agent-card">
-        <div class="agent-icon">📡</div>
-        <div class="agent-name">Dev</div>
-        <div class="agent-role">Campaign Engine</div>
-        <div class="agent-desc">Deploys outreach sequences, manages send timing, and keeps your domain reputation clean. Scales without burning out.</div>
-      </div>
-
-      <div class="agent-card">
-        <div class="agent-icon">🎯</div>
-        <div class="agent-name">Rex</div>
-        <div class="agent-role">Follow-Up Hunter</div>
-        <div class="agent-desc">Tracks every open, reply, and no-response. Sends the follow-ups that actually convert. Persistent without being annoying.</div>
-      </div>
-
-      <div class="agent-card">
-        <div class="agent-icon">📞</div>
-        <div class="agent-name">Kai</div>
-        <div class="agent-role">Handoff Closer</div>
-        <div class="agent-desc">Qualifies warm responses and hands them to you ready to close. You only talk to prospects who are already interested.</div>
+      <div class="deploy-card">
+        <div class="deploy-icon">🔍</div>
+        <div class="deploy-name">AI Visibility</div>
+        <div class="deploy-tag">GEO · AI Search Optimization</div>
+        <div class="deploy-desc">
+          When someone asks ChatGPT or Perplexity "best window covering company in Jackson Hole," your name comes up. We make sure of it.
+        </div>
+        <ul class="deploy-bullets">
+          <li>Generative Engine Optimization (GEO)</li>
+          <li>AI search citations and mentions</li>
+          <li>Local market authority building</li>
+          <li>Structured data and entity optimization</li>
+        </ul>
       </div>
 
     </div>
   </section>
 
-  <!-- HOW IT WORKS -->
-  <section id="how">
-    <div class="section-label">How It Works</div>
-    <h2>Three steps.<br />Zero overhead.</h2>
+  <!-- WHO IT'S FOR -->
+  <section id="who">
+    <div class="section-label">Who It's For</div>
+    <h2>Service businesses<br />in premium markets.</h2>
     <p class="section-intro">
-      You don't manage the agents. You just show up to close deals.
+      We focus on businesses doing $500k+ a year in high-income communities where the cost of a missed call or a slow follow-up is a $10,000 job walking out the door.
     </p>
-    <div class="steps">
-
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>We research your leads</h3>
-        <p>Alex and Maya identify your ideal customer profile and build a list of verified prospects with full contact details and company context.</p>
-        <div class="step-arrow">→</div>
+    <div class="who-grid">
+      <div class="who-card"><span class="who-icon">🪟</span> Window Coverings</div>
+      <div class="who-card"><span class="who-icon">🛋️</span> Interior Designers</div>
+      <div class="who-card"><span class="who-icon">🔨</span> Contractors &amp; Builders</div>
+      <div class="who-card"><span class="who-icon">🏔️</span> Luxury Hospitality</div>
+      <div class="who-card"><span class="who-icon">💆</span> Medical Spas</div>
+      <div class="who-card"><span class="who-icon">🏡</span> Real Estate</div>
+    </div>
+    <div class="who-qualifiers">
+      <div class="qualifier">
+        <div class="qualifier-label">Revenue</div>
+        <div class="qualifier-value">$500k+ per year</div>
       </div>
-
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>AI reaches out</h3>
-        <p>Personalized emails go out at scale. Dev manages deliverability. Rex handles follow-ups. Every touchpoint sounds like a real human wrote it.</p>
-        <div class="step-arrow">→</div>
+      <div class="qualifier">
+        <div class="qualifier-label">Market</div>
+        <div class="qualifier-value">Premium small-town or resort</div>
       </div>
-
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>You close the deals</h3>
-        <p>Kai surfaces the warm replies and interested prospects. You get a calendar full of people who already want to talk. You close. Pack hunts again.</p>
+      <div class="qualifier">
+        <div class="qualifier-label">Problem</div>
+        <div class="qualifier-value">Missing leads, slow follow-up, no bandwidth</div>
       </div>
-
+      <div class="qualifier">
+        <div class="qualifier-label">Markets We Serve</div>
+        <div class="qualifier-value">Jackson WY · Telluride · Aspen · Sun Valley</div>
+      </div>
     </div>
   </section>
 
   <!-- PRICING -->
   <section id="pricing">
     <div class="section-label">Pricing</div>
-    <h2>Start hunting.<br />Pick your tier.</h2>
-    <p class="section-intro">
-      No long contracts. No 6-month onboarding. Your pack is live within days.
-    </p>
+    <h2>Simple. Scales<br />with your results.</h2>
+    <div class="pricing-note">
+      No long-term contracts. No six-month onboarding. Your first AI worker is live within days.
+    </div>
     <div class="pricing-grid">
 
       <div class="price-card">
-        <div class="price-tier">Tier 1</div>
-        <div class="price-name">Deploy</div>
+        <div class="price-tier">Starter</div>
+        <div class="price-name">One Worker</div>
         <div class="price-amount">
-          <span class="price-number">$2,500</span>
+          <span class="price-number">$497</span>
         </div>
-        <div class="price-period">one-time setup</div>
-        <div class="price-desc">Full pack configuration, ICP definition, lead list build, and first campaign launch. Done in a week.</div>
+        <div class="price-period">per month</div>
+        <div class="price-desc">Pick one AI worker to start. Most clients start with the AI Receptionist and see ROI in the first week.</div>
         <ul class="price-features">
-          <li>Full pack setup (Alex, Maya, Dev, Rex, Kai)</li>
-          <li>Ideal customer profile workshop</li>
-          <li>250 verified prospect list</li>
-          <li>First campaign live within 7 days</li>
-          <li>30-day results report</li>
+          <li>One deployed AI worker</li>
+          <li>Full setup and configuration</li>
+          <li>Calendar or CRM integration</li>
+          <li>30-day performance check-in</li>
         </ul>
-        <a href="mailto:hello@pantrymate.net?subject=Wolfpack AI – Deploy Tier" class="btn-price">Get Started</a>
+        <a href="https://calendly.com/wolfpackai/15min" class="btn-price" target="_blank">Book a Call</a>
       </div>
 
       <div class="price-card featured">
         <div class="featured-badge">Most Popular</div>
-        <div class="price-tier">Tier 2</div>
-        <div class="price-name">Hunt</div>
+        <div class="price-tier">Growth</div>
+        <div class="price-name">Two Workers</div>
         <div class="price-amount">
-          <span class="price-number">$1,497</span>
+          <span class="price-number">$797</span>
         </div>
         <div class="price-period">per month</div>
-        <div class="price-desc">Ongoing AI outreach operation. New leads every month, active follow-up, and warm handoffs to your calendar. The pack never stops.</div>
+        <div class="price-desc">AI Receptionist + AI Visibility. Capture leads and make sure people can find you in AI search. The combination that moves the needle.</div>
         <ul class="price-features">
-          <li>500 new prospects per month</li>
-          <li>Full outreach + follow-up sequences</li>
-          <li>Warm lead handoffs weekly</li>
+          <li>AI Receptionist (SmartBook AI)</li>
+          <li>AI Visibility (GEO optimization)</li>
           <li>Monthly strategy call</li>
-          <li>Campaign optimization + reporting</li>
+          <li>Reporting dashboard</li>
+          <li>Priority support</li>
         </ul>
-        <a href="mailto:hello@pantrymate.net?subject=Wolfpack AI – Hunt Tier" class="btn-price">Deploy Your Pack</a>
+        <a href="https://calendly.com/wolfpackai/15min" class="btn-price" target="_blank">Book a Call</a>
       </div>
 
       <div class="price-card">
-        <div class="price-tier">Tier 3</div>
-        <div class="price-name">Dominate</div>
+        <div class="price-tier">Pro</div>
+        <div class="price-name">Full Stack</div>
         <div class="price-amount">
-          <span class="price-number">$2,997</span>
+          <span class="price-number">$1,297</span>
         </div>
         <div class="price-period">per month</div>
-        <div class="price-desc">Full-scale operation: multi-channel outreach, LinkedIn, SMS, and dedicated campaign management. For teams serious about pipeline.</div>
+        <div class="price-desc">All three workers deployed. Receptionist answers. Wolf prospects. GEO pulls people in. Your front office runs itself.</div>
         <ul class="price-features">
-          <li>1,000+ prospects per month</li>
-          <li>Multi-channel: email + LinkedIn + SMS</li>
-          <li>Dedicated campaign manager</li>
-          <li>Custom AI copy training on your voice</li>
-          <li>CRM integration + weekly calls</li>
+          <li>AI Receptionist + Wolf + AI Visibility</li>
+          <li>Full outbound prospecting sequences</li>
+          <li>AI search dominance in your market</li>
+          <li>Weekly performance reports</li>
+          <li>Dedicated account management</li>
         </ul>
-        <a href="mailto:hello@pantrymate.net?subject=Wolfpack AI – Dominate Tier" class="btn-price">Get Started</a>
+        <a href="https://calendly.com/wolfpackai/15min" class="btn-price" target="_blank">Book a Call</a>
       </div>
 
-    </div>
-  </section>
-
-  <!-- RESULTS -->
-  <section id="results">
-    <div class="results-wrapper">
-      <div class="results-top">
-        <div class="results-headline">
-          <div class="section-label">Results</div>
-          <h2>Built and tested<br />in one day.</h2>
-          <p>This isn't a concept. The pack was deployed, ran live campaigns, and generated real pipeline in under 24 hours.</p>
-        </div>
-        <div class="results-proof">
-          <strong>Verified Live Test</strong>
-          Day-one deployment results
-        </div>
-      </div>
-      <div class="stats-row">
-        <div class="stat-box">
-          <div class="stat-box-num">1</div>
-          <div class="stat-box-label">Day to full deployment</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-box-num">72</div>
-          <div class="stat-box-label">Businesses queued for calls</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-box-num">110</div>
-          <div class="stat-box-label">Emails sent</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-box-num">5</div>
-          <div class="stat-box-label">Active agents in the pack</div>
-        </div>
-      </div>
     </div>
   </section>
 
   <!-- CTA -->
-  <section id="cta" style="max-width: 100%;">
-    <div class="section-label" style="display:inline-block;">Ready?</div>
-    <h2>Deploy your pack.<br />Start closing.</h2>
-    <p>Send one email. We'll configure your pack, build your prospect list, and have campaigns running within a week.</p>
-    <a href="mailto:hello@pantrymate.net?subject=Deploy My Wolfpack AI Pack" class="cta-glow">Deploy Your Pack →</a>
+  <section id="cta">
+    <div class="section-label">Get Started</div>
+    <h2>15 minutes.<br />See it running live.</h2>
+    <p>
+      We'll show you exactly what your AI worker looks like deployed in your market — live demo, your use case, your calendar.
+      No decks. No pitch. Just the product.
+    </p>
+    <a href="https://calendly.com/wolfpackai/15min" class="cta-glow" target="_blank">Book a 15-Min Call →</a>
+    <p class="cta-fine">Spots are limited by market. We work with one business per category per town.</p>
   </section>
 
   <!-- FOOTER -->
   <footer>
     <div class="footer-logo">Wolfpack<span>AI</span></div>
     <div class="footer-right">
-      A <a href="#">Veldt</a> company ·
-      <a href="mailto:hello@pantrymate.net">hello@pantrymate.net</a>
+      Jackson WY · Telluride · Aspen · Sun Valley ·
+      <a href="mailto:hello@wolfpackai.co">hello@wolfpackai.co</a>
     </div>
   </footer>
 
