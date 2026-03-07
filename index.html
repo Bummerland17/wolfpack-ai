@@ -963,5 +963,36 @@
     })();
   </script>
 
+
+  <!-- VAPI WEB CALL WIDGET -->
+  <div id="vapi-call-widget" style="position:fixed; bottom:24px; right:24px; z-index:9999;">
+    <button id="vapi-btn" onclick="startVapiCall()" style="background:#1e40af; color:white; border:none; border-radius:50px; padding:14px 24px; font-size:1rem; font-weight:600; cursor:pointer; box-shadow:0 4px 20px rgba(30,64,175,0.4); display:flex; align-items:center; gap:8px;">
+      <span>🎙️</span> Talk to us live
+    </button>
+    <div id="vapi-status" style="text-align:center; font-size:0.75rem; color:#64748b; margin-top:6px; display:none;">Connecting...</div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/vapi.js"></script>
+  <script>
+    const vapi = new Vapi("0aaae7fe-be63-472a-a46d-5d9224e0fa89");
+    const AGENT_ID = "9cf2ae0a-f38b-429b-8606-e201b0bbc46b";
+    vapi.on("call-start", () => {
+      document.getElementById("vapi-btn").innerHTML = "🔴 End call";
+      document.getElementById("vapi-btn").style.background = "#dc2626";
+      document.getElementById("vapi-btn").onclick = () => vapi.stop();
+      document.getElementById("vapi-status").style.display = "block";
+      document.getElementById("vapi-status").textContent = "Connected — speak now";
+    });
+    vapi.on("call-end", () => {
+      document.getElementById("vapi-btn").innerHTML = "🎙️ Talk to us live";
+      document.getElementById("vapi-btn").style.background = "#1e40af";
+      document.getElementById("vapi-btn").onclick = startVapiCall;
+      document.getElementById("vapi-status").style.display = "none";
+    });
+    function startVapiCall() {
+      document.getElementById("vapi-status").style.display = "block";
+      document.getElementById("vapi-status").textContent = "Connecting...";
+      vapi.start(AGENT_ID);
+    }
+  </script>
 </body>
 </html>
