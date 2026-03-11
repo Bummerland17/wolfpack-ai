@@ -1,0 +1,970 @@
+<!-- Wolfpack AI Premium Template — customize for client -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- REPLACE: company name -->
+  <title>Ironclad Construction — Done Right. Done On Time.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --charcoal:  #1c1c1e;
+      --charcoal2: #242426;
+      --charcoal3: #2e2e30;
+      --orange:    #e8601c;
+      --orange2:   #f07030;
+      --orange3:   #ff8040;
+      --white:     #ffffff;
+      --off-white: #f2f2f0;
+      --light:     #e8e8e4;
+      --muted:     #9a9a96;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--charcoal);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── EMERGENCY BADGE ── */
+    .emergency-badge {
+      position: fixed; top: 50%; right: -1px; transform: translateY(-50%) rotate(90deg) translateX(50%);
+      transform-origin: right center;
+      background: var(--orange); color: #fff; z-index: 200;
+      padding: 0.5rem 1.2rem; font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700;
+      cursor: pointer; text-decoration: none; display: block;
+      animation: emergency-pulse 2.5s ease-in-out infinite;
+      white-space: nowrap;
+    }
+    @keyframes emergency-pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(232,96,28,0.6); }
+      50% { box-shadow: 0 0 0 10px rgba(232,96,28,0); }
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.3rem 3rem;
+      background: rgba(28,28,30,0.95);
+      border-bottom: 2px solid var(--orange);
+      transition: padding 0.3s;
+    }
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.8rem; font-weight: 900; letter-spacing: 0.05em;
+      color: var(--white); text-decoration: none;
+      text-transform: uppercase;
+    }
+    .nav-logo span { color: var(--orange); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--light); text-decoration: none;
+      font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-quote {
+      background: var(--orange); color: #fff; border: none;
+      padding: 0.7rem 1.6rem; font-family: 'Inter', sans-serif;
+      font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600;
+      cursor: pointer; transition: background 0.3s, transform 0.2s;
+    }
+    .nav-quote:hover { background: var(--orange2); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; height: 100vh; min-height: 600px;
+      display: flex; align-items: center; overflow: hidden;
+    }
+    /* Diagonal split */
+    .hero-left {
+      position: absolute; inset: 0;
+      background: linear-gradient(165deg, #0a0a0a 0%, var(--charcoal) 60%, var(--charcoal2) 100%);
+      clip-path: polygon(0 0, 62% 0, 48% 100%, 0 100%);
+    }
+    .hero-right {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--charcoal3) 0%, #2a2a1a 100%);
+      /* REPLACE: hero background image */
+    }
+    .hero-diagonal-accent {
+      position: absolute; inset: 0;
+      background: linear-gradient(165deg, transparent 0%, transparent 48%, var(--orange) 48%, var(--orange) 50%, transparent 50%);
+      opacity: 0.6;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 3rem; max-width: 660px;
+    }
+    .hero-badge {
+      display: inline-block; background: var(--orange);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700;
+      padding: 0.35rem 1rem; margin-bottom: 1.5rem; opacity: 0;
+    }
+    .hero-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(3.5rem, 9vw, 7rem); font-weight: 900;
+      text-transform: uppercase; line-height: 0.92;
+      letter-spacing: -0.01em; opacity: 0;
+    }
+    .hero-title .accent { color: var(--orange); display: block; }
+    .hero-subtitle {
+      margin-top: 1.5rem; font-size: 1rem; line-height: 1.75;
+      color: var(--light); opacity: 0; font-weight: 300; max-width: 460px;
+    }
+    .hero-actions { margin-top: 2.5rem; display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; }
+    .btn-orange {
+      background: var(--orange); color: #fff; padding: 1.1rem 2.5rem;
+      border: none; cursor: pointer; font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600;
+      text-decoration: none; display: inline-block; transition: background 0.3s, transform 0.2s;
+    }
+    .btn-orange:hover { background: var(--orange2); transform: translateY(-2px); }
+    .btn-outline-w {
+      background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,0.35);
+      padding: 1.1rem 2.5rem; font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500;
+      cursor: pointer; text-decoration: none; display: inline-block;
+      transition: border-color 0.3s, color 0.3s;
+    }
+    .btn-outline-w:hover { border-color: var(--orange); color: var(--orange); }
+    .hero-right-content {
+      position: absolute; right: 4%; bottom: 10%; z-index: 3;
+      text-align: right; max-width: 300px;
+    }
+    .hero-right-content p {
+      font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 0.5rem;
+    }
+    .hero-right-content span { font-size: 0.85rem; color: var(--muted); line-height: 1.6; display: block; }
+
+    /* ── STATS COUNTER ── */
+    .stats { background: var(--orange); padding: 2.5rem 2rem; }
+    .stats-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 1.5rem;
+    }
+    .stat-item { text-align: center; }
+    .stat-number {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 3.5rem; font-weight: 900; color: #fff; line-height: 1;
+    }
+    .stat-plus { color: rgba(255,255,255,0.7); }
+    .stat-label {
+      font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: rgba(255,255,255,0.75); margin-top: 0.3rem; font-weight: 500;
+    }
+    .stat-divider { width: 1px; height: 50px; background: rgba(255,255,255,0.3); }
+
+    /* ── SERVICES ── */
+    .services { background: var(--charcoal); padding: 6rem 2rem; }
+    .services-inner { max-width: 1100px; margin: 0 auto; }
+    .services-header { margin-bottom: 3.5rem; }
+    .section-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 0.6rem; font-weight: 600;
+    }
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900;
+      text-transform: uppercase; line-height: 0.95;
+    }
+    .section-title em { color: var(--orange); font-style: normal; }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+      background: rgba(255,255,255,0.08);
+    }
+    .service-item {
+      background: var(--charcoal); padding: 2.5rem 2rem;
+      transition: background 0.3s; cursor: pointer;
+    }
+    .service-item:hover { background: var(--charcoal2); }
+    .service-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .service-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.4rem; font-weight: 700; text-transform: uppercase;
+      margin-bottom: 0.6rem; letter-spacing: 0.03em;
+    }
+    .service-desc { font-size: 0.88rem; line-height: 1.7; color: var(--muted); font-weight: 300; }
+    .service-arrow {
+      margin-top: 1.2rem; color: var(--orange); font-size: 1.2rem;
+      transition: transform 0.2s;
+    }
+    .service-item:hover .service-arrow { transform: translateX(6px); }
+
+    /* ── PROJECT GALLERY ── */
+    .gallery { background: var(--charcoal2); padding: 6rem 2rem; }
+    .gallery-header { text-align: center; margin-bottom: 3rem; }
+    .gallery-grid {
+      max-width: 1100px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 300px 300px;
+      gap: 4px;
+    }
+    .gallery-item {
+      position: relative; overflow: hidden; cursor: pointer;
+    }
+    .gallery-item:first-child {
+      grid-column: 1 / 2; grid-row: 1 / 3;
+    }
+    .gallery-bg {
+      position: absolute; inset: 0;
+      transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .gallery-item:hover .gallery-bg { transform: scale(1.1); }
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(28,28,30,0.9) 0%, rgba(28,28,30,0.2) 60%, transparent 100%);
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-info {
+      position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem;
+      transform: translateY(10px); opacity: 0; transition: transform 0.4s, opacity 0.4s;
+    }
+    .gallery-item:hover .gallery-info { transform: translateY(0); opacity: 1; }
+    .gallery-category {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 0.3rem; font-weight: 600;
+    }
+    .gallery-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.3rem; font-weight: 700; }
+    .gallery-placeholder {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* ── PROCESS ── */
+    .process { background: var(--charcoal); padding: 6rem 2rem; }
+    .process-inner { max-width: 1100px; margin: 0 auto; }
+    .process-header { text-align: center; margin-bottom: 5rem; }
+    .process-steps { display: flex; gap: 0; position: relative; }
+    .process-line {
+      position: absolute; top: 28px; left: 10%; right: 10%;
+      height: 2px; background: rgba(255,255,255,0.1);
+      z-index: 0;
+    }
+    .process-line-progress {
+      height: 100%; width: 0%; background: var(--orange);
+      transition: width 1.5s ease;
+    }
+    .process-step {
+      flex: 1; text-align: center; padding: 0 1rem;
+      position: relative; z-index: 1; opacity: 0;
+    }
+    .step-number {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--charcoal2); border: 2px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem; font-weight: 700;
+      color: var(--muted); transition: background 0.4s, border-color 0.4s, color 0.4s;
+    }
+    .process-step.active .step-number {
+      background: var(--orange); border-color: var(--orange); color: #fff;
+    }
+    .step-title {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem;
+      font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+      margin-bottom: 0.6rem; color: var(--off-white);
+    }
+    .step-desc { font-size: 0.84rem; line-height: 1.65; color: var(--muted); font-weight: 300; }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials { background: var(--charcoal2); padding: 6rem 2rem; }
+    .testimonials-header { text-align: center; margin-bottom: 3.5rem; }
+    .testimonials-grid {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    }
+    .testimonial-card {
+      background: var(--charcoal3); padding: 2rem;
+      border-left: 3px solid var(--orange); opacity: 0; transform: translateY(25px);
+    }
+    .stars {
+      color: var(--orange); font-size: 0.9rem; letter-spacing: 0.1em; margin-bottom: 1rem;
+      display: flex; gap: 2px;
+    }
+    .star { transition: transform 0.2s; display: inline-block; }
+    .stars.animated .star { animation: star-pop 0.3s ease both; }
+    .stars.animated .star:nth-child(1) { animation-delay: 0s; }
+    .stars.animated .star:nth-child(2) { animation-delay: 0.08s; }
+    .stars.animated .star:nth-child(3) { animation-delay: 0.16s; }
+    .stars.animated .star:nth-child(4) { animation-delay: 0.24s; }
+    .stars.animated .star:nth-child(5) { animation-delay: 0.32s; }
+    @keyframes star-pop {
+      0% { transform: scale(0); }
+      70% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+    .testimonial-quote-text {
+      font-size: 0.92rem; line-height: 1.75; color: var(--off-white);
+      font-weight: 300; margin-bottom: 1.2rem; font-style: italic;
+    }
+    .testimonial-author { font-size: 0.82rem; font-weight: 600; color: var(--off-white); }
+    .testimonial-detail { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+
+    /* ── SERVICE AREA ── */
+    .service-area { background: var(--charcoal); padding: 6rem 2rem; }
+    .service-area-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+    }
+    .area-map {
+      position: relative; height: 400px;
+      background: var(--charcoal2);
+      border: 1px solid rgba(232,96,28,0.2);
+      overflow: hidden;
+    }
+    .map-grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(232,96,28,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(232,96,28,0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    /* Stylized city blocks */
+    .map-blocks { position: absolute; inset: 0; }
+    .map-block {
+      position: absolute; background: rgba(232,96,28,0.06);
+      border: 1px solid rgba(232,96,28,0.1);
+    }
+    .map-center-pin {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    }
+    .pin-ring {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      border: 2px solid rgba(232,96,28,0.4); border-radius: 50%;
+      animation: ping-ring 2.5s ease-out infinite;
+    }
+    .pin-ring:nth-child(2) { animation-delay: 0.8s; }
+    .pin-ring:nth-child(3) { animation-delay: 1.6s; }
+    @keyframes ping-ring {
+      0% { width: 0; height: 0; opacity: 1; }
+      100% { width: 200px; height: 200px; opacity: 0; }
+    }
+    .pin-dot {
+      width: 14px; height: 14px; background: var(--orange); border-radius: 50%;
+      position: relative; z-index: 2;
+      box-shadow: 0 0 0 4px rgba(232,96,28,0.3);
+    }
+    .map-label {
+      position: absolute; bottom: 1rem; left: 1rem; right: 1rem;
+      background: rgba(28,28,30,0.85); padding: 0.8rem 1rem;
+      font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--orange); font-weight: 600;
+      display: flex; justify-content: space-between;
+    }
+    .area-text .section-title { margin-bottom: 1.5rem; }
+    .area-list { list-style: none; margin: 1.5rem 0; }
+    .area-list li {
+      padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.07);
+      font-size: 0.9rem; color: var(--light); display: flex; align-items: center; gap: 0.7rem;
+    }
+    .area-list li::before { content: '▸'; color: var(--orange); font-size: 0.7rem; }
+
+    /* ── QUOTE FORM ── */
+    .quote-section { background: var(--charcoal2); padding: 6rem 2rem; }
+    .quote-inner { max-width: 680px; margin: 0 auto; }
+    .quote-header { text-align: center; margin-bottom: 3rem; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-label {
+      font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); font-weight: 500;
+    }
+    .form-input, .form-select, .form-textarea {
+      background: var(--charcoal3); border: 1px solid rgba(255,255,255,0.1);
+      color: var(--white); padding: 0.9rem 1rem; font-family: 'Inter', sans-serif;
+      font-size: 0.9rem; outline: none; transition: border-color 0.3s, box-shadow 0.3s;
+      appearance: none;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(232,96,28,0.15);
+    }
+    .form-select { cursor: pointer; }
+    .form-textarea { resize: vertical; min-height: 120px; }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--muted); }
+    .form-submit {
+      grid-column: 1 / -1; margin-top: 0.5rem;
+      background: var(--orange); color: #fff; border: none;
+      padding: 1.2rem; font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600;
+      cursor: pointer; transition: background 0.3s, transform 0.2s;
+      width: 100%;
+    }
+    .form-submit:hover { background: var(--orange2); transform: translateY(-2px); }
+    .form-note { text-align: center; font-size: 0.78rem; color: var(--muted); margin-top: 1rem; }
+
+    /* ── FOOTER ── */
+    footer { background: #0d0d0e; padding: 4rem 3rem 2rem; border-top: 3px solid var(--orange); }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-top {
+      display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem;
+    }
+    .footer-logo-text {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 2rem;
+      font-weight: 900; text-transform: uppercase; margin-bottom: 0.8rem;
+    }
+    .footer-logo-text span { color: var(--orange); }
+    .footer-tagline { font-size: 0.85rem; color: var(--muted); line-height: 1.7; max-width: 260px; }
+    .footer-col h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 1rem; font-weight: 700;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.6rem; }
+    .footer-col a { color: var(--muted); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--white); }
+    .footer-bottom {
+      padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex; justify-content: space-between; font-size: 0.75rem;
+      color: var(--muted); flex-wrap: wrap; gap: 0.5rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero-content { padding: 0 2rem; }
+      .hero-right-content { display: none; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 200px 200px 200px; }
+      .gallery-item:first-child { grid-column: 1 / -1; grid-row: 1; }
+      .testimonials-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
+      .service-area-inner { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .process-steps { flex-direction: column; gap: 2rem; }
+      .process-line { display: none; }
+    }
+    @media (max-width: 600px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr; grid-template-rows: repeat(5, 200px); }
+      .gallery-item:first-child { grid-column: 1; grid-row: 1; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-group.full { grid-column: 1; }
+      .footer-top { grid-template-columns: 1fr; }
+      .stat-divider { display: none; }
+      .emergency-badge { display: none; }
+      .hero-actions { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── EMERGENCY BADGE ── -->
+  <!-- REPLACE: emergency phone number -->
+  <a href="tel:+18005550189" class="emergency-badge">24/7 Emergency Line</a>
+
+  <!-- ── NAVIGATION ── -->
+  <nav id="mainNav">
+    <!-- REPLACE: company name -->
+    <a href="#" class="nav-logo">Iron<span>clad</span></a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#gallery">Projects</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#quote">Contact</a></li>
+    </ul>
+    <button class="nav-quote">Free Quote</button>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero" id="hero">
+    <div class="hero-left"></div>
+    <div class="hero-right">
+      <!-- REPLACE: hero background photo of completed project -->
+    </div>
+    <div class="hero-diagonal-accent"></div>
+    <div class="hero-content">
+      <div class="hero-badge" id="heroBadge">
+        <!-- REPLACE: specialty / location -->
+        General Contractor · Houston, TX
+      </div>
+      <h1 class="hero-title" id="heroTitle">
+        Done Right.<br/>
+        <span class="accent">Done On Time.</span>
+      </h1>
+      <p class="hero-subtitle" id="heroSubtitle">
+        <!-- REPLACE: value proposition -->
+        From ground-up builds to full renovations — we deliver craftsmanship that holds up and timelines that don't slip. No surprises. No excuses.
+      </p>
+      <div class="hero-actions" id="heroActions">
+        <a href="#quote" class="btn-orange">Get a Free Quote</a>
+        <a href="#gallery" class="btn-outline-w">View Our Work</a>
+      </div>
+    </div>
+    <div class="hero-right-content">
+      <!-- REPLACE: certifications or quick stats -->
+      <p>Licensed & Insured</p>
+      <span>TX License #GC-884921<br/>$2M General Liability<br/>Workers' Comp Covered</span>
+    </div>
+  </section>
+
+  <!-- ── STATS ── -->
+  <div class="stats" id="statsSection">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <div class="stat-number"><span id="stat0">0</span><span class="stat-plus">+</span></div>
+        <div class="stat-label">Projects Completed</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-number"><span id="stat1">0</span></div>
+        <div class="stat-label">Years in Business</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-number"><span id="stat2">0.0</span><span class="stat-plus">★</span></div>
+        <div class="stat-label">Average Rating</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-number"><span id="stat3">0</span><span class="stat-plus">%</span></div>
+        <div class="stat-label">On-Time Delivery</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SERVICES ── -->
+  <section class="services" id="services">
+    <div class="services-inner">
+      <div class="services-header">
+        <p class="section-eyebrow">What We Build</p>
+        <!-- REPLACE: section headline -->
+        <h2 class="section-title">We handle the <em>hard stuff</em>.</h2>
+      </div>
+      <!-- REPLACE: service items -->
+      <div class="services-grid">
+        <div class="service-item">
+          <div class="service-icon">🏗️</div>
+          <div class="service-name">New Construction</div>
+          <p class="service-desc">Commercial and residential ground-up builds. Design-build or contractor-only. We manage every subcontractor, every permit, every punchlist.</p>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-item">
+          <div class="service-icon">🔨</div>
+          <div class="service-name">Full Renovations</div>
+          <p class="service-desc">Whole-home and commercial space overhauls. Demo to final coat — one crew, one point of contact, zero finger-pointing.</p>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-item">
+          <div class="service-icon">🏠</div>
+          <div class="service-name">Custom Additions</div>
+          <p class="service-desc">Room additions, ADUs, garage conversions. We make additions look like they were always part of the plan — because they are now.</p>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-item">
+          <div class="service-icon">🔌</div>
+          <div class="service-name">Electrical & Plumbing</div>
+          <p class="service-desc">Licensed master electricians and master plumbers on staff. Panel upgrades, full replumbing, EV charger installs, water heater replacement.</p>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-item">
+          <div class="service-icon">🪟</div>
+          <div class="service-name">Roofing & Exteriors</div>
+          <p class="service-desc">Insurance-claim specialists. Metal, asphalt, TPO, tile. We document everything, work with your adjuster, and get it done right.</p>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-item">
+          <div class="service-icon">⚡</div>
+          <div class="service-name">Emergency Repairs</div>
+          <p class="service-desc">Storm damage, fire repair, burst pipes — 24/7 dispatch, on-site within 2 hours. We're built for when things go wrong fast.</p>
+          <div class="service-arrow">→</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GALLERY ── -->
+  <section class="gallery" id="gallery">
+    <div class="gallery-header">
+      <p class="section-eyebrow">Recent Projects</p>
+      <h2 class="section-title">The work <em>speaks</em>.</h2>
+    </div>
+    <!-- REPLACE: actual project photos -->
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <div class="gallery-bg" style="background: linear-gradient(145deg, #2a2a1a, #1a1a2a);"></div>
+        <div class="gallery-placeholder">[ Project Photo ]</div>
+        <div class="gallery-overlay"></div>
+        <div class="gallery-info">
+          <p class="gallery-category">Commercial</p>
+          <p class="gallery-title">Westside Office Complex</p>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-bg" style="background: linear-gradient(145deg, #1a2a1a, #2a1a1a);"></div>
+        <div class="gallery-placeholder">[ Project Photo ]</div>
+        <div class="gallery-overlay"></div>
+        <div class="gallery-info">
+          <p class="gallery-category">Residential</p>
+          <p class="gallery-title">Memorial Custom Home</p>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-bg" style="background: linear-gradient(145deg, #2a1a2a, #1a2a2a);"></div>
+        <div class="gallery-placeholder">[ Project Photo ]</div>
+        <div class="gallery-overlay"></div>
+        <div class="gallery-info">
+          <p class="gallery-category">Renovation</p>
+          <p class="gallery-title">River Oaks Whole-Home</p>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-bg" style="background: linear-gradient(145deg, #1a1a2a, #2a2a1a);"></div>
+        <div class="gallery-placeholder">[ Project Photo ]</div>
+        <div class="gallery-overlay"></div>
+        <div class="gallery-info">
+          <p class="gallery-category">Addition</p>
+          <p class="gallery-title">Heights ADU + Garage</p>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-bg" style="background: linear-gradient(145deg, #2a1a1a, #1a2a1a);"></div>
+        <div class="gallery-placeholder">[ Project Photo ]</div>
+        <div class="gallery-overlay"></div>
+        <div class="gallery-info">
+          <p class="gallery-category">Commercial</p>
+          <p class="gallery-title">Midtown Restaurant Build-Out</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROCESS ── -->
+  <section class="process" id="process">
+    <div class="process-inner">
+      <div class="process-header">
+        <p class="section-eyebrow">How It Works</p>
+        <h2 class="section-title">Simple process.<br/><em>Zero guesswork.</em></h2>
+      </div>
+      <div class="process-steps">
+        <div class="process-line">
+          <div class="process-line-progress" id="processLine"></div>
+        </div>
+        <!-- REPLACE: process steps -->
+        <div class="process-step" id="step0">
+          <div class="step-number">01</div>
+          <h3 class="step-title">Free Consultation</h3>
+          <p class="step-desc">We come to you. In-person site visit, no charge. We listen first, then give you an honest scope — not a sales pitch.</p>
+        </div>
+        <div class="process-step" id="step1">
+          <div class="step-number">02</div>
+          <h3 class="step-title">Detailed Estimate</h3>
+          <p class="step-desc">Line-item written estimate within 48 hours. Materials, labor, timeline — every cost is itemized and explained.</p>
+        </div>
+        <div class="process-step" id="step2">
+          <div class="step-number">03</div>
+          <h3 class="step-title">We Get to Work</h3>
+          <p class="step-desc">Your dedicated project manager is on-site daily. Weekly progress photos sent to you automatically. No chasing us down.</p>
+        </div>
+        <div class="process-step" id="step3">
+          <div class="step-number">04</div>
+          <h3 class="step-title">Final Walkthrough</h3>
+          <p class="step-desc">We walk every inch together. Punchlist completed before you sign off. One-year craftsmanship warranty on all work.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIALS ── -->
+  <section class="testimonials" id="testimonials">
+    <div class="testimonials-header">
+      <p class="section-eyebrow">Client Reviews</p>
+      <h2 class="section-title">Don't take our word for it.</h2>
+    </div>
+    <div class="testimonials-grid">
+      <!-- REPLACE: real client testimonials -->
+      <div class="testimonial-card">
+        <div class="stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <p class="testimonial-quote-text">"Ironclad finished our 4,500 sq ft addition two weeks ahead of schedule. The project manager was responsive every single day. I've worked with three other contractors over the years. Night and day difference."</p>
+        <p class="testimonial-author">Robert & Diane M.</p>
+        <p class="testimonial-detail">Custom Addition · River Oaks, TX</p>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <p class="testimonial-quote-text">"After Hurricane Ida wiped out our roof and damaged three rooms, Ironclad was on-site in less than 90 minutes. They handled the insurance claim, the repairs, everything. We barely had to think about it."</p>
+        <p class="testimonial-author">The Tran Family</p>
+        <p class="testimonial-detail">Storm Damage Repair · Katy, TX</p>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <p class="testimonial-quote-text">"We've used Ironclad for three commercial build-outs now. Same quality every time. The estimate matches the final invoice. For a business owner, that's not common — that's everything."</p>
+        <p class="testimonial-author">Marcus B., Owner</p>
+        <p class="testimonial-detail">Commercial Build-Out · Midtown Houston</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SERVICE AREA ── -->
+  <section class="service-area" id="area">
+    <div class="service-area-inner">
+      <div class="area-map">
+        <div class="map-grid-bg"></div>
+        <!-- Stylized map blocks -->
+        <div class="map-blocks">
+          <div class="map-block" style="left:10%; top:15%; width:20%; height:12%;"></div>
+          <div class="map-block" style="left:35%; top:10%; width:15%; height:18%;"></div>
+          <div class="map-block" style="left:60%; top:20%; width:25%; height:10%;"></div>
+          <div class="map-block" style="left:15%; top:40%; width:18%; height:20%;"></div>
+          <div class="map-block" style="left:65%; top:45%; width:20%; height:15%;"></div>
+          <div class="map-block" style="left:20%; top:70%; width:22%; height:15%;"></div>
+          <div class="map-block" style="left:55%; top:68%; width:28%; height:12%;"></div>
+        </div>
+        <div class="map-center-pin">
+          <div class="pin-ring"></div>
+          <div class="pin-ring"></div>
+          <div class="pin-ring"></div>
+          <div class="pin-dot"></div>
+        </div>
+        <div class="map-label">
+          <!-- REPLACE: city / coverage area -->
+          <span>Houston Metro Area</span>
+          <span>50-Mile Radius</span>
+        </div>
+      </div>
+      <div class="area-text">
+        <p class="section-eyebrow">Where We Work</p>
+        <h2 class="section-title">Greater Houston.<br/><em>All of it.</em></h2>
+        <!-- REPLACE: service cities -->
+        <ul class="area-list">
+          <li>Houston (all neighborhoods)</li>
+          <li>Katy & Sugar Land</li>
+          <li>The Woodlands & Spring</li>
+          <li>Pearland & Friendswood</li>
+          <li>Pasadena & Deer Park</li>
+          <li>Conroe & Tomball</li>
+        </ul>
+        <p style="font-size: 0.85rem; color: var(--muted); line-height: 1.7;">Not on the list? Call us anyway. For the right project, we travel.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── QUOTE FORM ── -->
+  <section class="quote-section" id="quote">
+    <div class="quote-inner">
+      <div class="quote-header">
+        <p class="section-eyebrow">Start Here</p>
+        <!-- REPLACE: form headline -->
+        <h2 class="section-title">Get Your <em>Free Quote</em>.</h2>
+        <p style="color: var(--muted); margin-top: 0.8rem; font-size: 0.9rem;">We respond within 2 business hours. Usually faster.</p>
+      </div>
+      <form class="form-grid" id="quoteForm">
+        <!-- REPLACE: form fields / integrate with CRM -->
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input type="text" class="form-input" placeholder="John" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input type="text" class="form-input" placeholder="Smith" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input type="tel" class="form-input" placeholder="(555) 000-0000" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-input" placeholder="john@email.com" />
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Project Type</label>
+          <select class="form-select">
+            <option value="" disabled selected>Select a service...</option>
+            <option>New Construction</option>
+            <option>Full Renovation</option>
+            <option>Room Addition / ADU</option>
+            <option>Roofing / Exterior</option>
+            <option>Emergency Repair</option>
+            <option>Commercial Build-Out</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Tell Us About Your Project</label>
+          <textarea class="form-textarea" placeholder="Briefly describe your project, timeline, and any details that would help us prepare..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send My Quote Request →</button>
+      </form>
+      <p class="form-note">No spam. No sales calls. Just a real person with a real number, fast.</p>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <!-- REPLACE: company name -->
+          <div class="footer-logo-text">Iron<span>clad</span></div>
+          <p class="footer-tagline">Licensed general contractor serving Greater Houston since 2009. Residential, commercial, emergency. Done right.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#">New Construction</a></li>
+            <li><a href="#">Renovations</a></li>
+            <li><a href="#">Roofing</a></li>
+            <li><a href="#">Emergency Repairs</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Our Team</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Reviews</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <!-- REPLACE: contact info -->
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="tel:+18005550189">1-800-555-0189</a></li>
+            <li><a href="#">info@ironclad.build</a></li>
+            <li><a href="#">Houston, TX 77001</a></li>
+            <li><a href="#">24/7 Emergency</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <!-- REPLACE: company name and license number -->
+        <span>© 2025 Ironclad Construction. TX License #GC-884921. All rights reserved.</span>
+        <span>Privacy · Terms · Accessibility</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── SCRIPTS ── -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero entrance
+    const tl = gsap.timeline({ delay: 0.3 });
+    tl.to('#heroBadge',    { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' })
+      .to('#heroTitle',    { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.2')
+      .to('#heroSubtitle', { opacity: 1, duration: 0.6 }, '-=0.2')
+      .to('#heroActions',  { opacity: 1, duration: 0.5 }, '-=0.3');
+
+    // Stats counters
+    ScrollTrigger.create({
+      trigger: '#statsSection', start: 'top 80%', once: true,
+      onEnter() {
+        const counters = [
+          { id: 'stat0', target: 500, dec: 0 },
+          { id: 'stat1', target: 15, dec: 0 },
+          { id: 'stat2', target: 4.8, dec: 1 },
+          { id: 'stat3', target: 97, dec: 0 },
+        ];
+        counters.forEach(({ id, target, dec }) => {
+          const el = document.getElementById(id);
+          gsap.fromTo({ val: 0 }, { val: target }, {
+            duration: 2, ease: 'power2.out',
+            onUpdate() { el.textContent = parseFloat(this.targets()[0].val).toFixed(dec); }
+          });
+        });
+      }
+    });
+
+    // Section titles
+    gsap.utils.toArray('.section-title').forEach(el => {
+      gsap.fromTo(el, { opacity: 0, y: 35 }, {
+        opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+        scrollTrigger: { trigger: el, start: 'top 85%', once: true }
+      });
+    });
+
+    // Service items
+    gsap.utils.toArray('.service-item').forEach((item, i) => {
+      gsap.fromTo(item, { opacity: 0, y: 30 }, {
+        opacity: 1, y: 0, duration: 0.5, delay: (i % 3) * 0.1, ease: 'power2.out',
+        scrollTrigger: { trigger: item, start: 'top 88%', once: true }
+      });
+    });
+
+    // Gallery items
+    gsap.utils.toArray('.gallery-item').forEach((item, i) => {
+      gsap.fromTo(item, { opacity: 0, scale: 0.94 }, {
+        opacity: 1, scale: 1, duration: 0.6, delay: i * 0.08, ease: 'power2.out',
+        scrollTrigger: { trigger: item, start: 'top 88%', once: true }
+      });
+    });
+
+    // Process steps with line animation
+    ScrollTrigger.create({
+      trigger: '.process-steps', start: 'top 75%', once: true,
+      onEnter() {
+        // Animate line
+        gsap.to('#processLine', { width: '100%', duration: 1.5, ease: 'power2.inOut' });
+        // Animate steps
+        document.querySelectorAll('.process-step').forEach((step, i) => {
+          setTimeout(() => {
+            gsap.to(step, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
+            step.classList.add('active');
+          }, i * 300);
+        });
+      }
+    });
+
+    // Testimonial cards with star animation
+    gsap.utils.toArray('.testimonial-card').forEach((card, i) => {
+      ScrollTrigger.create({
+        trigger: card, start: 'top 85%', once: true,
+        onEnter() {
+          gsap.to(card, {
+            opacity: 1, y: 0, duration: 0.6, delay: i * 0.12, ease: 'power2.out'
+          });
+          setTimeout(() => {
+            card.querySelector('.stars').classList.add('animated');
+          }, i * 120 + 300);
+        }
+      });
+    });
+
+    // Form focus animations (label highlight)
+    document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(input => {
+      input.addEventListener('focus', () => {
+        gsap.to(input, { scale: 1.005, duration: 0.2 });
+      });
+      input.addEventListener('blur', () => {
+        gsap.to(input, { scale: 1, duration: 0.2 });
+      });
+    });
+
+    // Form submit
+    document.getElementById('quoteForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const btn = e.target.querySelector('.form-submit');
+      btn.textContent = '✓ Request Sent — We\'ll Be in Touch!';
+      btn.style.background = '#2a7a2a';
+    });
+  </script>
+</body>
+</html>
