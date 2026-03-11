@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service — Wolfpack AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0a0a0a;
+      --surface:  #111111;
+      --border:   #1e1e1e;
+      --blue:     #2563eb;
+      --blue-dim: #1d4ed8;
+      --text:     #e5e7eb;
+      --muted:    #6b7280;
+      --subtle:   #9ca3af;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--blue);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-size: 17px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .logo-text span { color: var(--blue); }
+
+    /* ── Hero ── */
+    .hero {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 24px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--blue);
+      background: rgba(37,99,235,0.1);
+      border: 1px solid rgba(37,99,235,0.2);
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .hero-meta {
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .hero-meta strong { color: var(--subtle); font-weight: 500; }
+
+    /* ── Layout ── */
+    .layout {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* ── TOC ── */
+    nav.toc {
+      position: sticky;
+      top: 80px;
+      padding: 32px 0;
+    }
+    .toc-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+      padding-left: 12px;
+    }
+    .toc-list { list-style: none; }
+    .toc-list li { margin: 2px 0; }
+    .toc-list a {
+      display: block;
+      padding: 5px 12px;
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      border-radius: 0 4px 4px 0;
+      transition: all 0.15s ease;
+    }
+    .toc-list a:hover {
+      color: var(--text);
+      border-left-color: var(--blue);
+      background: rgba(37,99,235,0.06);
+    }
+
+    /* ── Content ── */
+    .content {
+      padding: 40px 0 80px;
+    }
+
+    section {
+      margin-bottom: 56px;
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .section-num {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--blue);
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+    }
+    .section-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 12px 0 20px;
+    }
+
+    p { margin-bottom: 14px; color: var(--text); }
+    p:last-child { margin-bottom: 0; }
+
+    ul, ol {
+      padding-left: 24px;
+      margin-bottom: 14px;
+      color: var(--text);
+    }
+    li { margin-bottom: 8px; }
+    li:last-child { margin-bottom: 0; }
+
+    /* Callout boxes */
+    .callout {
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .callout-blue {
+      background: rgba(37,99,235,0.08);
+      border: 1px solid rgba(37,99,235,0.2);
+      color: #93c5fd;
+    }
+    .callout-warn {
+      background: rgba(245,158,11,0.07);
+      border: 1px solid rgba(245,158,11,0.2);
+      color: #fbbf24;
+    }
+    .callout-icon { font-size: 16px; margin-right: 6px; }
+    .callout strong { color: inherit; }
+
+    /* Definition list */
+    dl { margin-bottom: 14px; }
+    dt {
+      font-weight: 600;
+      color: #fff;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+    dt:first-child { margin-top: 0; }
+    dd {
+      margin-left: 16px;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px;
+      text-align: center;
+    }
+    .footer-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: var(--blue); }
+    .footer-copy {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    strong { color: #fff; font-weight: 600; }
+
+    @media (max-width: 680px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      nav.toc { display: none; }
+      .hero { padding: 40px 20px 32px; }
+      .content { padding: 32px 0 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-mark">W</div>
+    <span class="logo-text">Wolfpack<span>AI</span></span>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="doc-label">Legal</div>
+  <h1>Terms of Service</h1>
+  <p class="hero-meta">
+    <strong>Last updated:</strong> March 11, 2026 &nbsp;·&nbsp;
+    <strong>Effective:</strong> March 11, 2026 &nbsp;·&nbsp;
+    <strong>Governing law:</strong> Wyoming, USA
+  </p>
+</div>
+
+<div class="layout">
+  <nav class="toc" aria-label="Table of contents">
+    <p class="toc-title">Contents</p>
+    <ul class="toc-list">
+      <li><a href="#agreement">1. Agreement</a></li>
+      <li><a href="#services">2. Services</a></li>
+      <li><a href="#subscriptions">3. Subscriptions &amp; Billing</a></li>
+      <li><a href="#refunds">4. Refunds</a></li>
+      <li><a href="#cancellation">5. Cancellation</a></li>
+      <li><a href="#client-responsibilities">6. Client Responsibilities</a></li>
+      <li><a href="#ai-disclosure">7. AI Disclosure &amp; Compliance</a></li>
+      <li><a href="#call-recording">8. Call Recording</a></li>
+      <li><a href="#ip">9. Intellectual Property</a></li>
+      <li><a href="#confidentiality">10. Confidentiality</a></li>
+      <li><a href="#liability">11. Limitation of Liability</a></li>
+      <li><a href="#indemnification">12. Indemnification</a></li>
+      <li><a href="#termination">13. Termination</a></li>
+      <li><a href="#disputes">14. Dispute Resolution</a></li>
+      <li><a href="#governing-law">15. Governing Law</a></li>
+      <li><a href="#changes">16. Changes to Terms</a></li>
+      <li><a href="#contact">17. Contact</a></li>
+    </ul>
+  </nav>
+
+  <main class="content">
+
+    <div class="callout callout-blue">
+      <span class="callout-icon">📋</span>
+      <strong>Please read these terms carefully.</strong> By subscribing to or using any Wolfpack AI service, you agree to be bound by these Terms of Service. If you do not agree, do not use our services.
+    </div>
+
+    <!-- 1 -->
+    <section id="agreement">
+      <h2><span class="section-num">01</span> Agreement to Terms</h2>
+      <div class="section-divider"></div>
+      <p>These Terms of Service ("Terms") constitute a legally binding agreement between you, the business entity or individual accessing our services ("Client," "you," or "your"), and Wolfpack AI, a sole proprietorship operated by Wolfgang Meyer ("Wolfpack AI," "we," "us," or "our").</p>
+      <p>By signing an order form, paying an invoice, or accessing our service portal, you confirm that you have read, understood, and agree to these Terms and our <a href="wolfpack-privacy.html">Privacy Policy</a>, which is incorporated herein by reference. If you are entering into this agreement on behalf of a business, you represent and warrant that you have authority to bind that business to these Terms.</p>
+    </section>
+
+    <!-- 2 -->
+    <section id="services">
+      <h2><span class="section-num">02</span> Description of Services</h2>
+      <div class="section-divider"></div>
+      <p>Wolfpack AI provides AI-powered telephone agent services for businesses. Our services include, but are not limited to:</p>
+      <ul>
+        <li><strong>Outbound AI calling campaigns</strong> — automated, scripted outreach calls placed on your behalf using AI voice technology</li>
+        <li><strong>Inbound AI call handling</strong> — AI agents that answer, qualify, and route inbound calls according to your defined scripts and logic</li>
+        <li><strong>Agent configuration and setup</strong> — design, scripting, and technical deployment of AI phone agents tailored to your business</li>
+        <li><strong>Performance reporting</strong> — call logs, transcripts, and outcome summaries delivered on your agreed reporting schedule</li>
+        <li><strong>Ongoing optimization</strong> — script and flow refinements based on call data and your feedback</li>
+      </ul>
+      <p>Services are provided as described in your specific order form or service agreement. We reserve the right to update or improve service features at our discretion. Material reductions in service scope will be communicated with at least 30 days notice.</p>
+    </section>
+
+    <!-- 3 -->
+    <section id="subscriptions">
+      <h2><span class="section-num">03</span> Subscriptions &amp; Billing</h2>
+      <div class="section-divider"></div>
+
+      <dl>
+        <dt>Setup Fee</dt>
+        <dd>Most service packages require a one-time setup fee covering agent configuration, script development, voice selection, and technical deployment. This fee is due before work begins and is separate from your monthly subscription.</dd>
+
+        <dt>Monthly Subscription</dt>
+        <dd>Ongoing services are billed on a monthly subscription basis. Your subscription begins on the date your agent goes live (or as specified in your order form) and renews automatically on the same calendar date each month.</dd>
+
+        <dt>Auto-Renewal</dt>
+        <dd>Your subscription renews automatically each month unless cancelled in accordance with Section 5. You authorize Wolfpack AI to charge your payment method on file for each renewal period. We will notify you via email at least 7 days before each renewal date.</dd>
+
+        <dt>Payment Methods</dt>
+        <dd>We accept payment via credit card and ACH bank transfer, processed through Stripe. By providing payment information, you authorize us to charge the applicable fees. All amounts are in US Dollars.</dd>
+
+        <dt>Late Payments</dt>
+        <dd>Invoices not paid within 10 days of the due date may result in service suspension. Accounts suspended for non-payment for more than 30 days may be permanently terminated. A reinstatement fee may apply to reactivate suspended accounts.</dd>
+
+        <dt>Taxes</dt>
+        <dd>You are responsible for all applicable taxes on our services. Where required by law, we will add applicable sales tax to your invoice.</dd>
+      </dl>
+    </section>
+
+    <!-- 4 -->
+    <section id="refunds">
+      <h2><span class="section-num">04</span> Refund Policy</h2>
+      <div class="section-divider"></div>
+
+      <div class="callout callout-blue">
+        <span class="callout-icon">💳</span>
+        We want you to feel confident in working with us. Our refund policy is designed to be fair while accounting for the real labor involved in building your AI agent.
+      </div>
+
+      <dl>
+        <dt>Setup Fees</dt>
+        <dd>The setup fee is <strong>non-refundable once work has commenced</strong>. Work is considered to have commenced upon your written confirmation of the service agreement or upon our sending your first draft script or configuration — whichever occurs first. If you cancel before any work has begun, we will refund the setup fee in full.</dd>
+
+        <dt>Monthly Subscription — Cancellation 7+ Days Before Renewal</dt>
+        <dd>If you submit a valid cancellation request at least <strong>7 calendar days before your next renewal date</strong>, you will not be charged for the upcoming renewal period. If you have already been charged for a period during which you cancel with 7+ days notice, we will issue a pro-rated refund for unused days in that period.</dd>
+
+        <dt>Monthly Subscription — Cancellation Within 7 Days of Renewal</dt>
+        <dd>If your cancellation request is received less than 7 days before your scheduled renewal date, the renewal charge will proceed as scheduled and is <strong>non-refundable</strong>. Your service will remain active through the end of that final paid period.</dd>
+
+        <dt>Service Failures</dt>
+        <dd>If a material service failure attributable to Wolfpack AI prevents your AI agent from functioning for more than 72 consecutive hours in a given billing period, you may request a pro-rated credit for the affected days. Credits are applied to future invoices and are not issued as cash refunds.</dd>
+      </dl>
+
+      <p>To request a refund or credit, email <a href="mailto:privacy@wolfpackai.com">privacy@wolfpackai.com</a> with your account details and the reason for your request. We process refund requests within 5 business days.</p>
+    </section>
+
+    <!-- 5 -->
+    <section id="cancellation">
+      <h2><span class="section-num">05</span> Cancellation Policy</h2>
+      <div class="section-divider"></div>
+      <p>Either party may cancel the service subscription by providing <strong>30 days written notice</strong> to the other party. Notice must be submitted in writing via email to <a href="mailto:privacy@wolfpackai.com">privacy@wolfpackai.com</a>. Verbal cancellations are not valid.</p>
+      <p>During the 30-day notice period, your service will remain active and billed at the standard monthly rate. We will continue providing services through the end of the notice period unless you request an earlier cessation (subject to the refund policy in Section 4).</p>
+      <p>Upon cancellation, you will retain access to any call reports and transcripts generated during your subscription period for 30 days following your final billing date, after which this data will be handled in accordance with our <a href="wolfpack-privacy.html">Privacy Policy</a>.</p>
+
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <strong>Important:</strong> Cancellations submitted via social media, text message, or informal communication channels are not accepted. Email confirmation is required and we will send a written acknowledgment within 2 business days.
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section id="client-responsibilities">
+      <h2><span class="section-num">06</span> Client Responsibilities</h2>
+      <div class="section-divider"></div>
+      <p>You are solely responsible for ensuring your use of our services complies with all applicable laws and does not harm third parties. Specifically, you agree to:</p>
+
+      <ul>
+        <li><strong>Provide accurate information.</strong> You will provide truthful, complete, and up-to-date business information, contact lists, scripts, and instructions. You represent that any calling lists you provide contain only contacts who may be lawfully called under applicable telemarketing, TCPA, and do-not-call regulations.</li>
+        <li><strong>Maintain lawful calling lists.</strong> You are solely responsible for scrubbing your contact lists against the National Do Not Call Registry and any applicable state registries before providing them to us. We are not responsible for DNC violations arising from lists you supply.</li>
+        <li><strong>Lawful purposes only.</strong> You will not use our services to harass, defraud, intimidate, or deceive any person; to place calls that violate the Telephone Consumer Protection Act (TCPA), the FTC Telemarketing Sales Rule, the FCC's AI-generated voice disclosure rules, or any other applicable federal, state, or local law.</li>
+        <li><strong>Authorized use.</strong> You will not resell, sublicense, or permit third parties to use your account without our prior written consent.</li>
+        <li><strong>Accurate agent instructions.</strong> You will not instruct our AI agents to make false statements of material fact, impersonate a specific named individual, or engage in any deceptive practice.</li>
+        <li><strong>Account security.</strong> You are responsible for maintaining the security of your account credentials and for all activity that occurs under your account.</li>
+      </ul>
+
+      <p>We reserve the right to suspend or terminate your account immediately if we have reasonable grounds to believe you are violating this section, without refund of any fees paid.</p>
+    </section>
+
+    <!-- 7 -->
+    <section id="ai-disclosure">
+      <h2><span class="section-num">07</span> AI Disclosure &amp; Regulatory Compliance</h2>
+      <div class="section-divider"></div>
+
+      <div class="callout callout-warn">
+        <span class="callout-icon">🤖</span>
+        <strong>This section is important.</strong> You are legally responsible for ensuring calls made by our AI on your behalf comply with all applicable disclosure requirements.
+      </div>
+
+      <p>Our service deploys AI-generated voice agents that place and receive calls on your behalf. You explicitly acknowledge and agree to the following:</p>
+
+      <ul>
+        <li><strong>Calls are AI-generated.</strong> The voice agents used in our service are not human. Depending on the jurisdiction and context, applicable law may require disclosure that a caller is an AI or automated system. You are responsible for ensuring all required disclosures are included in your scripts.</li>
+        <li><strong>FCC AI Voice Disclosure Rules.</strong> The FCC requires that AI-generated voice calls using a recognizably human-like voice include a clear disclosure at the beginning of the call. We will implement disclosures as directed by you; however, you are responsible for ensuring those disclosures satisfy applicable legal requirements.</li>
+        <li><strong>TCPA Compliance.</strong> If our agents place calls using an automated dialing system or use pre-recorded/AI-generated messages, you must have obtained prior express written consent from called parties where required by the TCPA. We do not verify consent on your behalf.</li>
+        <li><strong>You bear compliance responsibility.</strong> Wolfpack AI provides a technology and service platform. You are the entity deploying this technology in your specific business context. Accordingly, you bear sole responsibility for compliance with all federal and state telemarketing, robocall, AI disclosure, and consumer protection laws applicable to your calls.</li>
+        <li><strong>No legal advice.</strong> Nothing in these Terms or in our communications with you constitutes legal advice. You should consult qualified legal counsel to ensure your use of AI calling technology is compliant with applicable law.</li>
+      </ul>
+    </section>
+
+    <!-- 8 -->
+    <section id="call-recording">
+      <h2><span class="section-num">08</span> Call Recording Consent</h2>
+      <div class="section-divider"></div>
+      <p>Call recording is integral to our service — recordings enable quality assurance, performance reporting, and agent optimization. By entering into this agreement, you:</p>
+
+      <ul>
+        <li><strong>Authorize recording.</strong> You expressly authorize Wolfpack AI and its technology partners to record all calls made or received by AI agents on your behalf.</li>
+        <li><strong>Represent consent collection.</strong> You represent and warrant that you have obtained all legally required consents from third parties (including your customers and prospects) for the recording of telephone calls, in compliance with all federal and applicable state wiretapping, eavesdropping, and call recording laws, including two-party (all-party) consent states.</li>
+        <li><strong>Disclosure in scripts.</strong> Where required by law, your call scripts will include a notification that the call may be recorded. We can include a standard recording disclosure in your script template; however, the adequacy of that disclosure for your specific use case and jurisdiction is your responsibility.</li>
+        <li><strong>Indemnification for recording violations.</strong> You agree to indemnify and hold harmless Wolfpack AI from any claims, fines, or damages arising from your failure to obtain required recording consents or to comply with applicable recording laws.</li>
+      </ul>
+
+      <p>Recordings are stored securely and handled in accordance with our <a href="wolfpack-privacy.html">Privacy Policy</a>. Transcript retention periods are described therein.</p>
+    </section>
+
+    <!-- 9 -->
+    <section id="ip">
+      <h2><span class="section-num">09</span> Intellectual Property</h2>
+      <div class="section-divider"></div>
+      <dl>
+        <dt>Our Platform</dt>
+        <dd>All software, systems, proprietary workflows, templates, and platform infrastructure used to deliver our services remain the exclusive intellectual property of Wolfpack AI. You receive a limited, non-exclusive, non-transferable license to use our services for your internal business purposes during your subscription term.</dd>
+
+        <dt>Your Content</dt>
+        <dd>You retain ownership of all content you provide to us, including your business information, brand assets, customer lists, and custom script language. You grant Wolfpack AI a limited license to use this content solely to provide and improve our services to you.</dd>
+
+        <dt>Deliverables</dt>
+        <dd>Custom scripts, call flows, and agent configurations developed specifically for your account ("Client Deliverables") are provided to you for your use. We retain the right to use the underlying methodologies and non-branded frameworks in our work with other clients.</dd>
+      </dl>
+    </section>
+
+    <!-- 10 -->
+    <section id="confidentiality">
+      <h2><span class="section-num">10</span> Confidentiality</h2>
+      <div class="section-divider"></div>
+      <p>Each party agrees to keep confidential any non-public, proprietary, or sensitive information disclosed by the other party in connection with this agreement ("Confidential Information"), and to use such information solely to fulfill obligations under these Terms.</p>
+      <p>Confidential Information does not include information that (a) is or becomes publicly available through no breach of this agreement, (b) was rightfully known before disclosure, (c) is independently developed, or (d) must be disclosed by law or court order (with prompt prior written notice to the other party where legally permitted).</p>
+      <p>We will not share your business data, customer information, or call content with any third party except as necessary to provide the service (see our Privacy Policy) or as required by law.</p>
+    </section>
+
+    <!-- 11 -->
+    <section id="liability">
+      <h2><span class="section-num">11</span> Limitation of Liability</h2>
+      <div class="section-divider"></div>
+
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <strong>Important legal limitations — please read carefully.</strong>
+      </div>
+
+      <p><strong>No Guarantee of Results.</strong> Wolfpack AI makes no guarantee regarding the business outcomes of AI calling campaigns. Results — including leads generated, appointments set, sales closed, or any other business metric — will vary based on factors outside our control, including your industry, market conditions, script quality, call list quality, and timing.</p>
+
+      <p><strong>Disclaimer of Warranties.</strong> Our services are provided "AS IS" and "AS AVAILABLE" without warranties of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, or uninterrupted operation. We do not warrant that our services will be error-free or that any specific result will be achieved.</p>
+
+      <p><strong>Cap on Liability.</strong> To the maximum extent permitted by applicable law, Wolfpack AI's total cumulative liability to you for any claims arising under or related to these Terms — regardless of the theory of liability — shall not exceed the total fees you paid to Wolfpack AI in the <strong>3 months immediately preceding the event giving rise to the claim</strong>.</p>
+
+      <p><strong>Exclusion of Consequential Damages.</strong> In no event shall Wolfpack AI be liable for any indirect, incidental, special, consequential, punitive, or exemplary damages, including but not limited to:</p>
+      <ul>
+        <li>Lost revenue, lost profits, or lost business</li>
+        <li>Lost customers, contracts, or opportunities</li>
+        <li>Reputational harm</li>
+        <li>Regulatory fines or penalties incurred by you</li>
+        <li>Data loss or corruption</li>
+        <li>Cost of substitute services</li>
+      </ul>
+      <p>This exclusion applies even if Wolfpack AI has been advised of the possibility of such damages. Some jurisdictions do not allow the exclusion of certain damages, so the above limitations may not apply to you in full.</p>
+    </section>
+
+    <!-- 12 -->
+    <section id="indemnification">
+      <h2><span class="section-num">12</span> Indemnification</h2>
+      <div class="section-divider"></div>
+      <p>You agree to indemnify, defend, and hold harmless Wolfpack AI and its owner, contractors, and agents from and against any claims, liabilities, damages, judgments, fines, and expenses (including reasonable attorneys' fees) arising from or relating to:</p>
+      <ul>
+        <li>Your violation of these Terms</li>
+        <li>Your violation of any applicable law, including telemarketing, TCPA, call recording, or AI disclosure laws</li>
+        <li>Your use of our services for any unlawful or harmful purpose</li>
+        <li>Any inaccuracy in information, scripts, or contact lists you provide to us</li>
+        <li>Claims by third parties arising from calls made on your behalf</li>
+        <li>Your failure to obtain required consents from third parties</li>
+      </ul>
+      <p>We reserve the right, at your expense, to assume the exclusive defense and control of any matter subject to indemnification by you, and you agree to cooperate with our defense.</p>
+    </section>
+
+    <!-- 13 -->
+    <section id="termination">
+      <h2><span class="section-num">13</span> Termination</h2>
+      <div class="section-divider"></div>
+      <dl>
+        <dt>Termination by Client</dt>
+        <dd>You may cancel your subscription in accordance with Section 5 (30 days written notice). Termination does not relieve you of any outstanding payment obligations.</dd>
+
+        <dt>Termination by Wolfpack AI — With Notice</dt>
+        <dd>We may terminate this agreement at any time with 30 days written notice for any reason.</dd>
+
+        <dt>Termination by Wolfpack AI — Immediate</dt>
+        <dd>We may suspend or terminate your account immediately, without notice or refund, if: (a) you breach these Terms and fail to cure within 5 days of written notice; (b) we believe you are using our services for illegal purposes; (c) you fail to pay outstanding invoices after 30 days past due; or (d) continued service would expose us to legal or reputational harm.</dd>
+
+        <dt>Effect of Termination</dt>
+        <dd>Upon termination, your right to use our services ceases immediately. Any outstanding balance becomes due. Provisions that by nature should survive termination (including Sections 8, 9, 10, 11, 12, 14, and 15) shall survive.</dd>
+      </dl>
+    </section>
+
+    <!-- 14 -->
+    <section id="disputes">
+      <h2><span class="section-num">14</span> Dispute Resolution</h2>
+      <div class="section-divider"></div>
+
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚖️</span>
+        <strong>Please read this section carefully — it affects your legal rights.</strong> Disputes will be resolved through binding arbitration rather than in court.
+      </div>
+
+      <dl>
+        <dt>Informal Resolution First</dt>
+        <dd>Before initiating formal proceedings, you agree to contact us at <a href="mailto:privacy@wolfpackai.com">privacy@wolfpackai.com</a> to describe the dispute and attempt informal resolution. We will respond within 10 business days. If the dispute is not resolved within 30 days of your notice, either party may initiate arbitration.</dd>
+
+        <dt>Binding Arbitration</dt>
+        <dd>Any dispute, claim, or controversy arising from or relating to these Terms, our services, or the relationship between the parties that cannot be resolved informally shall be resolved by binding arbitration administered by the American Arbitration Association (AAA) under its Commercial Arbitration Rules. The arbitration shall take place in Wyoming or remotely, and the arbitrator's decision shall be final and binding. Judgment on the award may be entered in any court of competent jurisdiction.</dd>
+
+        <dt>Class Action Waiver</dt>
+        <dd>You waive any right to participate in a class action lawsuit or class-wide arbitration. All claims must be brought in your individual capacity.</dd>
+
+        <dt>Exceptions</dt>
+        <dd>Either party may seek injunctive or other equitable relief in a court of competent jurisdiction to prevent imminent irreparable harm, without waiving the right to arbitrate the underlying claim. Claims for non-payment of invoices under $5,000 may be brought in small claims court.</dd>
+      </dl>
+    </section>
+
+    <!-- 15 -->
+    <section id="governing-law">
+      <h2><span class="section-num">15</span> Governing Law</h2>
+      <div class="section-divider"></div>
+      <p>These Terms shall be governed by and construed in accordance with the laws of the <strong>State of Wyoming, United States of America</strong>, without regard to its conflict of law provisions. To the extent any dispute is not subject to arbitration, you consent to the exclusive jurisdiction of the state and federal courts located in Wyoming.</p>
+    </section>
+
+    <!-- 16 -->
+    <section id="changes">
+      <h2><span class="section-num">16</span> Changes to These Terms</h2>
+      <div class="section-divider"></div>
+      <p>We may update these Terms from time to time. When we make material changes, we will notify you via email at least 14 days before the changes take effect. Non-material changes (such as clarifications, formatting updates, or corrections) may be made without prior notice, though the "Last updated" date will always reflect the current version.</p>
+      <p>Your continued use of our services after the effective date of revised Terms constitutes your acceptance of those changes. If you do not agree to updated Terms, you may cancel your subscription in accordance with Section 5.</p>
+      <p>We encourage you to review these Terms periodically. The current version is always available at our website.</p>
+    </section>
+
+    <!-- 17 -->
+    <section id="contact">
+      <h2><span class="section-num">17</span> Contact</h2>
+      <div class="section-divider"></div>
+      <p>Questions about these Terms? We're a real business — we'll actually respond.</p>
+      <dl>
+        <dt>Business</dt>
+        <dd>Wolfpack AI (sole proprietorship, Wolfgang Meyer)</dd>
+        <dt>Email</dt>
+        <dd><a href="mailto:privacy@wolfpackai.com">privacy@wolfpackai.com</a></dd>
+        <dt>Response Time</dt>
+        <dd>We aim to respond to all legal and compliance inquiries within 2 business days.</dd>
+      </dl>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="wolfpack-tos.html">Terms of Service</a>
+      <a href="wolfpack-privacy.html">Privacy Policy</a>
+      <a href="mailto:privacy@wolfpackai.com">Contact</a>
+    </div>
+    <p class="footer-copy">© 2026 Wolfpack AI — Wolfgang Meyer. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>
