@@ -1,0 +1,877 @@
+<!-- Wolfpack AI Premium Template — customize for client -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- REPLACE: restaurant name -->
+  <title>Ember & Ash — Modern American Fine Dining</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:  #0d0d0d;
+      --dark:   #141414;
+      --card:   #1a1a1a;
+      --red:    #8b1a1a;
+      --red2:   #a52020;
+      --gold:   #d4af37;
+      --gold2:  #e8ca5a;
+      --cream:  #f5f0e0;
+      --cream2: #c8c0ae;
+      --warm:   rgba(212,175,55,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--black);
+      color: var(--cream);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.6rem 3.5rem;
+      transition: background 0.5s, padding 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(13,13,13,0.97);
+      padding: 1rem 3.5rem;
+      border-bottom: 1px solid rgba(212,175,55,0.15);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem; color: var(--gold); text-decoration: none;
+      letter-spacing: 0.03em;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--cream2); text-decoration: none;
+      font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-reserve {
+      background: var(--red); color: var(--cream); border: none;
+      padding: 0.7rem 1.6rem; font-family: 'Lato', sans-serif;
+      font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .nav-reserve:hover { background: var(--red2); }
+    /* Ripple */
+    .nav-reserve .ripple {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      width: 100px; height: 100px;
+      margin-left: -50px; margin-top: -50px;
+      animation: ripple-anim 0.6s ease-out forwards;
+      pointer-events: none;
+    }
+    @keyframes ripple-anim {
+      from { transform: scale(0); opacity: 1; }
+      to { transform: scale(3); opacity: 0; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; height: 100vh; min-height: 640px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    /* Cinematic animated background */
+    .hero-bg {
+      position: absolute; inset: -20%;
+      background:
+        radial-gradient(ellipse 60% 50% at 30% 50%, rgba(139,26,26,0.45) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 60% at 70% 40%, rgba(212,175,55,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 80% at 50% 80%, rgba(80,10,10,0.6) 0%, transparent 70%),
+        linear-gradient(145deg, #050505 0%, #1a0a0a 35%, #0d0d0d 60%, #050a05 100%);
+      animation: cinematic-shift 12s ease-in-out infinite alternate;
+    }
+    @keyframes cinematic-shift {
+      0%   { transform: scale(1) translate(0, 0); filter: brightness(1); }
+      33%  { transform: scale(1.04) translate(-1%, 1%); filter: brightness(1.08); }
+      66%  { transform: scale(1.02) translate(1%, -0.5%); filter: brightness(0.95); }
+      100% { transform: scale(1.05) translate(-0.5%, 0.5%); filter: brightness(1.05); }
+    }
+    .hero-vignette {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 90% 90% at 50% 50%, transparent 40%, rgba(0,0,0,0.7) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center; padding: 0 2rem;
+      max-width: 820px;
+    }
+    .hero-eyebrow {
+      font-size: 0.75rem; letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--gold); opacity: 0; margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 400; line-height: 1.05;
+      color: var(--cream); opacity: 0;
+    }
+    .hero-title em { color: var(--gold); font-style: italic; }
+    .hero-divider {
+      width: 60px; height: 1px; background: var(--gold);
+      margin: 1.8rem auto; opacity: 0;
+    }
+    .hero-subtitle {
+      font-size: 1.05rem; font-weight: 300; line-height: 1.8;
+      color: var(--cream2); opacity: 0; max-width: 500px; margin: 0 auto;
+    }
+    .hero-actions { margin-top: 2.5rem; display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; opacity: 0; }
+    .btn-primary {
+      background: var(--gold); color: var(--black);
+      padding: 1.05rem 2.8rem; border: none; cursor: pointer;
+      font-family: 'Lato', sans-serif; font-size: 0.85rem;
+      letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700;
+      text-decoration: none; display: inline-block;
+      transition: background 0.3s, transform 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .btn-primary:hover { background: var(--gold2); transform: translateY(-2px); }
+    .btn-ghost {
+      background: transparent; color: var(--cream2);
+      padding: 1.05rem 2.8rem; border: 1px solid rgba(245,240,224,0.3);
+      font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase;
+      cursor: pointer; text-decoration: none; display: inline-block;
+      transition: border-color 0.3s, color 0.3s;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+    .hero-scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
+      opacity: 0.4; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    }
+    .scroll-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--gold);
+      animation: scroll-bounce 1.5s ease-in-out infinite;
+    }
+    @keyframes scroll-bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+
+    /* ── QUOTE BAR ── */
+    .quote-bar {
+      background: var(--red);
+      padding: 1.8rem 2rem; text-align: center;
+      border-top: 1px solid rgba(212,175,55,0.2);
+      border-bottom: 1px solid rgba(212,175,55,0.2);
+    }
+    .quote-bar blockquote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic; font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: var(--cream); max-width: 700px; margin: 0 auto;
+    }
+    .quote-bar cite {
+      display: block; margin-top: 0.6rem;
+      font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+      font-style: normal; color: var(--gold);
+    }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 6.5rem 2rem; }
+    .section-eyebrow {
+      font-size: 0.72rem; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 400;
+      line-height: 1.2;
+    }
+    .section-title em { font-style: italic; color: var(--gold); }
+
+    /* ── MENU ── */
+    .menu-section { background: var(--dark); }
+    .menu-inner { max-width: 1100px; margin: 0 auto; }
+    .menu-header { text-align: center; max-width: 600px; margin: 0 auto 4rem; }
+    .menu-header p.section-body { margin-top: 1rem; color: var(--cream2); font-size: 0.95rem; line-height: 1.75; font-weight: 300; }
+    .menu-tabs {
+      display: flex; justify-content: center; gap: 0; margin-bottom: 3rem;
+      border-bottom: 1px solid rgba(212,175,55,0.2);
+    }
+    .menu-tab {
+      padding: 0.8rem 2rem; background: none; border: none; cursor: pointer;
+      font-family: 'Lato', sans-serif; font-size: 0.8rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--cream2); border-bottom: 2px solid transparent;
+      margin-bottom: -1px; transition: color 0.3s, border-color 0.3s;
+    }
+    .menu-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .menu-tab:hover { color: var(--gold); }
+    .menu-panel { display: none; }
+    .menu-panel.active { display: block; }
+    .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+    .menu-item {
+      padding: 1.8rem 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      border-right: 1px solid rgba(255,255,255,0.06);
+      opacity: 0; transform: translateY(20px);
+      transition: background 0.2s;
+    }
+    .menu-item:nth-child(2n) { border-right: none; }
+    .menu-item:hover { background: var(--warm); }
+    .menu-item.visible { opacity: 1; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .menu-item-header { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 0.5rem; }
+    .menu-item-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 400; }
+    .menu-item-price { color: var(--gold); font-size: 0.9rem; font-weight: 400; flex-shrink: 0; }
+    .menu-item-desc { font-size: 0.82rem; color: var(--cream2); line-height: 1.65; font-weight: 300; }
+    .menu-item-tag {
+      display: inline-block; margin-top: 0.6rem;
+      font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.2rem 0.6rem; background: rgba(139,26,26,0.35);
+      color: #e08080; border: 1px solid rgba(139,26,26,0.5);
+    }
+
+    /* ── CHEF'S STORY ── */
+    .chef { background: var(--black); }
+    .chef-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+    }
+    .chef-visual {
+      position: relative; min-height: 520px;
+      background: linear-gradient(145deg, #1a0a0a, #2a1010, #1a1a0a);
+      overflow: hidden;
+    }
+    .chef-visual-label {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-size: 1rem; opacity: 0.3;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold);
+    }
+    .chef-visual-accent {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--red), var(--gold), var(--red));
+    }
+    .chef-text .section-title { margin-bottom: 1.5rem; }
+    .chef-body {
+      color: var(--cream2); font-size: 0.95rem; line-height: 1.85; font-weight: 300;
+      margin-bottom: 1.2rem;
+    }
+    .chef-signature {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      color: var(--gold); font-size: 1.5rem; margin-top: 1.5rem;
+    }
+    .chef-title { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream2); opacity: 0.6; }
+
+    /* ── PHOTO GRID (Instagram-style) ── */
+    .grid-section { background: var(--dark); }
+    .grid-header { text-align: center; margin-bottom: 3rem; }
+    .photo-grid {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px;
+    }
+    .grid-item {
+      position: relative; aspect-ratio: 1;
+      overflow: hidden; cursor: pointer;
+      background: linear-gradient(145deg, #1a0a0a, #1a1a1a);
+    }
+    .grid-item-bg {
+      position: absolute; inset: 0;
+      transition: transform 0.5s ease;
+    }
+    .grid-item:hover .grid-item-bg { transform: scale(1.08); }
+    .grid-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(139,26,26,0.75) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.4s;
+      display: flex; align-items: flex-end; padding: 1.2rem;
+    }
+    .grid-item:hover .grid-overlay { opacity: 1; }
+    .grid-caption {
+      font-family: 'Playfair Display', serif; font-size: 0.95rem;
+      font-style: italic; color: var(--cream);
+    }
+    .grid-placeholder {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(212,175,55,0.25);
+    }
+
+    /* ── HOURS & LOCATION ── */
+    .info-section { background: var(--black); }
+    .info-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;
+    }
+    .hours-block { }
+    .hours-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.9rem 0; border-bottom: 1px solid rgba(255,255,255,0.07);
+      font-size: 0.9rem;
+    }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-day { color: var(--cream2); }
+    .hours-time { color: var(--gold); }
+    .hours-closed { color: rgba(200,192,174,0.4); font-style: italic; }
+    .location-block { }
+    .location-map {
+      background: var(--card); height: 220px; position: relative; overflow: hidden; margin-top: 1.5rem;
+      border: 1px solid rgba(212,175,55,0.1);
+    }
+    .map-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(212,175,55,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212,175,55,0.06) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+    .map-pin {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .map-pin-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--red); box-shadow: 0 0 0 6px rgba(139,26,26,0.25); }
+    .map-pin-label {
+      margin-top: 0.5rem; font-size: 0.7rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--gold); background: rgba(0,0,0,0.7);
+      padding: 0.2rem 0.6rem;
+    }
+    .location-address { margin-top: 1.2rem; font-size: 0.9rem; line-height: 1.7; color: var(--cream2); }
+
+    /* ── RESERVATION CTA ── */
+    .reservation {
+      background: var(--red);
+      padding: 5.5rem 2rem; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .reservation::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(212,175,55,0.12) 0%, transparent 70%);
+    }
+    .reservation h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 400; margin-bottom: 1rem;
+      position: relative;
+    }
+    .reservation p { font-size: 1rem; opacity: 0.8; margin-bottom: 2.5rem; font-weight: 300; position: relative; }
+    .reservation .btn-primary { background: var(--cream); color: var(--black); position: relative; }
+    .reservation .btn-primary:hover { background: #fff; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #080808; padding: 4rem 3rem 2rem;
+      border-top: 1px solid rgba(212,175,55,0.1);
+    }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-top {
+      display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 4rem; margin-bottom: 3rem;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif; font-size: 2rem;
+      color: var(--gold); margin-bottom: 1rem; font-weight: 400;
+    }
+    .footer-tagline { font-size: 0.85rem; color: var(--cream2); opacity: 0.55; line-height: 1.7; max-width: 280px; }
+    .footer-col h4 {
+      font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.65rem; }
+    .footer-col a { color: var(--cream2); text-decoration: none; font-size: 0.85rem; opacity: 0.6; transition: opacity 0.2s; }
+    .footer-col a:hover { opacity: 1; }
+    .footer-bottom {
+      padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; justify-content: space-between; font-size: 0.75rem;
+      color: var(--cream2); opacity: 0.35; flex-wrap: wrap; gap: 0.5rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      .chef-inner, .info-inner { grid-template-columns: 1fr; }
+      .menu-grid { grid-template-columns: 1fr; }
+      .menu-item:nth-child(2n) { border-right: 1px solid rgba(255,255,255,0.06); }
+      .photo-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 4rem 1.5rem; }
+      .photo-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-top { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAVIGATION ── -->
+  <nav id="mainNav">
+    <!-- REPLACE: restaurant name -->
+    <a href="#" class="nav-logo">Ember &amp; Ash</a>
+    <ul class="nav-links">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#chef">Our Story</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#info">Visit</a></li>
+    </ul>
+    <button class="nav-reserve" id="navReserve">Reserve a Table</button>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow" id="heroEyebrow">
+        <!-- REPLACE: location / type -->
+        Downtown Nashville · Est. 2018
+      </p>
+      <h1 class="hero-title" id="heroTitle">
+        <!-- REPLACE: headline -->
+        The kind of meal you'll<br/><em>still be talking about.</em>
+      </h1>
+      <div class="hero-divider" id="heroDivider"></div>
+      <p class="hero-subtitle" id="heroSubtitle">
+        <!-- REPLACE: tagline -->
+        Wood-fired, ingredient-driven, unapologetically bold. Dinner at Ember &amp; Ash is an event. Book your table before someone else does.
+      </p>
+      <div class="hero-actions" id="heroActions">
+        <a href="#info" class="btn-primary">Reserve a Table</a>
+        <a href="#menu" class="btn-ghost">View Menu</a>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <div class="scroll-dot"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ── QUOTE BAR ── -->
+  <div class="quote-bar">
+    <!-- REPLACE: press quote -->
+    <blockquote>
+      "One of the ten best restaurants in Tennessee — a place where the food makes you stop mid-sentence."
+    </blockquote>
+    <cite>— Nashville Scene, Best of 2024</cite>
+  </div>
+
+  <!-- ── MENU ── -->
+  <section class="menu-section" id="menu">
+    <div class="menu-inner">
+      <div class="menu-header">
+        <p class="section-eyebrow">Seasonal Menu</p>
+        <!-- REPLACE: menu section headline -->
+        <h2 class="section-title">Every plate is a <em>decision</em>.</h2>
+        <p class="section-body">Our menu changes with the seasons and the market. These are tonight's offerings — printed daily, never compromised.</p>
+      </div>
+
+      <div class="menu-tabs">
+        <button class="menu-tab active" data-panel="starters">Starters</button>
+        <button class="menu-tab" data-panel="mains">Mains</button>
+        <button class="menu-tab" data-panel="desserts">Desserts</button>
+        <button class="menu-tab" data-panel="drinks">Cocktails</button>
+      </div>
+
+      <!-- REPLACE: menu items -->
+      <div class="menu-panel active" id="panel-starters">
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Ember-Roasted Beet Salad</span>
+              <span class="menu-item-price">$18</span>
+            </div>
+            <p class="menu-item-desc">Chioggia and golden beets, whipped goat cheese, candied walnuts, sherry gastrique, microgreens.</p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Wagyu Beef Tartare</span>
+              <span class="menu-item-price">$28</span>
+            </div>
+            <p class="menu-item-desc">Hand-cut A5 wagyu, smoked egg yolk, pickled mustard seed, cured shallots, grilled sourdough.</p>
+            <span class="menu-item-tag">Chef's Choice</span>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Wood-Grilled Oysters</span>
+              <span class="menu-item-price">$24</span>
+            </div>
+            <p class="menu-item-desc">Half-dozen East Coast oysters, compound butter of roasted garlic and calabrian chili, crispy breadcrumbs.</p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Sunchoke Velouté</span>
+              <span class="menu-item-price">$16</span>
+            </div>
+            <p class="menu-item-desc">Silky Jerusalem artichoke soup, truffle oil, crispy sunchoke chips, chive crème fraîche.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-panel" id="panel-mains">
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Dry-Aged Duck Breast</span>
+              <span class="menu-item-price">$52</span>
+            </div>
+            <p class="menu-item-desc">21-day dry-aged Moulard duck, cherry-port reduction, celeriac purée, wilted winter greens.</p>
+            <span class="menu-item-tag">Chef's Choice</span>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">40oz Tomahawk Ribeye</span>
+              <span class="menu-item-price">$145</span>
+            </div>
+            <p class="menu-item-desc">USDA Prime, wood-fired over white oak, bone marrow butter, bordelaise, truffle fries. For two.</p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Black Cod en Papillote</span>
+              <span class="menu-item-price">$46</span>
+            </div>
+            <p class="menu-item-desc">Pacific black cod, miso-citrus broth, baby bok choy, shiitake, toasted sesame, yuzu.</p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Wild Mushroom Risotto</span>
+              <span class="menu-item-price">$34</span>
+            </div>
+            <p class="menu-item-desc">Carnaroli rice, foraged mushroom medley, aged Parmigiano, shaved black truffle, truffle oil. Vegetarian.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-panel" id="panel-desserts">
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Valrhona Chocolate Sphere</span>
+              <span class="menu-item-price">$18</span>
+            </div>
+            <p class="menu-item-desc">Dark chocolate shell dissolves under warm caramel, revealing espresso mousse, hazelnut praline, gold leaf.</p>
+            <span class="menu-item-tag">Tableside</span>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Fig & Honey Panna Cotta</span>
+              <span class="menu-item-price">$14</span>
+            </div>
+            <p class="menu-item-desc">Vanilla bean panna cotta, roasted fig compote, local wildflower honey, sesame brittle.</p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Cheese Course</span>
+              <span class="menu-item-price">$24</span>
+            </div>
+            <p class="menu-item-desc">Three curated cheeses, house-made jam, local honeycomb, candied pecans, grilled crostini. Ask your server for today's selection.</p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Burnt Honey Soufflé</span>
+              <span class="menu-item-price">$16</span>
+            </div>
+            <p class="menu-item-desc">Please allow 20 minutes. Airy soufflé with burnt honey notes, crème anglaise poured tableside. Worth every second.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-panel" id="panel-drinks">
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">The Ember Old Fashioned</span>
+              <span class="menu-item-price">$18</span>
+            </div>
+            <p class="menu-item-desc">Smoked bourbon, activated charcoal ice, Angostura, black walnut bitters, expressed orange. Finished tableside with applewood smoke.</p>
+            <span class="menu-item-tag">Signature</span>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Saffron Mule</span>
+              <span class="menu-item-price">$16</span>
+            </div>
+            <p class="menu-item-desc">Saffron-infused vodka, ginger beer, fresh lime, cardamom, edible gold dust. Served in a copper chalice.</p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Sommelier's Pairing</span>
+              <span class="menu-item-price">$85</span>
+            </div>
+            <p class="menu-item-desc">Five wines curated to complement your meal course by course. Old World and New World, always surprising.</p>
+            <span class="menu-item-tag">Per Person</span>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <span class="menu-item-name">Garden Zero Proof</span>
+              <span class="menu-item-price">$14</span>
+            </div>
+            <p class="menu-item-desc">Rotating seasonal non-alcoholic craft cocktail. Tonight: cucumber-elderflower shrub, white tea, lemon verbena foam.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CHEF'S STORY ── -->
+  <section class="chef" id="chef">
+    <div class="chef-inner">
+      <div class="chef-visual">
+        <!-- REPLACE: chef photo -->
+        <div class="chef-visual-label">[ Chef Photo ]</div>
+        <div class="chef-visual-accent"></div>
+      </div>
+      <div class="chef-text">
+        <p class="section-eyebrow">The Kitchen</p>
+        <!-- REPLACE: chef name and story -->
+        <h2 class="section-title">Cooking that comes from somewhere <em>real</em>.</h2>
+        <p class="chef-body">
+          Chef Marcus Webb grew up in eastern Tennessee with a grandmother who kept a garden and a cast-iron skillet that never fully cooled. Fifteen years in Michelin-starred kitchens taught him technique. Coming home taught him the rest.
+        </p>
+        <p class="chef-body">
+          At Ember &amp; Ash, the fire is both method and philosophy. We cook over actual flames, with actual farmers, in a city that actually cares about its food.
+        </p>
+        <p class="chef-signature">Marcus Webb</p>
+        <p class="chef-title">Executive Chef &amp; Co-Owner</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PHOTO GRID ── -->
+  <section class="grid-section" id="gallery">
+    <div class="grid-header">
+      <p class="section-eyebrow">From Our Kitchen</p>
+      <h2 class="section-title">Follow the <em>fire</em>.</h2>
+    </div>
+    <!-- REPLACE: actual food/ambiance photos -->
+    <div class="photo-grid">
+      <div class="grid-item">
+        <div class="grid-item-bg" style="background: linear-gradient(145deg, #2a0a0a, #1a1a0a);"></div>
+        <div class="grid-placeholder">[ Food Photo ]</div>
+        <div class="grid-overlay"><p class="grid-caption">Wagyu tartare in the making</p></div>
+      </div>
+      <div class="grid-item">
+        <div class="grid-item-bg" style="background: linear-gradient(145deg, #1a1a0a, #2a0a0a);"></div>
+        <div class="grid-placeholder">[ Ambiance Photo ]</div>
+        <div class="grid-overlay"><p class="grid-caption">Saturday evening service</p></div>
+      </div>
+      <div class="grid-item">
+        <div class="grid-item-bg" style="background: linear-gradient(145deg, #2a1010, #0a1a1a);"></div>
+        <div class="grid-placeholder">[ Food Photo ]</div>
+        <div class="grid-overlay"><p class="grid-caption">The chocolate sphere, before</p></div>
+      </div>
+      <div class="grid-item">
+        <div class="grid-item-bg" style="background: linear-gradient(145deg, #0a1a0a, #1a0a1a);"></div>
+        <div class="grid-placeholder">[ Kitchen Photo ]</div>
+        <div class="grid-overlay"><p class="grid-caption">Wood-fire in full force</p></div>
+      </div>
+      <div class="grid-item">
+        <div class="grid-item-bg" style="background: linear-gradient(145deg, #1a0a1a, #2a1a0a);"></div>
+        <div class="grid-placeholder">[ Bar Photo ]</div>
+        <div class="grid-overlay"><p class="grid-caption">The bar at golden hour</p></div>
+      </div>
+      <div class="grid-item">
+        <div class="grid-item-bg" style="background: linear-gradient(145deg, #1a1a2a, #2a0a0a);"></div>
+        <div class="grid-placeholder">[ Detail Photo ]</div>
+        <div class="grid-overlay"><p class="grid-caption">Plating the duck</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOURS & LOCATION ── -->
+  <section class="info-section" id="info">
+    <div class="info-inner">
+      <div class="hours-block">
+        <p class="section-eyebrow">Hours</p>
+        <h2 class="section-title">We'll be <em>ready</em>.</h2>
+        <div style="margin-top: 2rem;">
+          <!-- REPLACE: actual hours -->
+          <div class="hours-row"><span class="hours-day">Monday – Tuesday</span><span class="hours-closed">Closed</span></div>
+          <div class="hours-row"><span class="hours-day">Wednesday – Thursday</span><span class="hours-time">5:00 PM – 10:00 PM</span></div>
+          <div class="hours-row"><span class="hours-day">Friday – Saturday</span><span class="hours-time">5:00 PM – 11:00 PM</span></div>
+          <div class="hours-row"><span class="hours-day">Sunday</span><span class="hours-time">4:00 PM – 9:00 PM</span></div>
+          <div class="hours-row"><span class="hours-day">Brunch (Sat – Sun)</span><span class="hours-time">10:30 AM – 2:00 PM</span></div>
+        </div>
+      </div>
+      <div class="location-block">
+        <p class="section-eyebrow">Find Us</p>
+        <h2 class="section-title" style="font-size: 2rem;">Downtown Nashville.</h2>
+        <!-- REPLACE: actual map embed or address -->
+        <div class="location-map">
+          <div class="map-grid"></div>
+          <div class="map-pin">
+            <div class="map-pin-dot"></div>
+            <div class="map-pin-label">Ember &amp; Ash</div>
+          </div>
+        </div>
+        <div class="location-address">
+          <!-- REPLACE: address -->
+          142 Commerce Street, Suite 100<br/>Nashville, TN 37201<br/><br/>
+          Valet parking available Thursday – Sunday<br/>
+          <a href="tel:+16155550192" style="color: var(--gold); text-decoration: none;">+1 (615) 555-0192</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RESERVATION CTA ── -->
+  <div class="reservation">
+    <!-- REPLACE: CTA copy -->
+    <h2>Tables go fast.<br/><em>Don't wait.</em></h2>
+    <p>We take reservations up to 60 days in advance. Walk-ins welcomed at the bar.</p>
+    <button class="btn-primary" id="reserveBtn">Reserve Your Table</button>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <!-- REPLACE: restaurant name -->
+          <div class="footer-logo">Ember &amp; Ash</div>
+          <p class="footer-tagline">Wood-fired fine dining in the heart of Nashville. Open Wednesday through Sunday for dinner, Saturday and Sunday for brunch.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Dine</h4>
+          <ul>
+            <li><a href="#">Dinner Menu</a></li>
+            <li><a href="#">Brunch Menu</a></li>
+            <li><a href="#">Cocktails</a></li>
+            <li><a href="#">Wine List</a></li>
+            <li><a href="#">Private Dining</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Gift Cards</a></li>
+            <li><a href="#">Press</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <!-- REPLACE: restaurant name -->
+        <span>© 2025 Ember &amp; Ash. All rights reserved.</span>
+        <span>Privacy · Accessibility</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── SCRIPTS ── -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Nav scroll
+    window.addEventListener('scroll', () => {
+      document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Ripple effect on reserve buttons
+    function addRipple(btn) {
+      btn.addEventListener('click', function(e) {
+        const rect = this.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        ripple.style.left = (e.clientX - rect.left) + 'px';
+        ripple.style.top = (e.clientY - rect.top) + 'px';
+        this.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 700);
+      });
+    }
+    document.querySelectorAll('.nav-reserve, #reserveBtn').forEach(addRipple);
+
+    // Hero entrance
+    const tl = gsap.timeline({ delay: 0.3 });
+    tl.to('#heroEyebrow', { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' })
+      .to('#heroTitle',    { opacity: 1, y: 0, duration: 0.9, ease: 'power2.out' }, '-=0.3')
+      .to('#heroDivider',  { opacity: 1, scaleX: 1, duration: 0.6, ease: 'power2.out' }, '-=0.4')
+      .to('#heroSubtitle', { opacity: 1, duration: 0.7, ease: 'power2.out' }, '-=0.3')
+      .to('#heroActions',  { opacity: 1, duration: 0.6, ease: 'power2.out' }, '-=0.3');
+
+    // GSAP stagger text animation for section titles
+    gsap.utils.toArray('.section-title').forEach(el => {
+      // Split by words for stagger
+      const text = el.innerHTML;
+      gsap.fromTo(el,
+        { opacity: 0, y: 35 },
+        { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 85%', once: true } }
+      );
+    });
+
+    gsap.utils.toArray('.section-eyebrow').forEach(el => {
+      gsap.fromTo(el, { opacity: 0, x: -20 }, {
+        opacity: 1, x: 0, duration: 0.6, ease: 'power2.out',
+        scrollTrigger: { trigger: el, start: 'top 87%', once: true }
+      });
+    });
+
+    // Menu item reveal on tab switch
+    function revealMenuItems(panel) {
+      const items = panel.querySelectorAll('.menu-item');
+      items.forEach((item, i) => {
+        item.classList.remove('visible');
+        setTimeout(() => item.classList.add('visible'), i * 80);
+      });
+    }
+    // Reveal active panel on load
+    revealMenuItems(document.querySelector('.menu-panel.active'));
+
+    // Tab switching
+    document.querySelectorAll('.menu-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        const panel = document.getElementById('panel-' + tab.dataset.panel);
+        panel.classList.add('active');
+        revealMenuItems(panel);
+      });
+    });
+
+    // Scroll-triggered reveals
+    ScrollTrigger.create({
+      trigger: '#menu', start: 'top 70%', once: true,
+      onEnter() { revealMenuItems(document.querySelector('.menu-panel.active')); }
+    });
+
+    // Chef section parallax
+    gsap.to('.chef-visual', {
+      yPercent: -8,
+      ease: 'none',
+      scrollTrigger: { trigger: '.chef', start: 'top bottom', end: 'bottom top', scrub: 1.5 }
+    });
+
+    // Photo grid hover handled by CSS; scroll reveal
+    gsap.utils.toArray('.grid-item').forEach((item, i) => {
+      gsap.fromTo(item,
+        { opacity: 0, scale: 0.92 },
+        { opacity: 1, scale: 1, duration: 0.6, delay: (i % 3) * 0.12, ease: 'power2.out',
+          scrollTrigger: { trigger: item, start: 'top 88%', once: true } }
+      );
+    });
+
+    // Chef text animate
+    gsap.fromTo('.chef-text',
+      { opacity: 0, x: 40 },
+      { opacity: 1, x: 0, duration: 0.9, ease: 'power2.out',
+        scrollTrigger: { trigger: '.chef-text', start: 'top 80%', once: true } }
+    );
+
+    // Hours rows
+    gsap.utils.toArray('.hours-row').forEach((row, i) => {
+      gsap.fromTo(row,
+        { opacity: 0, x: -20 },
+        { opacity: 1, x: 0, duration: 0.4, delay: i * 0.08, ease: 'power2.out',
+          scrollTrigger: { trigger: '.hours-block', start: 'top 80%', once: true } }
+      );
+    });
+  </script>
+</body>
+</html>
