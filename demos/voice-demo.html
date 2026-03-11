@@ -530,9 +530,10 @@
 <div class="toast" id="toast"></div>
 
 <!-- Vapi Web SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/vapi.js"></script>
-<script>
+<script type="module">
   'use strict';
+
+  import Vapi from 'https://esm.sh/@vapi-ai/web';
 
   const VAPI_KEY    = '3082c2e9-4af7-4c5e-9af6-2d8a5b58a0dc';
   const AGENT_ID    = '95e7c636-f8e6-4801-8866-fca9d5d475d3';
