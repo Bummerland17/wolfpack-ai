@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Wolfpack AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0a0a0a;
+      --surface:  #111111;
+      --border:   #1e1e1e;
+      --blue:     #2563eb;
+      --blue-dim: #1d4ed8;
+      --text:     #e5e7eb;
+      --muted:    #6b7280;
+      --subtle:   #9ca3af;
+      --green:    #10b981;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--blue);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-size: 17px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .logo-text span { color: var(--blue); }
+
+    /* ── Hero ── */
+    .hero {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 24px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--blue);
+      background: rgba(37,99,235,0.1);
+      border: 1px solid rgba(37,99,235,0.2);
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .hero-meta {
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .hero-meta strong { color: var(--subtle); font-weight: 500; }
+
+    /* Promise banner */
+    .promise-banner {
+      margin-top: 32px;
+      padding: 20px 24px;
+      background: rgba(16,185,129,0.07);
+      border: 1px solid rgba(16,185,129,0.2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .promise-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+    .promise-text strong {
+      display: block;
+      font-size: 18px;
+      font-weight: 700;
+      color: #34d399;
+      letter-spacing: -0.01em;
+      margin-bottom: 4px;
+    }
+    .promise-text p {
+      font-size: 14px;
+      color: #6ee7b7;
+      margin: 0;
+    }
+
+    /* ── Layout ── */
+    .layout {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* ── TOC ── */
+    nav.toc {
+      position: sticky;
+      top: 80px;
+      padding: 32px 0;
+    }
+    .toc-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+      padding-left: 12px;
+    }
+    .toc-list { list-style: none; }
+    .toc-list li { margin: 2px 0; }
+    .toc-list a {
+      display: block;
+      padding: 5px 12px;
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      border-radius: 0 4px 4px 0;
+      transition: all 0.15s ease;
+    }
+    .toc-list a:hover {
+      color: var(--text);
+      border-left-color: var(--blue);
+      background: rgba(37,99,235,0.06);
+    }
+
+    /* ── Content ── */
+    .content {
+      padding: 40px 0 80px;
+    }
+
+    section {
+      margin-bottom: 56px;
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .section-num {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--blue);
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+    }
+    .section-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 12px 0 20px;
+    }
+
+    p { margin-bottom: 14px; color: var(--text); }
+    p:last-child { margin-bottom: 0; }
+
+    ul, ol {
+      padding-left: 24px;
+      margin-bottom: 14px;
+      color: var(--text);
+    }
+    li { margin-bottom: 8px; }
+    li:last-child { margin-bottom: 0; }
+
+    /* Callout boxes */
+    .callout {
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .callout-blue {
+      background: rgba(37,99,235,0.08);
+      border: 1px solid rgba(37,99,235,0.2);
+      color: #93c5fd;
+    }
+    .callout-green {
+      background: rgba(16,185,129,0.07);
+      border: 1px solid rgba(16,185,129,0.2);
+      color: #6ee7b7;
+    }
+    .callout-warn {
+      background: rgba(245,158,11,0.07);
+      border: 1px solid rgba(245,158,11,0.2);
+      color: #fbbf24;
+    }
+    .callout-icon { font-size: 16px; margin-right: 6px; }
+    .callout strong { color: inherit; }
+
+    /* Data table */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    .data-table th {
+      text-align: left;
+      padding: 10px 14px;
+      background: var(--surface);
+      color: var(--subtle);
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+    .data-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .data-table td:first-child { font-weight: 500; color: #fff; }
+
+    /* Yes/No badges */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .badge-yes {
+      background: rgba(16,185,129,0.15);
+      color: #34d399;
+    }
+    .badge-no {
+      background: rgba(239,68,68,0.12);
+      color: #f87171;
+    }
+
+    /* Definition list */
+    dl { margin-bottom: 14px; }
+    dt {
+      font-weight: 600;
+      color: #fff;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+    dt:first-child { margin-top: 0; }
+    dd {
+      margin-left: 16px;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px;
+      text-align: center;
+    }
+    .footer-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: var(--blue); }
+    .footer-copy {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    strong { color: #fff; font-weight: 600; }
+
+    @media (max-width: 680px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      nav.toc { display: none; }
+      .hero { padding: 40px 20px 32px; }
+      .content { padding: 32px 0 60px; }
+      .promise-banner { flex-direction: column; }
+      .data-table { font-size: 13px; }
+      .data-table th, .data-table td { padding: 8px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-mark">W</div>
+    <span class="logo-text">Wolfpack<span>AI</span></span>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="doc-label">Legal</div>
+  <h1>Privacy Policy</h1>
+  <p class="hero-meta">
+    <strong>Last updated:</strong> March 11, 2026 &nbsp;·&nbsp;
+    <strong>Effective:</strong> March 11, 2026 &nbsp;·&nbsp;
+    <strong>Company:</strong> Wolfpack AI
+  </p>
+
+  <div class="promise-banner">
+    <div class="promise-icon">🔒</div>
+    <div class="promise-text">
+      <strong>We never sell your data. Ever.</strong>
+      <p>Not to advertisers, data brokers, or anyone else. Your information exists to help us serve you — and only for that purpose. This isn't a hedge. It's a hard line.</p>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+  <nav class="toc" aria-label="Table of contents">
+    <p class="toc-title">Contents</p>
+    <ul class="toc-list">
+      <li><a href="#overview">1. Overview</a></li>
+      <li><a href="#what-we-collect">2. What We Collect</a></li>
+      <li><a href="#what-we-dont">3. What We Don't Collect</a></li>
+      <li><a href="#how-we-use">4. How We Use It</a></li>
+      <li><a href="#third-parties">5. Third-Party Services</a></li>
+      <li><a href="#data-security">6. Security</a></li>
+      <li><a href="#retention">7. Data Retention</a></li>
+      <li><a href="#hipaa">8. HIPAA &amp; Healthcare</a></li>
+      <li><a href="#your-rights">9. Your Rights</a></li>
+      <li><a href="#ccpa">10. California Residents</a></li>
+      <li><a href="#children">11. Children's Privacy</a></li>
+      <li><a href="#changes">12. Policy Changes</a></li>
+      <li><a href="#contact">13. Contact</a></li>
+    </ul>
+  </nav>
+
+  <main class="content">
+
+    <!-- 1 -->
+    <section id="overview">
+      <h2><span class="section-num">01</span> Overview</h2>
+      <div class="section-divider"></div>
+      <p>This Privacy Policy describes how Wolfpack AI, a sole proprietorship operated by Wolfgang Meyer ("Wolfpack AI," "we," "us," or "our"), collects, uses, protects, and handles information in connection with our AI-powered phone agent services.</p>
+      <p>We are a B2B service provider. The data we handle is primarily <strong>business data belonging to our clients</strong> — not personal consumer data. When you engage us to run AI calling campaigns or handle inbound calls, we act as a data processor on your behalf for call content, and as a data controller for our own business records.</p>
+      <p>This policy applies to our website, service portal, client communications, and the data generated through our AI calling services. It does not govern the privacy practices of our clients, who are separately responsible for their own compliance with applicable privacy laws regarding their customers.</p>
+    </section>
+
+    <!-- 2 -->
+    <section id="what-we-collect">
+      <h2><span class="section-num">02</span> What We Collect</h2>
+      <div class="section-divider"></div>
+
+      <p>We collect the minimum information necessary to deliver and improve our services. Here's exactly what that includes:</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>What It Includes</th>
+            <th>Why We Need It</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Business Information</td>
+            <td>Company name, address, industry, website, business description, target audience</td>
+            <td>To configure and train your AI agent accurately</td>
+          </tr>
+          <tr>
+            <td>Contact Information</td>
+            <td>Name, email address, phone number of account holder and authorized contacts</td>
+            <td>To communicate with you about your service, send reports, and handle support</td>
+          </tr>
+          <tr>
+            <td>Call Recordings</td>
+            <td>Audio recordings of calls placed or received by your AI agent</td>
+            <td>Quality assurance, performance review, and agent optimization</td>
+          </tr>
+          <tr>
+            <td>Call Transcripts</td>
+            <td>Text transcriptions of AI agent calls</td>
+            <td>Reporting, optimization, and review of call outcomes</td>
+          </tr>
+          <tr>
+            <td>Payment Information</td>
+            <td>Billing name, address, and payment method (processed via Stripe)</td>
+            <td>To collect subscription and setup fees</td>
+          </tr>
+          <tr>
+            <td>Service Configuration</td>
+            <td>Scripts, call flows, logic rules, and instructions you provide</td>
+            <td>To build and operate your AI agent</td>
+          </tr>
+          <tr>
+            <td>Usage &amp; Performance Data</td>
+            <td>Call volumes, outcomes, connection rates, and other operational metrics</td>
+            <td>To generate performance reports and improve service quality</td>
+          </tr>
+          <tr>
+            <td>Communications</td>
+            <td>Emails, messages, and notes exchanged between you and our team</td>
+            <td>Account management and support documentation</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-blue">
+        <span class="callout-icon">ℹ️</span>
+        <strong>Note on payment data:</strong> We do not store full credit card numbers, CVV codes, or bank account details on our systems. All payment processing is handled by Stripe, which maintains PCI DSS Level 1 compliance. We retain only the last four digits of a card and Stripe's tokenized identifiers for billing reference.
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section id="what-we-dont">
+      <h2><span class="section-num">03</span> What We Don't Collect</h2>
+      <div class="section-divider"></div>
+
+      <div class="callout callout-green">
+        <span class="callout-icon">✅</span>
+        <strong>We are deliberately narrow in our data collection.</strong> This section is as important as what we do collect.
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>We Do NOT Collect</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Personal consumer data about your customers (beyond what appears in call recordings you authorize)</td>
+            <td><span class="badge badge-no">Not Collected</span></td>
+          </tr>
+          <tr>
+            <td>Protected health information (PHI) without a signed Business Associate Agreement (BAA)</td>
+            <td><span class="badge badge-no">Not Without BAA</span></td>
+          </tr>
+          <tr>
+            <td>Sensitive financial records (account numbers, SSNs, tax records)</td>
+            <td><span class="badge badge-no">Not Collected</span></td>
+          </tr>
+          <tr>
+            <td>Social Security numbers or government-issued ID numbers</td>
+            <td><span class="badge badge-no">Not Collected</span></td>
+          </tr>
+          <tr>
+            <td>Biometric data</td>
+            <td><span class="badge badge-no">Not Collected</span></td>
+          </tr>
+          <tr>
+            <td>Precise geolocation data</td>
+            <td><span class="badge badge-no">Not Collected</span></td>
+          </tr>
+          <tr>
+            <td>Third-party advertising cookies or tracking pixels on our service portal</td>
+            <td><span class="badge badge-no">Not Used</span></td>
+          </tr>
+          <tr>
+            <td>Data sold, rented, or traded to third parties for marketing</td>
+            <td><span class="badge badge-no">Never</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>If your AI calling script is designed to handle sensitive data (such as in a healthcare or financial services context), please contact us before deployment so we can implement appropriate safeguards and agreements.</p>
+    </section>
+
+    <!-- 4 -->
+    <section id="how-we-use">
+      <h2><span class="section-num">04</span> How We Use Your Information</h2>
+      <div class="section-divider"></div>
+      <p>We use the data we collect for the following purposes — and only these purposes:</p>
+
+      <dl>
+        <dt>Providing and operating the service</dt>
+        <dd>Configuring, launching, and maintaining your AI phone agents. Call recordings and transcripts are used to verify agent performance and troubleshoot issues.</dd>
+
+        <dt>Reporting</dt>
+        <dd>Generating call summaries, outcome reports, and analytics dashboards that we share with you about your campaigns.</dd>
+
+        <dt>Agent improvement</dt>
+        <dd>Reviewing call transcripts and recordings to identify patterns, refine scripts, and improve how your agent handles conversations. This analysis is done in service of your account — we do not train shared AI models on your proprietary call data without your explicit written consent.</dd>
+
+        <dt>Billing and account management</dt>
+        <dd>Processing payments, sending invoices, managing subscriptions, and maintaining accurate billing records.</dd>
+
+        <dt>Communication</dt>
+        <dd>Responding to your inquiries, providing service updates, notifying you of renewal dates, and sharing relevant performance insights.</dd>
+
+        <dt>Legal and compliance</dt>
+        <dd>Maintaining records as required by law, responding to valid legal process, and enforcing our Terms of Service.</dd>
+      </dl>
+
+      <p>We do not use your data for advertising, behavioral profiling, or any purpose unrelated to the services you've engaged us for.</p>
+    </section>
+
+    <!-- 5 -->
+    <section id="third-parties">
+      <h2><span class="section-num">05</span> Third-Party Services</h2>
+      <div class="section-divider"></div>
+
+      <p>We work with a small number of carefully selected technology partners to deliver our service. Below is a transparent breakdown of who they are and what data they handle:</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Partner</th>
+            <th>Role</th>
+            <th>Data Shared</th>
+            <th>Sells Data?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Bland AI</td>
+            <td>AI voice call processing — powers the voice AI that makes and receives calls</td>
+            <td>Call scripts, audio streams, call recordings, transcripts</td>
+            <td><span class="badge badge-no">No</span></td>
+          </tr>
+          <tr>
+            <td>Stripe</td>
+            <td>Payment processing</td>
+            <td>Billing name, address, payment method</td>
+            <td><span class="badge badge-no">No</span></td>
+          </tr>
+          <tr>
+            <td>Google</td>
+            <td>Lead sourcing and research for outbound campaign list building (when applicable)</td>
+            <td>Business name and industry (used to conduct searches)</td>
+            <td><span class="badge badge-no">No</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-blue">
+        <span class="callout-icon">🤝</span>
+        <strong>Our standard for partners:</strong> We only work with subprocessors who maintain appropriate data security standards and do not sell, share, or monetize your data for their own purposes. We review our subprocessors periodically and will notify you of any material changes.
+      </div>
+
+      <p><strong>Legal disclosures.</strong> We may disclose information when required by law, court order, or valid legal process. Where permitted, we will notify you before complying. We will always challenge requests we believe to be overbroad or unlawful.</p>
+
+      <p><strong>Business transfers.</strong> If Wolfpack AI is ever acquired, merged, or transferred to another entity, we will notify clients at least 30 days in advance, and the acquiring party will be required to honor this Privacy Policy or give you the option to cancel without penalty.</p>
+    </section>
+
+    <!-- 6 -->
+    <section id="data-security">
+      <h2><span class="section-num">06</span> How We Protect Your Data</h2>
+      <div class="section-divider"></div>
+
+      <p>We take security seriously. These are not buzzwords — they are actual practices we have in place:</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Control</th>
+            <th>Implementation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Encryption at Rest</td>
+            <td>AES-256 encryption for stored call recordings, transcripts, and sensitive account data</td>
+          </tr>
+          <tr>
+            <td>Encryption in Transit</td>
+            <td>TLS 1.2+ for all data transmitted between our systems, our partners, and your browser</td>
+          </tr>
+          <tr>
+            <td>Access Controls</td>
+            <td>Role-based access; only personnel who need data to perform their function can access it</td>
+          </tr>
+          <tr>
+            <td>Authentication</td>
+            <td>Strong password requirements and multi-factor authentication on internal systems</td>
+          </tr>
+          <tr>
+            <td>Vendor Security</td>
+            <td>We evaluate the security posture of all subprocessors before engagement</td>
+          </tr>
+          <tr>
+            <td>Incident Response</td>
+            <td>We maintain procedures to detect, contain, and notify affected clients of data security incidents in accordance with applicable law</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <strong>No system is 100% secure.</strong> While we implement strong protections, we cannot guarantee absolute security of data transmitted over the internet. If you believe your account has been compromised, contact us immediately at <a href="mailto:privacy@wolfpackai.com">privacy@wolfpackai.com</a>.
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section id="retention">
+      <h2><span class="section-num">07</span> Data Retention</h2>
+      <div class="section-divider"></div>
+      <p>We keep data only as long as necessary for the purpose it was collected, legal compliance, or dispute resolution. Our retention schedule:</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Data Type</th>
+            <th>Retention Period</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Call Transcripts</td>
+            <td><strong>90 days</strong> from call date</td>
+            <td>Sufficient for reporting, QA, and optimization cycles</td>
+          </tr>
+          <tr>
+            <td>Call Recordings (audio)</td>
+            <td><strong>90 days</strong> from call date</td>
+            <td>Performance review and quality assurance</td>
+          </tr>
+          <tr>
+            <td>Billing &amp; Payment Records</td>
+            <td><strong>7 years</strong> from transaction date</td>
+            <td>Tax compliance and financial recordkeeping requirements</td>
+          </tr>
+          <tr>
+            <td>Account &amp; Contact Information</td>
+            <td>Duration of subscription + <strong>12 months</strong></td>
+            <td>Service continuity, dispute resolution, and re-engagement</td>
+          </tr>
+          <tr>
+            <td>Service Configuration (scripts, flows)</td>
+            <td>Duration of subscription + <strong>90 days</strong></td>
+            <td>Transition support and potential re-activation</td>
+          </tr>
+          <tr>
+            <td>Support Communications</td>
+            <td><strong>3 years</strong> from last interaction</td>
+            <td>Account history and dispute resolution</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>After applicable retention periods, data is securely deleted or anonymized. You may request earlier deletion in accordance with Section 9 (Your Rights), subject to our legal retention obligations.</p>
+    </section>
+
+    <!-- 8 -->
+    <section id="hipaa">
+      <h2><span class="section-num">08</span> HIPAA &amp; Healthcare Clients</h2>
+      <div class="section-divider"></div>
+
+      <div class="callout callout-blue">
+        <span class="callout-icon">🏥</span>
+        <strong>We support healthcare businesses.</strong> However, HIPAA compliance requires a signed Business Associate Agreement (BAA) before any protected health information (PHI) may be handled.
+      </div>
+
+      <p>If you are a HIPAA-covered entity or a business associate operating in the healthcare space, you may use our services in compliance with HIPAA, provided that:</p>
+
+      <ul>
+        <li>You have entered into a signed <strong>Business Associate Agreement (BAA)</strong> with Wolfpack AI before any call involving PHI is placed or received</li>
+        <li>Your call scripts and AI agent instructions are designed in accordance with the HIPAA Minimum Necessary standard</li>
+        <li>You have obtained all required patient authorizations for AI-assisted calls involving PHI</li>
+        <li>You notify us promptly of any suspected breach involving PHI so we can coordinate our incident response obligations under HIPAA</li>
+      </ul>
+
+      <p><strong>We do not accept PHI without a BAA in place.</strong> If you believe PHI was inadvertently transmitted through our service without a BAA, contact us immediately at <a href="mailto:privacy@wolfpackai.com">privacy@wolfpackai.com</a>.</p>
+
+      <p>To request a BAA or discuss HIPAA-compliant configurations, contact us at the email above. We review BAA requests within 3 business days.</p>
+    </section>
+
+    <!-- 9 -->
+    <section id="your-rights">
+      <h2><span class="section-num">09</span> Your Rights</h2>
+      <div class="section-divider"></div>
+      <p>We believe in genuine data rights, not checkbox compliance. Here's what you can ask us to do — and we'll actually do it:</p>
+
+      <dl>
+        <dt>Right to Access</dt>
+        <dd>You can request a summary of what data we hold about your account and business. We'll provide it within 10 business days.</dd>
+
+        <dt>Right to Export</dt>
+        <dd>You can request a copy of your data in a machine-readable format (JSON or CSV, as applicable). Transcripts, call logs, and account configuration data are available on request.</dd>
+
+        <dt>Right to Correction</dt>
+        <dd>If any account information we hold is inaccurate or outdated, you can ask us to correct it at any time. Just email us with the specifics.</dd>
+
+        <dt>Right to Deletion</dt>
+        <dd>You can request deletion of your data. We'll honor the request for all data not subject to legal retention requirements (billing records, for example, must be kept for tax compliance). We'll tell you clearly which records we cannot delete and why.</dd>
+
+        <dt>Right to Restrict Processing</dt>
+        <dd>You can ask us to limit how we use your data while a dispute or concern is being resolved.</dd>
+
+        <dt>Right to Object</dt>
+        <dd>If you believe we are processing your data in a way that is inconsistent with this policy or applicable law, you have the right to object. We will investigate and respond.</dd>
+      </dl>
+
+      <p>To exercise any of these rights, email <a href="mailto:privacy@wolfpackai.com">privacy@wolfpackai.com</a> with the subject line "Data Rights Request" and a description of what you'd like. We will acknowledge your request within 3 business days and complete it within 30 days (with notification if additional time is needed).</p>
+
+      <p>We will never penalize you for exercising your privacy rights.</p>
+    </section>
+
+    <!-- 10 -->
+    <section id="ccpa">
+      <h2><span class="section-num">10</span> California Residents — CCPA</h2>
+      <div class="section-divider"></div>
+
+      <p>If you are a California resident doing business with us, the California Consumer Privacy Act (CCPA), as amended by the California Privacy Rights Act (CPRA), grants you additional rights:</p>
+
+      <ul>
+        <li><strong>Right to Know.</strong> You have the right to know what categories of personal information we collect, the purposes for which we collect it, and whether we disclose it to third parties.</li>
+        <li><strong>Right to Delete.</strong> You have the right to request deletion of your personal information, subject to certain legal exceptions.</li>
+        <li><strong>Right to Opt-Out of Sale.</strong> We <em>do not sell personal information</em>. This right is technically satisfied, but it's a genuine practice, not a technicality.</li>
+        <li><strong>Right to Non-Discrimination.</strong> We will not discriminate against you for exercising any of your CCPA rights.</li>
+        <li><strong>Right to Correct.</strong> You have the right to request correction of inaccurate personal information we hold about you.</li>
+        <li><strong>Right to Limit Sensitive Data Use.</strong> To the extent we process sensitive personal information as defined by the CPRA, you have the right to limit its use to purposes necessary to provide the service.</li>
+      </ul>
+
+      <p><strong>Categories of personal information we collect</strong> (per CCPA categories): Identifiers (name, email, phone), commercial information (transaction records), and professional information (business details). We do not collect sensitive personal information as defined by the CPRA in our standard course of business.</p>
+
+      <p><strong>To submit a CCPA request:</strong> Email <a href="mailto:privacy@wolfpackai.com">privacy@wolfpackai.com</a> with "CCPA Request" in the subject line. We will respond within 45 days (with up to a 45-day extension if needed, with notice).</p>
+    </section>
+
+    <!-- 11 -->
+    <section id="children">
+      <h2><span class="section-num">11</span> Children's Privacy</h2>
+      <div class="section-divider"></div>
+      <p>Our services are designed for and marketed exclusively to businesses. We do not knowingly collect personal information from individuals under 18 years of age. Our service agreements require clients to be of legal contracting age. If you believe a minor has inadvertently provided us with personal information, please contact us immediately and we will delete it promptly.</p>
+    </section>
+
+    <!-- 12 -->
+    <section id="changes">
+      <h2><span class="section-num">12</span> Changes to This Policy</h2>
+      <div class="section-divider"></div>
+      <p>If we make material changes to this Privacy Policy — such as adding new data collection categories, new third-party sharing, or changes that affect your rights — we will notify you by email at least 14 days before the changes take effect.</p>
+      <p>Minor clarifications, formatting changes, or corrections that do not affect your rights may be made without prior notice. The "Last updated" date at the top of this page always reflects the current version.</p>
+      <p>We will not retroactively apply a changed policy to data already collected in a way that materially reduces your rights without your explicit consent.</p>
+    </section>
+
+    <!-- 13 -->
+    <section id="contact">
+      <h2><span class="section-num">13</span> Contact Us</h2>
+      <div class="section-divider"></div>
+      <p>Privacy questions, rights requests, BAA inquiries, and data concerns all go to the same place — us, directly. There's no ticket queue or bot in front of this inbox.</p>
+
+      <dl>
+        <dt>Business</dt>
+        <dd>Wolfpack AI (sole proprietorship, Wolfgang Meyer)</dd>
+        <dt>Privacy &amp; Data Requests</dt>
+        <dd><a href="mailto:privacy@wolfpackai.com">privacy@wolfpackai.com</a></dd>
+        <dt>Subject Lines That Help</dt>
+        <dd>"Data Rights Request" · "CCPA Request" · "BAA Request" · "Security Concern" · "Privacy Question"</dd>
+        <dt>Response Commitment</dt>
+        <dd>We acknowledge all privacy-related emails within 3 business days. We'll tell you if we need more time.</dd>
+      </dl>
+
+      <div class="callout callout-green">
+        <span class="callout-icon">💬</span>
+        <strong>Straight talk:</strong> This policy was written to actually explain what we do — not to obscure it. If something is unclear, or if you think we've missed something important, email us. We take privacy seriously and we're open to feedback.
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="wolfpack-tos.html">Terms of Service</a>
+      <a href="wolfpack-privacy.html">Privacy Policy</a>
+      <a href="mailto:privacy@wolfpackai.com">Contact</a>
+    </div>
+    <p class="footer-copy">© 2026 Wolfpack AI — Wolfgang Meyer. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>
