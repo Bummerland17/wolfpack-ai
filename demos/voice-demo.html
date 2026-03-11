@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Talk to Alex — SmartBook AI Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0a0a;
+      --surface:   #111111;
+      --surface2:  #161616;
+      --border:    #222222;
+      --blue:      #2563eb;
+      --blue-dim:  #1d4ed8;
+      --blue-glow: rgba(37, 99, 235, 0.2);
+      --red:       #ef4444;
+      --red-glow:  rgba(239, 68, 68, 0.2);
+      --green:     #10b981;
+      --text:      #f1f5f9;
+      --muted:     #64748b;
+      --radius:    12px;
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Header ─────────────────────────────────────── */
+    .header {
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .logo {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--blue); }
+
+    .back-link {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--text); }
+
+    /* ─── Layout ─────────────────────────────────────── */
+    .page {
+      display: flex;
+      min-height: calc(100vh - 61px);
+    }
+
+    /* ─── Demo Center ────────────────────────────────── */
+    .demo-center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .demo-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 1rem;
+    }
+
+    .demo-headline {
+      font-size: clamp(1.5rem, 4vw, 2.25rem);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+
+    .demo-sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 3rem;
+      max-width: 420px;
+    }
+
+    /* ─── Mic Button ─────────────────────────────────── */
+    .mic-wrap {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .mic-rings {
+      position: absolute;
+      inset: -24px;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .mic-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 2px solid var(--blue);
+      opacity: 0;
+      transform: scale(1);
+    }
+
+    .mic-ring-1 { animation: ring-pulse 2.5s ease-out infinite; }
+    .mic-ring-2 { animation: ring-pulse 2.5s ease-out 0.7s infinite; }
+    .mic-ring-3 { animation: ring-pulse 2.5s ease-out 1.4s infinite; }
+
+    @keyframes ring-pulse {
+      0%   { transform: scale(0.9); opacity: 0.7; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+
+    .mic-button {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: none;
+      background: var(--blue);
+      box-shadow: 0 0 0 0 var(--blue-glow), 0 8px 40px rgba(37,99,235,0.4);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+      z-index: 1;
+      animation: idle-glow 3s ease-in-out infinite;
+    }
+
+    @keyframes idle-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(37,99,235,0.3), 0 8px 40px rgba(37,99,235,0.25); }
+      50%       { box-shadow: 0 0 50px rgba(37,99,235,0.6), 0 8px 40px rgba(37,99,235,0.4); }
+    }
+
+    .mic-button:hover {
+      transform: scale(1.06);
+    }
+
+    .mic-button:active { transform: scale(0.97); }
+
+    /* Active / listening state */
+    .mic-button.active {
+      background: var(--red);
+      animation: active-glow 1s ease-in-out infinite;
+    }
+
+    @keyframes active-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(239,68,68,0.4), 0 8px 40px rgba(239,68,68,0.3); }
+      50%       { box-shadow: 0 0 60px rgba(239,68,68,0.7), 0 8px 40px rgba(239,68,68,0.5); }
+    }
+
+    .mic-button.active .mic-rings .mic-ring {
+      border-color: var(--red);
+    }
+
+    /* AI speaking state */
+    .mic-button.speaking {
+      background: var(--green);
+      animation: speaking-glow 0.8s ease-in-out infinite;
+    }
+
+    @keyframes speaking-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(16,185,129,0.4), 0 8px 40px rgba(16,185,129,0.3); }
+      50%       { box-shadow: 0 0 60px rgba(16,185,129,0.7), 0 8px 40px rgba(16,185,129,0.5); }
+    }
+
+    .mic-button.speaking .mic-rings .mic-ring {
+      border-color: var(--green);
+    }
+
+    /* ─── Status Text ────────────────────────────────── */
+    .status-text {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+      min-height: 1.5rem;
+      transition: color 0.2s;
+    }
+
+    .status-text.active { color: var(--red); }
+    .status-text.speaking { color: var(--green); }
+
+    /* ─── Waveform ───────────────────────────────────── */
+    .waveform {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 32px;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .waveform.visible { opacity: 1; }
+
+    .wave-bar {
+      width: 4px;
+      background: var(--blue);
+      border-radius: 4px;
+      animation: wave 1s ease-in-out infinite;
+    }
+
+    .waveform.speaking .wave-bar { background: var(--green); }
+    .waveform.listening .wave-bar { background: var(--red); }
+
+    .wave-bar:nth-child(1) { animation-delay: 0s;    height: 8px; }
+    .wave-bar:nth-child(2) { animation-delay: 0.1s;  height: 16px; }
+    .wave-bar:nth-child(3) { animation-delay: 0.2s;  height: 24px; }
+    .wave-bar:nth-child(4) { animation-delay: 0.15s; height: 28px; }
+    .wave-bar:nth-child(5) { animation-delay: 0.05s; height: 20px; }
+    .wave-bar:nth-child(6) { animation-delay: 0.25s; height: 12px; }
+    .wave-bar:nth-child(7) { animation-delay: 0.1s;  height: 22px; }
+    .wave-bar:nth-child(8) { animation-delay: 0.3s;  height: 16px; }
+
+    @keyframes wave {
+      0%, 100% { transform: scaleY(1); }
+      50%       { transform: scaleY(2.5); }
+    }
+
+    /* ─── Example Prompts ────────────────────────────── */
+    .examples-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .examples {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      justify-content: center;
+      max-width: 520px;
+    }
+
+    .example-chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+
+    .example-chip:hover {
+      background: var(--surface2);
+      border-color: var(--blue);
+      color: var(--text);
+    }
+
+    /* ─── Side Panel ─────────────────────────────────── */
+    .side-panel {
+      width: 340px;
+      flex-shrink: 0;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      padding: 2rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .panel-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(37,99,235,0.12);
+      border: 1px solid rgba(37,99,235,0.25);
+      border-radius: 20px;
+      padding: 0.3rem 0.85rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--blue);
+      width: fit-content;
+    }
+
+    .panel-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-top: 0.25rem;
+    }
+
+    .panel-desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    .feature-list li::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .pricing-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
+
+    .pricing-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .pricing-amount {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--text);
+    }
+
+    .pricing-amount span {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--muted);
+      letter-spacing: 0;
+    }
+
+    .pricing-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    .cta-btn {
+      display: block;
+      width: 100%;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      padding: 0.9rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      font-family: inherit;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.15s, box-shadow 0.15s, transform 0.12s;
+    }
+
+    .cta-btn:hover {
+      background: var(--blue-dim);
+      box-shadow: 0 0 28px rgba(37,99,235,0.45);
+      transform: translateY(-1px);
+    }
+
+    .cta-btn:active { transform: translateY(0); }
+
+    .panel-footer {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* ─── Responsive ─────────────────────────────────── */
+    @media (max-width: 900px) {
+      .page { flex-direction: column; }
+      .side-panel {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid var(--border);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header { padding: 1rem 1.25rem; }
+      .demo-center { padding: 2rem 1.25rem; }
+      .mic-button { width: 100px; height: 100px; font-size: 2.2rem; }
+      .demo-headline { font-size: 1.5rem; }
+    }
+
+    /* ─── Error toast ────────────────────────────────── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 0.85rem 1.25rem;
+      font-size: 0.875rem;
+      color: var(--text);
+      transition: transform 0.3s ease;
+      z-index: 999;
+      max-width: 380px;
+      text-align: center;
+    }
+
+    .toast.show { transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">Wolfpack<span>AI</span> <span style="color:var(--muted);font-weight:400;font-size:0.85rem">/ SmartBook Demo</span></div>
+  <a href="index.html" class="back-link">← All demos</a>
+</header>
+
+<div class="page">
+
+  <!-- ── Demo Center ───────────────────────────────────────── -->
+  <div class="demo-center">
+    <div class="demo-eyebrow">🎙️ Live AI Demo</div>
+    <h1 class="demo-headline">Click to talk to Alex —<br>our AI receptionist</h1>
+    <p class="demo-sub">This is the actual AI your patients will speak to. It answers calls, books appointments, and never takes a day off.</p>
+
+    <div class="mic-wrap">
+      <div class="mic-rings" id="mic-rings">
+        <div class="mic-ring mic-ring-1"></div>
+        <div class="mic-ring mic-ring-2"></div>
+        <div class="mic-ring mic-ring-3"></div>
+      </div>
+      <button class="mic-button" id="mic-btn" onclick="toggleCall()" aria-label="Start conversation with Alex">
+        🎙️
+      </button>
+    </div>
+
+    <div class="status-text" id="status-text">Click to start</div>
+
+    <div class="waveform" id="waveform">
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+      <div class="wave-bar"></div>
+    </div>
+
+    <div class="examples-label">Try asking Alex:</div>
+    <div class="examples">
+      <div class="example-chip">"Can I book an appointment for Tuesday?"</div>
+      <div class="example-chip">"What are your hours?"</div>
+      <div class="example-chip">"I need to reschedule my cleaning"</div>
+    </div>
+  </div>
+
+  <!-- ── Side Panel ────────────────────────────────────────── -->
+  <aside class="side-panel">
+    <div>
+      <div class="panel-badge">
+        <span>●</span> SmartBook AI
+      </div>
+      <div class="panel-title">What you're experiencing right now</div>
+    </div>
+
+    <p class="panel-desc">
+      Alex is a fully trained AI dental receptionist powered by <strong style="color:var(--text)">SmartBook AI</strong>.
+      You're talking to the same AI your front desk would hand off calls to — 24 hours a day, 7 days a week.
+    </p>
+
+    <ul class="feature-list">
+      <li>Answers every call within 2 rings — even at 2 AM</li>
+      <li>Books appointments directly into your calendar</li>
+      <li>Handles reschedules, cancellations, and FAQs</li>
+      <li>Identifies warm leads and flags them for you</li>
+      <li>Full call transcripts in your dashboard</li>
+      <li>Never calls in sick, never puts patients on hold</li>
+    </ul>
+
+    <div class="pricing-card">
+      <div class="pricing-label">SmartBook Autopilot Plan</div>
+      <div class="pricing-amount">$497<span>/mo</span></div>
+      <div class="pricing-sub">Everything you just experienced — for your practice</div>
+    </div>
+
+    <a href="https://buy.stripe.com/dRm7sK6kAe6Pfs75oL3F604" target="_blank" class="cta-btn">
+      Get started — $497/mo →
+    </a>
+
+    <p class="panel-footer">No contracts. Cancel anytime. Setup in 48 hours.</p>
+  </aside>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Vapi Web SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/vapi.js"></script>
+<script>
+  'use strict';
+
+  const VAPI_KEY    = '3082c2e9-4af7-4c5e-9af6-2d8a5b58a0dc';
+  const AGENT_ID    = '95e7c636-f8e6-4801-8866-fca9d5d475d3';
+
+  let vapi      = null;
+  let isActive  = false;
+  let isSpeaking = false;
+
+  const micBtn     = document.getElementById('mic-btn');
+  const statusText = document.getElementById('status-text');
+  const waveform   = document.getElementById('waveform');
+
+  // ── Init Vapi ──────────────────────────────────────────────
+  function initVapi() {
+    if (vapi) return;
+    try {
+      vapi = new Vapi(VAPI_KEY);
+
+      vapi.on('call-start', () => {
+        isActive = true;
+        isSpeaking = false;
+        setListening();
+      });
+
+      vapi.on('call-end', () => {
+        isActive  = false;
+        isSpeaking = false;
+        setIdle();
+      });
+
+      vapi.on('speech-start', () => {
+        isSpeaking = true;
+        setSpeaking();
+      });
+
+      vapi.on('speech-end', () => {
+        isSpeaking = false;
+        if (isActive) setListening();
+      });
+
+      vapi.on('error', (err) => {
+        console.error('Vapi error:', err);
+        showToast('Something went wrong. Please try again.');
+        isActive  = false;
+        isSpeaking = false;
+        setIdle();
+      });
+
+    } catch (e) {
+      console.error('Vapi init failed:', e);
+      showToast('Vapi SDK failed to load. Check your connection.');
+    }
+  }
+
+  // ── Toggle Call ────────────────────────────────────────────
+  async function toggleCall() {
+    initVapi();
+    if (!vapi) return;
+
+    if (!isActive) {
+      try {
+        micBtn.disabled = true;
+        statusText.textContent = 'Connecting…';
+        statusText.className = 'status-text';
+        await vapi.start(AGENT_ID);
+        micBtn.disabled = false;
+      } catch (e) {
+        console.error(e);
+        showToast('Failed to connect. Please try again.');
+        micBtn.disabled = false;
+        setIdle();
+      }
+    } else {
+      vapi.stop();
+    }
+  }
+
+  // ── State helpers ──────────────────────────────────────────
+  function setIdle() {
+    micBtn.className     = 'mic-button';
+    micBtn.textContent   = '🎙️';
+    statusText.textContent = 'Click to start';
+    statusText.className = 'status-text';
+    waveform.className   = 'waveform';
+  }
+
+  function setListening() {
+    micBtn.className     = 'mic-button active';
+    micBtn.textContent   = '🎙️';
+    statusText.textContent = 'Listening…';
+    statusText.className = 'status-text active';
+    waveform.className   = 'waveform visible listening';
+  }
+
+  function setSpeaking() {
+    micBtn.className     = 'mic-button speaking';
+    micBtn.textContent   = '🔊';
+    statusText.textContent = 'Alex is speaking…';
+    statusText.className = 'status-text speaking';
+    waveform.className   = 'waveform visible speaking';
+  }
+
+  // ── Toast ──────────────────────────────────────────────────
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 4000);
+  }
+</script>
+</body>
+</html>
