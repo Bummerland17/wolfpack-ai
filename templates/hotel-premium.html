@@ -1,0 +1,836 @@
+<!-- Wolfpack AI Premium Template — customize for client -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- REPLACE: page title -->
+  <title>Ridgeline Lodge — Where the Mountains Call You Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:  #1a2e1a;
+      --green2: #243824;
+      --green3: #2f4a2f;
+      --gold:   #c9a96e;
+      --gold2:  #e2c89a;
+      --cream:  #f5f0e8;
+      --cream2: #ede7da;
+      --text:   #2a2a2a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--green);
+      color: var(--cream);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.5rem 3rem;
+      background: linear-gradient(to bottom, rgba(26,46,26,0.9) 0%, transparent 100%);
+      backdrop-filter: blur(2px);
+      transition: background 0.4s;
+    }
+    nav.scrolled { background: rgba(26,46,26,0.97); }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 600; letter-spacing: 0.05em;
+      color: var(--gold); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--cream); text-decoration: none;
+      font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase;
+      opacity: 0.85; transition: opacity 0.2s, color 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; color: var(--gold); }
+    .nav-cta {
+      background: transparent; border: 1px solid var(--gold);
+      color: var(--gold); padding: 0.6rem 1.4rem;
+      font-family: 'Inter', sans-serif; font-size: 0.8rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.3s, color 0.3s;
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--green); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; height: 100vh; min-height: 600px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 110%, rgba(201,169,110,0.12) 0%, transparent 70%),
+        linear-gradient(170deg, #0d1a0d 0%, #1a2e1a 30%, #243824 55%, #1a2a1a 75%, #0f1f0f 100%);
+      transform-origin: center bottom;
+    }
+    /* Mountain silhouette layers */
+    .hero-mountains {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center; padding: 0 2rem;
+      max-width: 800px;
+    }
+    .hero-eyebrow {
+      font-family: 'Inter', sans-serif; font-size: 0.8rem;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.5rem; opacity: 0;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 300; line-height: 1.15;
+      color: var(--cream);
+    }
+    .hero-title .word {
+      display: inline-block; opacity: 0; transform: translateY(30px);
+      margin-right: 0.25em;
+    }
+    .hero-subtitle {
+      margin-top: 1.5rem; font-size: 1.05rem;
+      color: var(--cream2); opacity: 0; font-weight: 300;
+      line-height: 1.7;
+    }
+    .hero-actions {
+      margin-top: 2.5rem; display: flex; gap: 1.2rem;
+      justify-content: center; flex-wrap: wrap; opacity: 0;
+    }
+    .btn-primary {
+      background: var(--gold); color: var(--green);
+      padding: 1rem 2.5rem; border: none; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 0.85rem;
+      letter-spacing: 0.15em; text-transform: uppercase; font-weight: 500;
+      text-decoration: none; display: inline-block;
+      transition: background 0.3s, transform 0.2s;
+      animation: pulse-cta 3s ease-in-out infinite 2s;
+    }
+    .btn-primary:hover { background: var(--gold2); transform: translateY(-2px); animation: none; }
+    @keyframes pulse-cta {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(201,169,110,0.5); }
+      50% { box-shadow: 0 0 0 12px rgba(201,169,110,0); }
+    }
+    .btn-ghost {
+      background: transparent; color: var(--cream);
+      padding: 1rem 2.5rem; border: 1px solid rgba(245,240,232,0.4);
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase;
+      text-decoration: none; display: inline-block;
+      transition: border-color 0.3s, color 0.3s;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      opacity: 0.5; animation: bounce 2s ease-in-out infinite;
+    }
+    .hero-scroll span { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; }
+    .scroll-line {
+      width: 1px; height: 50px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+    @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+    /* ── STATS ── */
+    .stats {
+      background: var(--green2);
+      padding: 3rem 2rem;
+      display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap;
+      border-top: 1px solid rgba(201,169,110,0.2);
+      border-bottom: 1px solid rgba(201,169,110,0.2);
+    }
+    .stat-item { text-align: center; }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem; font-weight: 300; color: var(--gold);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--cream2); opacity: 0.7; margin-top: 0.4rem;
+    }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 6rem 2rem; }
+    .section-eyebrow {
+      font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 300;
+      line-height: 1.2;
+    }
+    .section-body {
+      font-size: 1rem; line-height: 1.8; color: var(--cream2);
+      opacity: 0.85; max-width: 560px;
+    }
+
+    /* ── ROOMS ── */
+    .rooms { background: var(--green); }
+    .rooms-header { text-align: center; max-width: 600px; margin: 0 auto 4rem; }
+    .rooms-grid { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 3rem; }
+    .room-card {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+      min-height: 380px; overflow: hidden;
+      border: 1px solid rgba(201,169,110,0.15);
+      opacity: 0;
+    }
+    .room-card.from-left  { transform: translateX(-80px); }
+    .room-card.from-right { transform: translateX(80px); }
+    .room-card:nth-child(even) .room-image { order: 2; }
+    .room-card:nth-child(even) .room-info  { order: 1; }
+    .room-image {
+      background: linear-gradient(135deg, #243824 0%, #1a3520 50%, #2f4a2f 100%);
+      position: relative; overflow: hidden; min-height: 280px;
+      transition: transform 0.6s;
+    }
+    .room-image:hover { transform: scale(1.03); }
+    /* REPLACE: actual room photo */
+    .room-image-inner {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif; font-size: 1rem;
+      color: rgba(201,169,110,0.4); letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .room-image-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(26,46,26,0.6) 0%, rgba(47,74,47,0.3) 100%);
+    }
+    .room-info {
+      padding: 3rem; background: var(--green2);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .room-type {
+      font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.8rem;
+    }
+    .room-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.9rem; font-weight: 400; margin-bottom: 1rem;
+    }
+    .room-desc { font-size: 0.9rem; line-height: 1.75; color: var(--cream2); opacity: 0.8; margin-bottom: 1.5rem; }
+    .room-amenities {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.8rem;
+    }
+    .amenity-tag {
+      font-size: 0.7rem; letter-spacing: 0.1em;
+      padding: 0.3rem 0.8rem; border: 1px solid rgba(201,169,110,0.3);
+      color: var(--gold); text-transform: uppercase;
+    }
+    .room-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; color: var(--cream2);
+    }
+    .room-price strong { color: var(--gold); font-size: 1.5rem; }
+
+    /* ── EXPERIENCE ── */
+    .experience { background: var(--green2); }
+    .experience-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+    }
+    .experience-text .section-body { margin-top: 1.2rem; }
+    .experience-features { margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+    .experience-feature {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1rem; border-left: 2px solid var(--gold);
+      background: rgba(201,169,110,0.05);
+    }
+    .feature-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .feature-text h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; margin-bottom: 0.3rem; }
+    .feature-text p { font-size: 0.85rem; opacity: 0.7; line-height: 1.6; }
+    .experience-visual {
+      position: relative;
+      background: linear-gradient(145deg, #1a3520, #2f4a2f, #1a2e1a);
+      min-height: 450px; overflow: hidden;
+    }
+    .exp-visual-label {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif; font-size: 1rem; opacity: 0.35;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold);
+    }
+
+    /* ── ACTIVITIES ── */
+    .activities { background: var(--green); }
+    .activities-header { text-align: center; max-width: 600px; margin: 0 auto 3.5rem; }
+    .activities-grid {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem;
+    }
+    .activity-card {
+      position: relative; overflow: hidden;
+      min-height: 300px; cursor: pointer;
+      background: var(--green2);
+    }
+    .activity-bg {
+      position: absolute; inset: 0; transition: transform 0.6s ease;
+      background: linear-gradient(145deg, #243824, #1a3520);
+    }
+    .activity-card:hover .activity-bg { transform: scale(1.08); }
+    .activity-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,46,26,0.85) 0%, rgba(26,46,26,0.2) 100%);
+    }
+    .activity-content {
+      position: absolute; bottom: 0; left: 0; right: 0; padding: 1.8rem;
+    }
+    .activity-icon { font-size: 1.8rem; margin-bottom: 0.6rem; }
+    .activity-name {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400;
+    }
+    .activity-desc { font-size: 0.8rem; opacity: 0.75; margin-top: 0.3rem; line-height: 1.5; }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials { background: var(--green2); }
+    .testimonials-header { text-align: center; max-width: 600px; margin: 0 auto 3rem; }
+    .testimonials-wrapper { max-width: 800px; margin: 0 auto; overflow: hidden; }
+    .testimonials-track {
+      display: flex; transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .testimonial-slide {
+      min-width: 100%; padding: 0 1rem;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+    }
+    .testimonial-stars { color: var(--gold); font-size: 1.1rem; letter-spacing: 0.2em; margin-bottom: 1.5rem; }
+    .testimonial-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.7rem); font-weight: 300; font-style: italic;
+      line-height: 1.6; margin-bottom: 1.5rem; color: var(--cream);
+    }
+    .testimonial-author { font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+    .testimonial-location { font-size: 0.75rem; opacity: 0.6; margin-top: 0.2rem; }
+    .testimonial-dots {
+      display: flex; justify-content: center; gap: 0.6rem; margin-top: 2.5rem;
+    }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(201,169,110,0.3); cursor: pointer; transition: background 0.3s;
+    }
+    .dot.active { background: var(--gold); }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      background: var(--green3);
+      padding: 5rem 2rem; text-align: center;
+      border-top: 1px solid rgba(201,169,110,0.2);
+      border-bottom: 1px solid rgba(201,169,110,0.2);
+    }
+    .cta-banner h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; margin-bottom: 1rem;
+    }
+    .cta-banner p { opacity: 0.75; max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.7; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0d1a0d; padding: 4rem 3rem 2rem;
+      border-top: 1px solid rgba(201,169,110,0.1);
+    }
+    .footer-mountain { width: 100%; max-height: 120px; margin-bottom: 3rem; opacity: 0.4; }
+    .footer-grid {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+    }
+    .footer-brand-name {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.8rem;
+      color: var(--gold); font-weight: 300; margin-bottom: 0.8rem;
+    }
+    .footer-brand-tagline { font-size: 0.85rem; opacity: 0.6; line-height: 1.7; max-width: 260px; }
+    .footer-col h4 {
+      font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.6rem; }
+    .footer-col a {
+      color: var(--cream2); text-decoration: none; font-size: 0.85rem;
+      opacity: 0.65; transition: opacity 0.2s;
+    }
+    .footer-col a:hover { opacity: 1; }
+    .footer-bottom {
+      max-width: 1100px; margin: 3rem auto 0;
+      padding-top: 1.5rem; border-top: 1px solid rgba(201,169,110,0.1);
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.75rem; opacity: 0.45; flex-wrap: wrap; gap: 0.5rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      .room-card { grid-template-columns: 1fr; }
+      .room-card:nth-child(even) .room-image { order: 0; }
+      .room-card:nth-child(even) .room-info  { order: 0; }
+      .experience-inner { grid-template-columns: 1fr; }
+      .experience-visual { min-height: 280px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 4rem 1.5rem; }
+      .stats { gap: 2rem; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAVIGATION ── -->
+  <nav id="mainNav">
+    <!-- REPLACE: lodge name -->
+    <a href="#" class="nav-logo">Ridgeline Lodge</a>
+    <ul class="nav-links">
+      <li><a href="#rooms">Rooms</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#activities">Activities</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-cta">Book Your Stay</button>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" id="heroBg"></div>
+
+    <!-- Mountain silhouette SVG -->
+    <div class="hero-mountains">
+      <svg viewBox="0 0 1440 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="width:100%;display:block;">
+        <path d="M0,220 L0,160 L80,90 L160,130 L240,60 L340,110 L420,40 L520,100 L600,30 L700,95 L780,20 L880,85 L960,45 L1060,105 L1140,55 L1240,120 L1320,80 L1440,140 L1440,220 Z" fill="rgba(13,26,13,0.7)" />
+        <path d="M0,220 L0,180 L120,130 L200,160 L300,110 L400,150 L500,90 L620,145 L700,100 L820,155 L920,115 L1020,160 L1120,125 L1240,165 L1320,140 L1440,170 L1440,220 Z" fill="rgba(13,26,13,0.9)" />
+        <path d="M0,220 L1440,220 L1440,200 L0,200 Z" fill="#0d1a0d" />
+      </svg>
+    </div>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow" id="heroEyebrow"><!-- REPLACE: location --> Blue Ridge Mountains, North Carolina</p>
+      <h1 class="hero-title">
+        <!-- REPLACE: headline -->
+        <span class="word">Where</span>
+        <span class="word">the</span>
+        <span class="word">mountains</span>
+        <span class="word">call</span>
+        <span class="word">you</span>
+        <span class="word" style="color:var(--gold);">home.</span>
+      </h1>
+      <p class="hero-subtitle" id="heroSubtitle">
+        <!-- REPLACE: tagline -->
+        A retreat carved from old-growth timber and quiet mornings. Forty-seven rooms, one promise — you'll leave feeling like yourself again.
+      </p>
+      <div class="hero-actions" id="heroActions">
+        <a href="#rooms" class="btn-primary">Book Your Stay</a>
+        <a href="#experience" class="btn-ghost">Explore the Lodge</a>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ── STATS ── -->
+  <div class="stats" id="statsSection">
+    <div class="stat-item">
+      <div class="stat-number" data-target="47" id="stat0">0</div>
+      <div class="stat-label">Rooms &amp; Suites</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" data-target="4.9" data-decimal="1" id="stat1">0.0</div>
+      <div class="stat-label">Guest Rating ★</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" id="stat2">
+        <!-- REPLACE: founding year -->
+        <span data-target="1987" id="stat2val">1987</span>
+      </div>
+      <div class="stat-label">Est.</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" data-target="6200" id="stat3">0</div>
+      <div class="stat-label">Acres of Wilderness</div>
+    </div>
+  </div>
+
+  <!-- ── ROOMS ── -->
+  <section class="rooms" id="rooms">
+    <div class="rooms-header">
+      <p class="section-eyebrow">Accommodations</p>
+      <!-- REPLACE: section headline -->
+      <h2 class="section-title">Rest like you've never rested before.</h2>
+    </div>
+    <div class="rooms-grid">
+
+      <!-- Room 1 -->
+      <div class="room-card from-left">
+        <div class="room-image">
+          <!-- REPLACE: room photo -->
+          <div class="room-image-overlay"></div>
+          <div class="room-image-inner">[ Room Photo ]</div>
+        </div>
+        <div class="room-info">
+          <p class="room-type">Signature</p>
+          <!-- REPLACE: room name & description -->
+          <h3 class="room-name">The Forest Suite</h3>
+          <p class="room-desc">Floor-to-ceiling windows frame an unbroken ridge line. Wake to mist threading through the canopy, a wood-burning fireplace crackling beside you.</p>
+          <div class="room-amenities">
+            <span class="amenity-tag">King Bed</span>
+            <span class="amenity-tag">Fireplace</span>
+            <span class="amenity-tag">Soaking Tub</span>
+            <span class="amenity-tag">Private Deck</span>
+          </div>
+          <p class="room-price">From <strong>$345</strong> / night</p>
+        </div>
+      </div>
+
+      <!-- Room 2 -->
+      <div class="room-card from-right">
+        <div class="room-image">
+          <!-- REPLACE: room photo -->
+          <div class="room-image-overlay"></div>
+          <div class="room-image-inner">[ Room Photo ]</div>
+        </div>
+        <div class="room-info">
+          <p class="room-type">Premium</p>
+          <!-- REPLACE: room name & description -->
+          <h3 class="room-name">The Ridgeline Room</h3>
+          <p class="room-desc">Perched at the lodge's highest point, this room catches the first light. Handcrafted furnishings, a balcony meant for lingering, and silence you can hear.</p>
+          <div class="room-amenities">
+            <span class="amenity-tag">Queen Bed</span>
+            <span class="amenity-tag">Mountain View</span>
+            <span class="amenity-tag">Walk-In Shower</span>
+          </div>
+          <p class="room-price">From <strong>$265</strong> / night</p>
+        </div>
+      </div>
+
+      <!-- Room 3 -->
+      <div class="room-card from-left">
+        <div class="room-image">
+          <!-- REPLACE: room photo -->
+          <div class="room-image-overlay"></div>
+          <div class="room-image-inner">[ Room Photo ]</div>
+        </div>
+        <div class="room-info">
+          <p class="room-type">Cabin</p>
+          <!-- REPLACE: room name & description -->
+          <h3 class="room-name">The Creekside Cabin</h3>
+          <p class="room-desc">A standalone cabin tucked beside a year-round stream. Your own kitchen, your own fire pit, the sound of moving water as your alarm clock.</p>
+          <div class="room-amenities">
+            <span class="amenity-tag">2 Bedrooms</span>
+            <span class="amenity-tag">Full Kitchen</span>
+            <span class="amenity-tag">Fire Pit</span>
+            <span class="amenity-tag">Creek Access</span>
+          </div>
+          <p class="room-price">From <strong>$495</strong> / night</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── EXPERIENCE ── -->
+  <section class="experience" id="experience">
+    <div class="experience-inner">
+      <div class="experience-text">
+        <p class="section-eyebrow">The Ridgeline Way</p>
+        <!-- REPLACE: section headline -->
+        <h2 class="section-title">Every detail was chosen with intention.</h2>
+        <p class="section-body">
+          <!-- REPLACE: description -->
+          This isn't a hotel that happened to end up in the mountains. We were built for them. Our chef sources ingredients within 30 miles. Our trails are maintained by people who've walked them their whole lives. The fire in the great room? It hasn't gone out since 1987.
+        </p>
+        <div class="experience-features">
+          <div class="experience-feature">
+            <div class="feature-icon">🌿</div>
+            <div class="feature-text">
+              <h4>Farm-to-Table Dining</h4>
+              <p>Seasonal menus built around what's growing, not what's convenient.</p>
+            </div>
+          </div>
+          <div class="experience-feature">
+            <div class="feature-icon">🔥</div>
+            <div class="feature-text">
+              <h4>The Great Room</h4>
+              <p>A 40-foot stone fireplace. Leather chairs. The best bourbon selection in the county.</p>
+            </div>
+          </div>
+          <div class="experience-feature">
+            <div class="feature-icon">🛶</div>
+            <div class="feature-text">
+              <h4>Guided Experiences</h4>
+              <p>Dawn fly-fishing, full-moon hikes, foraging walks — never a tourist circuit.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="experience-visual">
+        <!-- REPLACE: feature photo -->
+        <div class="exp-visual-label">[ Feature Photo ]</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ACTIVITIES ── -->
+  <section class="activities" id="activities">
+    <div class="activities-header">
+      <p class="section-eyebrow">What Awaits</p>
+      <h2 class="section-title">The mountain has a full calendar.</h2>
+    </div>
+    <div class="activities-grid">
+      <!-- REPLACE: activity cards -->
+      <div class="activity-card">
+        <div class="activity-bg" style="background: linear-gradient(145deg, #1a3520, #2a4a2a);"></div>
+        <div class="activity-overlay"></div>
+        <div class="activity-content">
+          <div class="activity-icon">🎣</div>
+          <div class="activity-name">Fly Fishing</div>
+          <div class="activity-desc">Private access to 4 miles of trophy trout water. Guides available.</div>
+        </div>
+      </div>
+      <div class="activity-card">
+        <div class="activity-bg" style="background: linear-gradient(145deg, #2a3a1a, #1a2e1a);"></div>
+        <div class="activity-overlay"></div>
+        <div class="activity-content">
+          <div class="activity-icon">🥾</div>
+          <div class="activity-name">Trail Hiking</div>
+          <div class="activity-desc">32 miles of private trail. Easy meadow walks to summit scrambles.</div>
+        </div>
+      </div>
+      <div class="activity-card">
+        <div class="activity-bg" style="background: linear-gradient(145deg, #243824, #1a3a2a);"></div>
+        <div class="activity-overlay"></div>
+        <div class="activity-content">
+          <div class="activity-icon">🧖</div>
+          <div class="activity-name">Spa &amp; Wellness</div>
+          <div class="activity-desc">Stone-walled treatment rooms. Locally sourced botanicals.</div>
+        </div>
+      </div>
+      <div class="activity-card">
+        <div class="activity-bg" style="background: linear-gradient(145deg, #1a2a2e, #1a2e1a);"></div>
+        <div class="activity-overlay"></div>
+        <div class="activity-content">
+          <div class="activity-icon">🌌</div>
+          <div class="activity-name">Stargazing</div>
+          <div class="activity-desc">No light pollution for 40 miles. Our astronomer joins every Friday.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIALS ── -->
+  <section class="testimonials">
+    <div class="testimonials-header">
+      <p class="section-eyebrow">Guest Stories</p>
+      <h2 class="section-title">Some guests never quite leave.</h2>
+    </div>
+    <div class="testimonials-wrapper">
+      <div class="testimonials-track" id="testimonialTrack">
+        <!-- REPLACE: real guest testimonials -->
+        <div class="testimonial-slide">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-quote">"We came for a long weekend and stayed nine days. The mornings here do something to you. We've already booked next autumn."</p>
+          <p class="testimonial-author">Sarah & James T.</p>
+          <p class="testimonial-location">Charlotte, NC</p>
+        </div>
+        <div class="testimonial-slide">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-quote">"The Creekside Cabin is the best sleep I've had in a decade. The silence isn't absence — it's presence. We'll be back every year."</p>
+          <p class="testimonial-author">Marcus R.</p>
+          <p class="testimonial-location">Atlanta, GA</p>
+        </div>
+        <div class="testimonial-slide">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-quote">"Our anniversary dinner in the lodge dining room. The chef came out to talk about where the lamb came from. That's the difference here — people actually care."</p>
+          <p class="testimonial-author">Elena &amp; Paul M.</p>
+          <p class="testimonial-location">Washington, D.C.</p>
+        </div>
+      </div>
+      <div class="testimonial-dots" id="testimonialDots">
+        <div class="dot active" data-index="0"></div>
+        <div class="dot" data-index="1"></div>
+        <div class="dot" data-index="2"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA BANNER ── -->
+  <div class="cta-banner">
+    <!-- REPLACE: CTA headline and sub-copy -->
+    <h2>The mountains are waiting. So is a warm fire.</h2>
+    <p>Check availability for your dates — high season books early, and we'd rather you not miss it.</p>
+    <a href="#" class="btn-primary">Check Availability</a>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer id="contact">
+    <!-- Mountain SVG footer decoration -->
+    <svg class="footer-mountain" viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,120 L0,80 L60,55 L120,75 L200,30 L290,65 L370,15 L460,60 L540,25 L640,70 L720,10 L820,65 L900,30 L1000,75 L1080,40 L1180,80 L1260,50 L1340,85 L1440,60 L1440,120 Z" fill="rgba(201,169,110,0.15)" />
+      <path d="M0,120 L0,95 L100,70 L200,90 L320,60 L420,85 L530,55 L640,80 L760,50 L860,80 L980,60 L1080,90 L1200,65 L1300,88 L1440,75 L1440,120 Z" fill="rgba(201,169,110,0.08)" />
+    </svg>
+
+    <div class="footer-grid">
+      <div>
+        <!-- REPLACE: lodge name and address -->
+        <div class="footer-brand-name">Ridgeline Lodge</div>
+        <p class="footer-brand-tagline">A mountain retreat on 6,200 private acres in the Blue Ridge Mountains of North Carolina. Open year-round. Dogs welcome.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Stay</h4>
+        <ul>
+          <li><a href="#">Rooms &amp; Suites</a></li>
+          <li><a href="#">Cabins</a></li>
+          <li><a href="#">Packages</a></li>
+          <li><a href="#">Weddings</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Experience</h4>
+        <ul>
+          <li><a href="#">Dining</a></li>
+          <li><a href="#">Spa</a></li>
+          <li><a href="#">Activities</a></li>
+          <li><a href="#">Events</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <!-- REPLACE: contact info -->
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="#">1-800-555-0182</a></li>
+          <li><a href="#">hello@ridgelinelodge.com</a></li>
+          <li><a href="#">Directions</a></li>
+          <li><a href="#">Gift Cards</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <!-- REPLACE: lodge name -->
+      <span>© 2025 Ridgeline Lodge. All rights reserved.</span>
+      <span>Privacy Policy · Terms · Accessibility</span>
+    </div>
+  </footer>
+
+  <!-- ── SCRIPTS ── -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Nav scroll class
+    window.addEventListener('scroll', () => {
+      document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Hero parallax
+    gsap.to('#heroBg', {
+      yPercent: 30,
+      ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+    });
+
+    // Hero entrance animations
+    const tl = gsap.timeline({ delay: 0.3 });
+    tl.to('#heroEyebrow', { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' })
+      .to('.word', { opacity: 1, y: 0, duration: 0.5, stagger: 0.12, ease: 'power2.out' }, '-=0.2')
+      .to('#heroSubtitle', { opacity: 1, duration: 0.7, ease: 'power2.out' }, '-=0.2')
+      .to('#heroActions', { opacity: 1, duration: 0.7, ease: 'power2.out' }, '-=0.3');
+
+    // Stats counter
+    function animateCounter(el, target, isDecimal) {
+      const decimals = isDecimal ? 1 : 0;
+      gsap.fromTo(el, { innerText: 0 }, {
+        innerText: target, duration: 2, ease: 'power2.out',
+        snap: { innerText: isDecimal ? 0.1 : 1 },
+        onUpdate() { el.innerText = parseFloat(el.innerText).toFixed(decimals); }
+      });
+    }
+
+    ScrollTrigger.create({
+      trigger: '#statsSection', start: 'top 80%', once: true,
+      onEnter() {
+        animateCounter(document.getElementById('stat0'), 47, false);
+        animateCounter(document.getElementById('stat1'), 4.9, true);
+        animateCounter(document.getElementById('stat3'), 6200, false);
+      }
+    });
+
+    // Room cards slide in
+    gsap.utils.toArray('.room-card').forEach(card => {
+      const fromLeft = card.classList.contains('from-left');
+      gsap.to(card, {
+        opacity: 1, x: 0, duration: 0.9, ease: 'power3.out',
+        scrollTrigger: { trigger: card, start: 'top 80%', once: true }
+      });
+    });
+
+    // Section headings stagger
+    gsap.utils.toArray('.section-title').forEach(el => {
+      gsap.fromTo(el,
+        { opacity: 0, y: 40 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out',
+          scrollTrigger: { trigger: el, start: 'top 85%', once: true } }
+      );
+    });
+
+    gsap.utils.toArray('.section-eyebrow').forEach(el => {
+      gsap.fromTo(el,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', once: true } }
+      );
+    });
+
+    // Experience features
+    gsap.utils.toArray('.experience-feature').forEach((el, i) => {
+      gsap.fromTo(el,
+        { opacity: 0, x: -30 },
+        { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out', delay: i * 0.15,
+          scrollTrigger: { trigger: el, start: 'top 85%', once: true } }
+      );
+    });
+
+    // Activity cards
+    gsap.utils.toArray('.activity-card').forEach((card, i) => {
+      gsap.fromTo(card,
+        { opacity: 0, y: 40, scale: 0.96 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.6, delay: i * 0.1, ease: 'power2.out',
+          scrollTrigger: { trigger: card, start: 'top 88%', once: true } }
+      );
+    });
+
+    // Testimonial carousel
+    let current = 0;
+    const slides = document.querySelectorAll('.testimonial-slide');
+    const dots = document.querySelectorAll('.dot');
+    const track = document.getElementById('testimonialTrack');
+
+    function goTo(idx) {
+      current = idx;
+      track.style.transform = `translateX(-${idx * 100}%)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    }
+
+    dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.index)));
+    setInterval(() => goTo((current + 1) % slides.length), 5000);
+  </script>
+</body>
+</html>
