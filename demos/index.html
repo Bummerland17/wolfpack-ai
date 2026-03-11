@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wolfpack AI — See It In Action</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0a0a;
+      --surface:   #111111;
+      --surface2:  #161616;
+      --border:    #222222;
+      --blue:      #2563eb;
+      --blue-dim:  #1d4ed8;
+      --blue-glow: rgba(37, 99, 235, 0.15);
+      --green:     #10b981;
+      --amber:     #f59e0b;
+      --red:       #ef4444;
+      --purple:    #7c3aed;
+      --text:      #f1f5f9;
+      --muted:     #64748b;
+      --radius:    14px;
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { text-decoration: none; }
+
+    /* ─── Header ─────────────────────────────────────── */
+    .header {
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+
+    .logo span { color: var(--blue); }
+
+    .header-tag {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--muted);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 0.3rem 0.85rem;
+    }
+
+    /* ─── Hero ───────────────────────────────────────── */
+    .hero {
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      background: radial-gradient(ellipse at 50% 0%, rgba(37,99,235,0.14) 0%, transparent 60%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(37,99,235,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(37,99,235,0.12);
+      border: 1px solid rgba(37,99,235,0.25);
+      border-radius: 24px;
+      padding: 0.4rem 1rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--blue);
+      letter-spacing: 0.03em;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-eyebrow .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      animation: blink 2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.25rem, 5vw, 3.75rem);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--blue) 0%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto 3rem;
+      line-height: 1.65;
+    }
+
+    /* ─── Demo Cards ─────────────────────────────────── */
+    .demos-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .demos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 5rem;
+    }
+
+    .demo-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .demo-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: 20px 20px 0 0;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .demo-card:hover {
+      border-color: #333;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.5);
+      transform: translateY(-3px);
+    }
+
+    .demo-card:hover::before { opacity: 1; }
+
+    /* Card color accents */
+    .demo-card.card-voice::before { background: linear-gradient(90deg, var(--blue), #60a5fa); }
+    .demo-card.card-voice:hover   { border-color: rgba(37,99,235,0.4); }
+
+    .demo-card.card-audit::before { background: linear-gradient(90deg, var(--green), #34d399); }
+    .demo-card.card-audit:hover   { border-color: rgba(16,185,129,0.35); }
+
+    .demo-card.card-dash::before  { background: linear-gradient(90deg, var(--purple), #a78bfa); }
+    .demo-card.card-dash:hover    { border-color: rgba(124,58,237,0.35); }
+
+    .demo-icon {
+      width: 60px; height: 60px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      flex-shrink: 0;
+    }
+
+    .demo-icon.blue   { background: rgba(37,99,235,0.12); }
+    .demo-icon.green  { background: rgba(16,185,129,0.12); }
+    .demo-icon.purple { background: rgba(124,58,237,0.12); }
+
+    .demo-card-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .demo-card-tag.blue   { color: var(--blue); }
+    .demo-card-tag.green  { color: var(--green); }
+    .demo-card-tag.purple { color: #a78bfa; }
+
+    .demo-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      line-height: 1.25;
+    }
+
+    .demo-card p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .demo-card-cta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .demo-card-cta span {
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .demo-card-cta span.blue   { color: var(--blue); }
+    .demo-card-cta span.green  { color: var(--green); }
+    .demo-card-cta span.purple { color: #a78bfa; }
+
+    .arrow {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: transform 0.15s;
+    }
+
+    .demo-card:hover .arrow { transform: translateX(3px); }
+
+    .arrow.blue   { background: rgba(37,99,235,0.15); color: var(--blue); }
+    .arrow.green  { background: rgba(16,185,129,0.12); color: var(--green); }
+    .arrow.purple { background: rgba(124,58,237,0.12); color: #a78bfa; }
+
+    /* ─── Pricing Section ────────────────────────────── */
+    .pricing-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 3rem;
+      text-align: center;
+      margin-bottom: 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pricing-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--purple), var(--green));
+    }
+
+    .pricing-section h2 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .pricing-section > p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 480px;
+      margin: 0 auto 3rem;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .price-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem 1.5rem;
+      text-align: left;
+      position: relative;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .price-card:hover {
+      border-color: #333;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    }
+
+    .price-card.featured {
+      border-color: rgba(37,99,235,0.4);
+      background: rgba(37,99,235,0.04);
+    }
+
+    .price-card-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .price-card-name {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .price-card-amount {
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -1px;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+
+    .price-card-amount span {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--muted);
+      letter-spacing: 0;
+    }
+
+    .price-card-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+
+    .price-btn {
+      display: block;
+      width: 100%;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 700;
+      font-family: inherit;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.15s, box-shadow 0.15s, transform 0.12s;
+      text-decoration: none;
+    }
+
+    .price-btn:hover {
+      background: var(--blue-dim);
+      box-shadow: 0 0 20px rgba(37,99,235,0.4);
+      transform: translateY(-1px);
+    }
+
+    .price-btn.secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      box-shadow: none;
+    }
+
+    .price-btn.secondary:hover {
+      background: #222;
+      border-color: #444;
+      box-shadow: none;
+    }
+
+    .pricing-note {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    /* ─── Trust Strip ────────────────────────────────── */
+    .trust-strip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      margin-bottom: 3rem;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .trust-item .check {
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    /* ─── Footer ─────────────────────────────────────── */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .footer a { color: var(--muted); }
+    .footer a:hover { color: var(--text); }
+
+    /* ─── Responsive ─────────────────────────────────── */
+    @media (max-width: 768px) {
+      .hero { padding: 4rem 1.5rem 3rem; }
+      .demos-section { padding: 0 1.25rem 4rem; }
+      .demos-grid { grid-template-columns: 1fr; }
+      .pricing-section { padding: 2rem 1.5rem; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .trust-strip { gap: 1rem; }
+      .header { padding: 1rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">Wolfpack<span>AI</span></div>
+  <div class="header-tag">Interactive Demos</div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <span class="dot"></span>
+    Live demos — no signup required
+  </div>
+  <h1>See <span class="highlight">Wolfpack AI</span><br>in action</h1>
+  <p>Experience the exact tools your clients will use — including a live conversation with our AI receptionist. Takes 2 minutes.</p>
+</section>
+
+<div class="demos-section">
+
+  <!-- Demo Cards -->
+  <div class="demos-grid">
+
+    <!-- Voice Demo -->
+    <a href="voice-demo.html" class="demo-card card-voice">
+      <div class="demo-icon blue">🎙️</div>
+      <div>
+        <div class="demo-card-tag blue">Live Demo</div>
+        <h3>Talk to our AI receptionist</h3>
+      </div>
+      <p>Click the microphone and have a real conversation with Alex — the AI that will be answering your clients' calls. Ask about hours, book an appointment, whatever you want.</p>
+      <div class="demo-card-cta">
+        <span class="blue">Start the conversation →</span>
+        <div class="arrow blue">→</div>
+      </div>
+    </a>
+
+    <!-- Audit Tool -->
+    <a href="site-audit.html" class="demo-card card-audit">
+      <div class="demo-icon green">📊</div>
+      <div>
+        <div class="demo-card-tag green">Free Tool</div>
+        <h3>Score your online presence</h3>
+      </div>
+      <p>Enter your business name and we pull your live Google data — rating, reviews, website, overall score. See exactly how you look to potential customers right now.</p>
+      <div class="demo-card-cta">
+        <span class="green">Run your free audit →</span>
+        <div class="arrow green">→</div>
+      </div>
+    </a>
+
+    <!-- Dashboard Demo -->
+    <a href="dashboard-demo.html" class="demo-card card-dash">
+      <div class="demo-icon purple">📱</div>
+      <div>
+        <div class="demo-card-tag purple">Dashboard</div>
+        <h3>See the client dashboard</h3>
+      </div>
+      <p>Explore the real dashboard your clients use daily — with pre-loaded demo data from a dental practice. Warm leads, call logs, transcripts, and agent details.</p>
+      <div class="demo-card-cta">
+        <span class="purple">Explore the dashboard →</span>
+        <div class="arrow purple">→</div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Pricing / CTA Section -->
+  <div class="pricing-section">
+    <h2>Ready to get started?</h2>
+    <p>Choose what you need. No contracts, no surprises. Setup in 48 hours.</p>
+
+    <div class="pricing-grid">
+
+      <div class="price-card featured">
+        <div class="price-card-label">Most Popular</div>
+        <div class="price-card-name">🤖 SmartBook AI Receptionist</div>
+        <div class="price-card-amount">$497<span>/mo</span></div>
+        <div class="price-card-desc">AI answers every call, books appointments, captures leads, and sends everything to your dashboard. Runs 24/7.</div>
+        <a href="https://buy.stripe.com/dRm7sK6kAe6Pfs75oL3F604" target="_blank" class="price-btn">Get started →</a>
+      </div>
+
+      <div class="price-card">
+        <div class="price-card-label">Website</div>
+        <div class="price-card-name">🌐 Professional Website</div>
+        <div class="price-card-amount">$599<span> flat</span></div>
+        <div class="price-card-desc">A fast, mobile-optimized website built in 48 hours. Designed to rank on Google and convert visitors to calls.</div>
+        <a href="https://buy.stripe.com/3cI5kCbFiag4bUrdRWbsc04" target="_blank" class="price-btn secondary">Build my website →</a>
+      </div>
+
+      <div class="price-card">
+        <div class="price-card-label">Reputation</div>
+        <div class="price-card-name">⭐ Rating & Review Growth</div>
+        <div class="price-card-amount">$400<span>/mo</span></div>
+        <div class="price-card-desc">We get more 5-star reviews coming in consistently — so your rating goes up and stays up. Most clients see results in 30 days.</div>
+        <a href="https://buy.stripe.com/9B69ASaBeag49Mj7tybsc05" target="_blank" class="price-btn secondary">Boost my rating →</a>
+      </div>
+
+    </div>
+
+    <p class="pricing-note">Questions? Email us at <a href="mailto:wolfgang@wolfpackai.com" style="color:var(--blue)">wolfgang@wolfpackai.com</a> — we respond fast.</p>
+  </div>
+
+  <!-- Trust Strip -->
+  <div class="trust-strip">
+    <div class="trust-item"><span class="check">✓</span> No contracts</div>
+    <div class="trust-item"><span class="check">✓</span> Setup in 48 hours</div>
+    <div class="trust-item"><span class="check">✓</span> Cancel anytime</div>
+    <div class="trust-item"><span class="check">✓</span> Real human support</div>
+    <div class="trust-item"><span class="check">✓</span> 24/7 AI uptime</div>
+    <div class="trust-item"><span class="check">✓</span> Full call transcripts</div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <p>© 2026 Wolfpack AI &nbsp;·&nbsp; <a href="mailto:wolfgang@wolfpackai.com">wolfgang@wolfpackai.com</a></p>
+</footer>
+
+</body>
+</html>
