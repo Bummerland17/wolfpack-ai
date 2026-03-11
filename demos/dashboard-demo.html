@@ -3,29 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Demo — Wolfpack AI</title>
+  <title>Wolfpack AI — Live Demo Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     /* ─── Reset & Base ─────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #0a0a0a;
-      --surface:   #111111;
-      --surface2:  #161616;
-      --border:    #222222;
-      --blue:      #2563eb;
-      --blue-dim:  #1d4ed8;
-      --blue-glow: rgba(37, 99, 235, 0.15);
-      --green:     #10b981;
-      --amber:     #f59e0b;
-      --red:       #ef4444;
-      --text:      #f1f5f9;
-      --muted:     #64748b;
-      --radius:    10px;
-      --transition: 180ms ease;
+      --bg:          #0a0a0a;
+      --surface:     #111111;
+      --surface2:    #161616;
+      --surface3:    #1c1c1c;
+      --border:      #222222;
+      --border2:     #2a2a2a;
+      --blue:        #2563eb;
+      --blue-dim:    #1d4ed8;
+      --blue-light:  #3b82f6;
+      --blue-glow:   rgba(37,99,235,0.18);
+      --green:       #22c55e;
+      --green-dim:   rgba(34,197,94,0.12);
+      --amber:       #eab308;
+      --amber-dim:   rgba(234,179,8,0.12);
+      --red:         #ef4444;
+      --red-dim:     rgba(239,68,68,0.12);
+      --purple:      #a855f7;
+      --text:        #f1f5f9;
+      --text2:       #cbd5e1;
+      --muted:       #64748b;
+      --muted2:      #475569;
+      --radius:      10px;
+      --radius2:     14px;
+      --sidebar-w:   240px;
+      --header-h:    62px;
+      --transition:  180ms ease;
     }
 
     html, body {
@@ -33,1176 +46,2956 @@
       background: var(--bg);
       color: var(--text);
       font-family: 'Inter', system-ui, sans-serif;
-      font-size: 15px;
+      font-size: 14px;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
 
-    a { color: var(--blue); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    /* ─── Scrollbar ─────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3a3a3a; }
 
-    /* ─── Demo Banner ──────────────────────────────────────────── */
-    .demo-banner {
+    /* ─── Utility ───────────────────────────────────────────────── */
+    .hidden { display: none !important; }
+    .text-muted { color: var(--muted); }
+    .text-green { color: var(--green); }
+    .text-amber { color: var(--amber); }
+    .text-red { color: var(--red); }
+    .text-blue { color: var(--blue-light); }
+    .text-sm { font-size: 0.8rem; }
+    .text-xs { font-size: 0.72rem; }
+    .font-600 { font-weight: 600; }
+    .font-700 { font-weight: 700; }
+
+    /* ─── Login Screen ─────────────────────────────────────────── */
+    #login-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+      background: radial-gradient(ellipse at 50% 0%, rgba(37,99,235,0.1) 0%, transparent 65%), var(--bg);
+    }
+
+    .login-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+
+    .login-logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+    .login-logo span { color: var(--blue-light); }
+
+    .login-tagline {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .login-card h2 { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .login-card > p { font-size: 0.85rem; color: var(--muted); margin-bottom: 2rem; }
+
+    .form-group { margin-bottom: 1rem; text-align: left; }
+    .form-label { font-size: 0.8rem; font-weight: 500; color: var(--text2); margin-bottom: 0.4rem; display: block; }
+
+    .form-input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      padding: 0.8rem 1rem;
+      font-size: 0.95rem;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .form-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-glow); }
+
+    .btn-primary {
+      width: 100%;
       background: var(--blue);
-      padding: 0.65rem 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      position: sticky;
-      top: 0;
-      z-index: 200;
-    }
-
-    .demo-banner-left {
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-      font-size: 0.875rem;
-      font-weight: 600;
       color: #fff;
-    }
-
-    .demo-banner-left .pulse-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: #fff;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255,255,255,0.4); }
-      50%       { opacity: 0.8; box-shadow: 0 0 0 5px rgba(255,255,255,0); }
-    }
-
-    .cta-banner-btn {
-      background: #fff;
-      color: var(--blue);
       border: none;
-      border-radius: 8px;
-      padding: 0.45rem 1.1rem;
-      font-size: 0.82rem;
-      font-weight: 700;
+      border-radius: var(--radius);
+      padding: 0.85rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
       font-family: inherit;
       cursor: pointer;
-      text-decoration: none;
-      transition: opacity 0.15s, transform 0.12s;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .btn-primary:hover { background: var(--blue-dim); box-shadow: 0 4px 20px rgba(37,99,235,0.4); transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-secondary {
+      background: var(--surface3);
+      color: var(--text2);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      padding: 0.6rem 1.1rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all var(--transition);
       white-space: nowrap;
     }
+    .btn-secondary:hover { background: var(--border2); color: var(--text); }
 
-    .cta-banner-btn:hover { opacity: 0.9; transform: translateY(-1px); text-decoration: none; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .btn-ghost:hover { color: var(--text2); border-color: var(--border2); }
+
+    .btn-sm {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.75rem;
+      border-radius: 7px;
+    }
+
+    .btn-green {
+      background: rgba(34,197,94,0.15);
+      color: var(--green);
+      border: 1px solid rgba(34,197,94,0.3);
+      border-radius: var(--radius);
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .btn-green:hover { background: rgba(34,197,94,0.25); }
+
+    .btn-amber {
+      background: rgba(234,179,8,0.12);
+      color: var(--amber);
+      border: 1px solid rgba(234,179,8,0.3);
+      border-radius: var(--radius);
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .btn-amber:hover { background: rgba(234,179,8,0.22); }
+
+    .btn-disabled {
+      background: var(--surface3);
+      color: var(--muted2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .login-error { color: var(--red); font-size: 0.82rem; margin-top: 0.75rem; min-height: 1.2em; }
+
+    /* ─── App Shell ────────────────────────────────────────────── */
+    #app { display: none; min-height: 100vh; }
 
     /* ─── Header ───────────────────────────────────────────────── */
+    .demo-banner ~ #app .header,
     .header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
       padding: 0 1.5rem;
-      height: 60px;
+      height: var(--header-h);
       display: flex;
       align-items: center;
       justify-content: space-between;
       position: sticky;
-      top: 44px;
-      z-index: 100;
-      backdrop-filter: blur(10px);
+      top: 0; left: 0; right: 0;
+      z-index: 200;
     }
 
     .header-left { display: flex; align-items: center; gap: 1rem; }
 
-    .logo {
-      font-size: 1.15rem;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      white-space: nowrap;
+    .sidebar-toggle {
+      background: none; border: none; color: var(--muted); cursor: pointer;
+      padding: 0.4rem; border-radius: 6px; display: flex; align-items: center;
+      transition: color var(--transition);
     }
+    .sidebar-toggle:hover { color: var(--text); }
 
-    .logo span { color: var(--blue); }
+    .logo { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.5px; white-space: nowrap; }
+    .logo span { color: var(--blue-light); }
 
-    .header-divider {
-      width: 1px;
-      height: 24px;
-      background: var(--border);
-    }
+    .header-divider { width: 1px; height: 22px; background: var(--border); }
 
-    .header-client {
-      font-size: 0.82rem;
-      color: var(--muted);
-    }
+    .header-client { font-size: 0.8rem; color: var(--muted); }
+    .header-client strong { color: var(--text); font-weight: 600; }
 
-    .header-client strong {
-      color: var(--text);
-      font-weight: 500;
-    }
+    .header-right { display: flex; align-items: center; gap: 0.75rem; }
 
-    .agent-status-badge {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: rgba(16,185,129,0.1);
-      border: 1px solid rgba(16,185,129,0.25);
+    .agent-status-pill {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: rgba(34,197,94,0.1);
+      border: 1px solid rgba(34,197,94,0.2);
       border-radius: 20px;
-      padding: 0.3rem 0.75rem;
-      font-size: 0.78rem;
-      font-weight: 500;
+      padding: 0.3rem 0.85rem;
+      font-size: 0.75rem; font-weight: 600;
       color: var(--green);
     }
 
-    .status-dot {
+    .pulse-dot {
       width: 7px; height: 7px;
-      border-radius: 50%;
       background: var(--green);
+      border-radius: 50%;
       animation: pulse 2s infinite;
     }
 
-    .back-link {
-      font-size: 0.78rem;
-      color: var(--muted);
-      text-decoration: none;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 0.35rem 0.75rem;
-      transition: color var(--transition), border-color var(--transition);
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.7); }
     }
 
-    .back-link:hover { color: var(--text); border-color: var(--muted); text-decoration: none; }
+    .notif-btn {
+      position: relative;
+      background: none; border: none;
+      color: var(--muted); cursor: pointer;
+      padding: 0.4rem; border-radius: 8px;
+      display: flex; align-items: center;
+      transition: color var(--transition);
+    }
+    .notif-btn:hover { color: var(--text); }
+
+    .notif-badge {
+      position: absolute;
+      top: 0; right: 0;
+      background: var(--red);
+      color: #fff;
+      font-size: 0.6rem; font-weight: 700;
+      width: 15px; height: 15px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .logout-btn {
+      background: none; border: none;
+      color: var(--muted); cursor: pointer;
+      font-size: 0.8rem; font-family: inherit;
+      padding: 0.4rem 0.75rem; border-radius: 7px;
+      transition: all var(--transition);
+    }
+    .logout-btn:hover { color: var(--text); background: var(--surface3); }
 
     /* ─── Layout ────────────────────────────────────────────────── */
-    .layout {
+    .app-layout {
       display: flex;
-      max-width: 1400px;
-      margin: 0 auto;
+      padding-top: var(--header-h);
+      min-height: 100vh;
     }
 
     /* ─── Sidebar ───────────────────────────────────────────────── */
     .sidebar {
-      width: 220px;
-      flex-shrink: 0;
+      width: var(--sidebar-w);
       background: var(--surface);
       border-right: 1px solid var(--border);
-      min-height: calc(100vh - 104px);
-      padding: 1.5rem 0.75rem;
       position: sticky;
-      top: 104px;
-      align-self: flex-start;
+      top: var(--header-h);
+      height: calc(100vh - var(--header-h));
+      overflow-y: auto;
+      z-index: 150;
+      transition: transform 300ms ease;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
     }
 
-    .nav-label {
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      color: var(--muted);
+    .sidebar.collapsed { transform: translateX(calc(-1 * var(--sidebar-w))); }
+
+    .sidebar-nav { padding: 1rem 0.75rem; flex: 1; }
+
+    .nav-section-label {
+      font-size: 0.65rem;
+      font-weight: 700;
       text-transform: uppercase;
-      padding: 0 0.75rem;
-      margin-bottom: 0.5rem;
+      letter-spacing: 0.1em;
+      color: var(--muted2);
+      padding: 0.75rem 0.75rem 0.4rem;
     }
 
     .nav-item {
       display: flex;
       align-items: center;
-      gap: 0.65rem;
-      padding: 0.6rem 0.75rem;
+      gap: 0.75rem;
+      padding: 0.65rem 0.85rem;
       border-radius: var(--radius);
-      font-size: 0.875rem;
+      cursor: pointer;
+      font-size: 0.87rem;
       font-weight: 500;
       color: var(--muted);
-      cursor: pointer;
-      transition: background var(--transition), color var(--transition);
+      transition: all var(--transition);
       user-select: none;
+      position: relative;
+      margin-bottom: 0.1rem;
+    }
+    .nav-item:hover { background: var(--surface3); color: var(--text2); }
+    .nav-item.active { background: var(--blue-glow); color: var(--blue-light); }
+    .nav-item.active .nav-icon { color: var(--blue-light); }
+
+    .nav-icon { font-size: 1.1rem; width: 20px; text-align: center; flex-shrink: 0; }
+    .nav-label { flex: 1; }
+
+    .nav-badge {
+      background: var(--red);
+      color: #fff;
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 0.1rem 0.4rem;
+      border-radius: 10px;
+      min-width: 18px;
+      text-align: center;
     }
 
-    .nav-item:hover { background: var(--surface2); color: var(--text); }
-    .nav-item.active { background: var(--blue-glow); color: var(--blue); font-weight: 600; }
-    .nav-item svg { width: 17px; height: 17px; flex-shrink: 0; }
+    .sidebar-footer {
+      padding: 1rem;
+      border-top: 1px solid var(--border);
+    }
 
-    .nav-sep { height: 1px; background: var(--border); margin: 1rem 0.75rem; }
+    .plan-pill {
+      background: var(--blue-glow);
+      border: 1px solid rgba(37,99,235,0.25);
+      border-radius: var(--radius);
+      padding: 0.75rem;
+      font-size: 0.78rem;
+    }
+    .plan-pill .plan-name { font-weight: 700; color: var(--blue-light); margin-bottom: 0.15rem; }
+    .plan-pill .plan-price { color: var(--muted); font-size: 0.72rem; }
 
     /* ─── Main Content ──────────────────────────────────────────── */
-    .main {
+    .main-content {
       flex: 1;
+      margin-left: var(--sidebar-w);
+      padding: 2rem;
+      transition: margin-left 300ms ease;
       min-width: 0;
-      padding: 2rem 2rem 4rem;
     }
 
-    .section { display: none; }
+    .main-content.full { margin-left: 0; }
+
+    /* ─── Section ───────────────────────────────────────────────── */
+    .section { display: none; animation: fadeIn 200ms ease; }
     .section.active { display: block; }
 
-    .section-header { margin-bottom: 2rem; }
-    .section-header h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.3px; }
-    .section-header p  { color: var(--muted); font-size: 0.875rem; margin-top: 0.25rem; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
-    /* ─── Stats Cards ───────────────────────────────────────────── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.75rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .section-subtitle { font-size: 0.82rem; color: var(--muted); margin-top: 0.2rem; }
+
+    /* ─── Cards ─────────────────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      padding: 1.5rem;
+    }
+
+    .card-sm { padding: 1.1rem 1.25rem; }
+
+    .card-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* ─── Stat Cards ────────────────────────────────────────────── */
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 1rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
 
     .stat-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
+      border-radius: var(--radius2);
+      padding: 1.25rem 1.5rem;
       position: relative;
       overflow: hidden;
-      transition: border-color var(--transition), box-shadow var(--transition);
+      transition: border-color var(--transition), transform var(--transition);
     }
-
-    .stat-card:hover {
-      border-color: #2a2a2a;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
-    }
+    .stat-card:hover { border-color: var(--border2); transform: translateY(-1px); }
 
     .stat-card::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 2px;
-      background: var(--blue);
-      opacity: 0;
-      transition: opacity var(--transition);
+      background: var(--stat-color, var(--blue));
+      opacity: 0.7;
     }
 
-    .stat-card:hover::before { opacity: 1; }
+    .stat-label { font-size: 0.75rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.6rem; }
+    .stat-value { font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; line-height: 1; margin-bottom: 0.5rem; }
+    .stat-footer { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+    .stat-description { font-size: 0.75rem; color: var(--muted); }
 
-    .stat-icon {
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1rem;
-      font-size: 1.15rem;
-    }
-
-    .stat-icon.blue   { background: rgba(37,99,235,0.15); }
-    .stat-icon.green  { background: rgba(16,185,129,0.12); }
-    .stat-icon.amber  { background: rgba(245,158,11,0.12); }
-    .stat-icon.purple { background: rgba(139,92,246,0.12); }
-
-    .stat-value {
-      font-size: 2.25rem;
-      font-weight: 800;
-      letter-spacing: -1px;
-      line-height: 1;
-      margin-bottom: 0.35rem;
-    }
-
-    .stat-label { font-size: 0.8rem; color: var(--muted); font-weight: 500; }
-
-    /* ─── Info Grid ─────────────────────────────────────────────── */
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.25rem;
-      margin-bottom: 2rem;
-    }
-
-    .info-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-    }
-
-    .info-card h3 {
-      font-size: 0.78rem;
+    .stat-change {
+      font-size: 0.72rem;
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--muted);
-      margin-bottom: 1rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 6px;
+      white-space: nowrap;
     }
+    .stat-change.up { background: rgba(34,197,94,0.12); color: var(--green); }
+    .stat-change.down { background: rgba(239,68,68,0.12); color: var(--red); }
+    .stat-change.neutral { background: var(--surface3); color: var(--muted); }
 
-    .info-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.875rem;
-    }
-
-    .info-row:last-child { border-bottom: none; }
-    .info-row .key { color: var(--muted); }
-    .info-row .val { font-weight: 500; color: var(--text); }
-
-    /* ─── Card ──────────────────────────────────────────────────── */
-    .card {
+    /* ─── Bar Chart (CSS) ───────────────────────────────────────── */
+    .bar-chart-wrap {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
+      border-radius: var(--radius2);
+      padding: 1.5rem;
       margin-bottom: 1.5rem;
     }
 
-    .card-header {
-      padding: 1.1rem 1.5rem;
-      border-bottom: 1px solid var(--border);
+    .bar-chart-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-bottom: 1.25rem;
     }
 
-    .card-header h2 { font-size: 0.95rem; font-weight: 600; }
+    .bar-chart-title { font-size: 0.9rem; font-weight: 700; }
 
-    .card-header .count {
-      font-size: 0.78rem;
-      color: var(--muted);
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 0.15rem 0.65rem;
+    .bar-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 100px;
     }
 
-    /* ─── Table ─────────────────────────────────────────────────── */
-    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-
-    table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
-
-    thead th {
-      text-align: left;
-      padding: 0.85rem 1.5rem;
-      font-size: 0.73rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--muted);
-      border-bottom: 1px solid var(--border);
-      white-space: nowrap;
-    }
-
-    tbody tr {
-      border-bottom: 1px solid var(--border);
-      transition: background var(--transition);
-    }
-
-    tbody tr:last-child { border-bottom: none; }
-    tbody tr:hover { background: var(--surface2); }
-
-    tbody td {
-      padding: 1rem 1.5rem;
-      color: var(--text);
-      vertical-align: middle;
-    }
-
-    /* ─── Badges ────────────────────────────────────────────────── */
-    .badge {
-      display: inline-flex;
+    .bar-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 0.3rem;
-      padding: 0.2rem 0.6rem;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 600;
+      gap: 6px;
+      height: 100%;
     }
 
-    .badge.new       { background: rgba(37,99,235,0.15);  color: #60a5fa; border: 1px solid rgba(37,99,235,0.3); }
-    .badge.contacted { background: rgba(245,158,11,0.12); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
-    .badge.closed    { background: rgba(16,185,129,0.12); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
-    .badge.completed { background: rgba(16,185,129,0.12); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
-    .badge.voicemail { background: rgba(245,158,11,0.12); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
-    .badge.no-answer { background: rgba(239,68,68,0.12);  color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
-    .badge.live      { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
-    .badge.booked    { background: rgba(139,92,246,0.15); color: #a78bfa; border: 1px solid rgba(139,92,246,0.3); }
+    .bar-fill-wrap { flex: 1; width: 100%; display: flex; align-items: flex-end; }
 
-    .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .bar-fill {
+      width: 100%;
+      background: var(--blue);
+      border-radius: 4px 4px 0 0;
+      opacity: 0.7;
+      transition: opacity var(--transition), height 600ms cubic-bezier(.4,0,.2,1);
+      min-height: 3px;
+    }
+    .bar-fill:hover { opacity: 1; }
 
-    /* ─── Agent Section ─────────────────────────────────────────── */
-    .agent-card {
+    .bar-fill.today { background: var(--blue-light); opacity: 1; }
+
+    .bar-label { font-size: 0.62rem; color: var(--muted); white-space: nowrap; }
+
+    /* ─── Grid Layouts ──────────────────────────────────────────── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+
+    /* ─── Calendar ──────────────────────────────────────────────── */
+    .calendar-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .calendar-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 2rem;
-      margin-bottom: 1.25rem;
+      border-radius: var(--radius2);
+      overflow: hidden;
     }
 
-    .agent-avatar {
-      width: 64px; height: 64px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--blue), #7c3aed);
+    .calendar-header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 1.75rem;
-      margin-bottom: 1.25rem;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
     }
 
-    .agent-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
-    .agent-sub  { color: var(--muted); font-size: 0.875rem; margin-bottom: 1.5rem; }
+    .cal-month-title { font-size: 1rem; font-weight: 700; }
 
-    .agent-details {
+    .cal-nav { display: flex; gap: 0.5rem; }
+
+    .cal-nav-btn {
+      background: var(--surface3);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      border-radius: 7px;
+      width: 30px; height: 30px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 0.85rem;
+      transition: all var(--transition);
+    }
+    .cal-nav-btn:hover { background: var(--border2); color: var(--text); }
+
+    .calendar-grid { padding: 1rem; }
+
+    .cal-dow-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(7, 1fr);
+      margin-bottom: 0.5rem;
     }
 
-    .agent-detail {
-      background: var(--bg);
+    .cal-dow { text-align: center; font-size: 0.7rem; font-weight: 600; color: var(--muted); padding: 0.3rem 0; }
+
+    .cal-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+
+    .cal-day {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      padding: 0.25rem;
+      cursor: pointer;
+      transition: background var(--transition);
+      min-height: 52px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .cal-day:hover { background: var(--surface3); }
+    .cal-day.today { background: var(--blue-glow); }
+    .cal-day.today .cal-day-num { color: var(--blue-light); font-weight: 700; }
+    .cal-day.selected { background: rgba(37,99,235,0.2); outline: 2px solid var(--blue); }
+    .cal-day.other-month { opacity: 0.3; pointer-events: none; }
+
+    .cal-day-num { font-size: 0.78rem; font-weight: 500; line-height: 1.2; }
+
+    .cal-dots { display: flex; gap: 2px; flex-wrap: wrap; }
+
+    .cal-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+    }
+    .cal-dot.confirmed { background: var(--green); }
+    .cal-dot.pending { background: var(--amber); }
+    .cal-dot.cancelled { background: var(--red); }
+
+    .cal-view-toggle {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .cal-view-btn {
+      background: var(--surface3);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 7px;
+      padding: 0.35rem 0.85rem;
+      font-size: 0.78rem; font-weight: 500;
+      cursor: pointer; font-family: inherit;
+      transition: all var(--transition);
+    }
+    .cal-view-btn.active { background: var(--blue-glow); border-color: rgba(37,99,235,0.3); color: var(--blue-light); }
+
+    /* ─── Appointment Panel ─────────────────────────────────────── */
+    .appt-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      padding: 1.5rem;
+    }
+
+    .appt-panel-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 1rem; color: var(--text2); }
+
+    .appt-empty {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .appt-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .appt-item {
+      background: var(--surface2);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 1rem;
     }
 
-    .agent-detail .label {
-      font-size: 0.72rem;
-      font-weight: 600;
+    .appt-item-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+    .appt-client { font-weight: 600; font-size: 0.88rem; }
+    .appt-time { font-size: 0.75rem; color: var(--muted); }
+
+    .status-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
       text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--muted);
-      margin-bottom: 0.4rem;
+      letter-spacing: 0.04em;
     }
+    .status-badge.confirmed { background: var(--green-dim); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
+    .status-badge.pending { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(234,179,8,0.2); }
+    .status-badge.cancelled { background: var(--red-dim); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
+    .status-badge.completed { background: rgba(37,99,235,0.12); color: var(--blue-light); border: 1px solid rgba(37,99,235,0.2); }
 
-    .agent-detail .value { font-size: 0.925rem; font-weight: 600; color: var(--text); }
+    .appt-detail { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.75rem; }
+    .appt-notes { font-size: 0.78rem; color: var(--text2); background: var(--bg); border-radius: 6px; padding: 0.5rem 0.75rem; margin-bottom: 0.75rem; }
 
-    .script-card {
+    /* ─── Table ─────────────────────────────────────────────────── */
+    .table-wrap {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 1.25rem;
+      border-radius: var(--radius2);
+      overflow: hidden;
     }
 
-    .script-card h3 {
-      font-size: 0.78rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
+    .table-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-tabs { display: flex; gap: 0.4rem; }
+
+    .filter-tab {
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 7px;
+      padding: 0.35rem 0.85rem;
+      font-size: 0.78rem; font-weight: 500;
       color: var(--muted);
+      cursor: pointer; font-family: inherit;
+      transition: all var(--transition);
+    }
+    .filter-tab:hover { background: var(--surface3); color: var(--text2); }
+    .filter-tab.active { background: var(--blue-glow); border-color: rgba(37,99,235,0.3); color: var(--blue-light); }
+
+    table { width: 100%; border-collapse: collapse; }
+
+    thead th {
+      padding: 0.75rem 1.25rem;
+      text-align: left;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    tbody tr { border-bottom: 1px solid var(--border); transition: background var(--transition); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--surface2); }
+
+    tbody td { padding: 0.85rem 1.25rem; font-size: 0.83rem; vertical-align: middle; }
+
+    .phone-cell { font-family: monospace; font-size: 0.8rem; color: var(--muted); }
+    .date-cell { font-size: 0.78rem; color: var(--muted); white-space: nowrap; }
+    .duration-cell { font-size: 0.8rem; }
+
+    /* ─── Lead Score Badges ─────────────────────────────────────── */
+    .score-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.6rem;
+      border-radius: 7px;
+      white-space: nowrap;
+    }
+    .score-badge.hot { background: rgba(239,68,68,0.12); color: #fb7185; border: 1px solid rgba(239,68,68,0.2); }
+    .score-badge.warm { background: rgba(234,179,8,0.12); color: var(--amber); border: 1px solid rgba(234,179,8,0.2); }
+    .score-badge.cold { background: rgba(59,130,246,0.12); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2); }
+
+    /* ─── Call Type Badges ──────────────────────────────────────── */
+    .call-type-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.55rem;
+      border-radius: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .call-type-badge.inbound { background: rgba(34,197,94,0.1); color: var(--green); }
+    .call-type-badge.outbound { background: rgba(37,99,235,0.1); color: var(--blue-light); }
+
+    .outcome-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.55rem;
+      border-radius: 5px;
+    }
+    .outcome-badge.completed { background: rgba(34,197,94,0.1); color: var(--green); }
+    .outcome-badge.voicemail { background: rgba(234,179,8,0.1); color: var(--amber); }
+    .outcome-badge.no-answer { background: rgba(239,68,68,0.1); color: var(--red); }
+    .outcome-badge.transferred { background: rgba(168,85,247,0.1); color: var(--purple); }
+
+    /* ─── Stats Bar ─────────────────────────────────────────────── */
+    .stats-bar {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      overflow: hidden;
       margin-bottom: 1rem;
     }
 
-    .script-item {
-      display: flex;
-      gap: 0.75rem;
-      padding: 0.65rem 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.875rem;
+    .stats-bar-item {
+      flex: 1;
+      padding: 0.85rem 1.25rem;
+      border-right: 1px solid var(--border);
+      text-align: center;
     }
+    .stats-bar-item:last-child { border-right: none; }
 
-    .script-item:last-child { border-bottom: none; }
+    .stats-bar-value { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; }
+    .stats-bar-label { font-size: 0.72rem; color: var(--muted); font-weight: 500; }
 
-    .script-num {
-      width: 22px; height: 22px;
-      border-radius: 50%;
-      background: var(--blue-glow);
-      border: 1px solid rgba(37,99,235,0.3);
-      color: var(--blue);
-      font-size: 0.72rem;
-      font-weight: 700;
+    /* ─── Reviews ───────────────────────────────────────────────── */
+    .rating-hero {
       display: flex;
       align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    /* ─── Support ───────────────────────────────────────────────── */
-    .support-hero {
-      background: linear-gradient(135deg, rgba(37,99,235,0.1) 0%, rgba(124,58,237,0.08) 100%);
-      border: 1px solid rgba(37,99,235,0.2);
-      border-radius: 16px;
-      padding: 2.5rem;
-      text-align: center;
+      gap: 2rem;
+      padding: 2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
       margin-bottom: 1.5rem;
     }
 
-    .support-hero h2  { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .support-hero p   { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.9rem; }
-
-    .support-email-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: var(--blue);
-      color: #fff;
-      padding: 0.8rem 1.75rem;
+    .rating-big { font-size: 4rem; font-weight: 900; letter-spacing: -2px; color: var(--amber); line-height: 1; }
+    .stars-row { font-size: 1.5rem; margin-bottom: 0.25rem; }
+    .rating-sub { font-size: 0.82rem; color: var(--muted); }
+    .rating-target {
+      margin-left: auto;
+      background: rgba(234,179,8,0.08);
+      border: 1px solid rgba(234,179,8,0.2);
       border-radius: var(--radius);
+      padding: 1rem 1.5rem;
+      text-align: center;
+    }
+    .rating-target .target-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.3rem; }
+    .rating-target .target-value { font-size: 1.1rem; font-weight: 700; color: var(--amber); }
+
+    .review-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .review-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0.5rem; }
+    .reviewer-name { font-weight: 600; font-size: 0.9rem; }
+    .review-date { font-size: 0.75rem; color: var(--muted); }
+    .review-stars { color: var(--amber); font-size: 0.85rem; }
+    .review-text { font-size: 0.84rem; color: var(--text2); line-height: 1.6; }
+
+    .review-response {
+      font-size: 0.75rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
       font-weight: 600;
-      font-size: 0.9rem;
-      transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
+      white-space: nowrap;
+      margin-top: 0.75rem;
+      display: inline-block;
+    }
+    .review-response.responded { background: var(--green-dim); color: var(--green); }
+    .review-response.pending { background: var(--amber-dim); color: var(--amber); }
+
+    .competitor-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .competitor-name { font-weight: 600; font-size: 0.87rem; }
+    .competitor-sub { font-size: 0.75rem; color: var(--muted); }
+    .competitor-rating { font-size: 1.2rem; font-weight: 800; color: var(--amber); }
+
+    /* ─── Performance Charts ────────────────────────────────────── */
+    .chart-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      padding: 1.5rem;
     }
 
-    .support-email-btn:hover {
-      background: var(--blue-dim);
-      box-shadow: 0 0 24px rgba(37,99,235,0.4);
-      transform: translateY(-1px);
-      text-decoration: none;
-    }
+    .chart-card canvas { max-height: 200px; }
 
-    .support-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    .funnel-wrap { display: flex; flex-direction: column; gap: 0.5rem; }
+
+    .funnel-step {
+      display: flex;
+      align-items: center;
       gap: 1rem;
     }
 
-    .support-card {
+    .funnel-label { font-size: 0.82rem; color: var(--text2); width: 160px; flex-shrink: 0; }
+    .funnel-bar-outer { flex: 1; height: 28px; background: var(--surface3); border-radius: 6px; overflow: hidden; }
+    .funnel-bar-inner {
+      height: 100%;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      padding-left: 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fff;
+      transition: width 800ms cubic-bezier(.4,0,.2,1);
+    }
+    .funnel-pct { font-size: 0.75rem; color: var(--muted); width: 45px; text-align: right; }
+
+    /* ─── Agent Section ─────────────────────────────────────────── */
+    .agent-hero {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      text-align: center;
+      border-radius: var(--radius2);
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
     }
 
-    .support-card .icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
-    .support-card h4    { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.35rem; }
-    .support-card p     { font-size: 0.82rem; color: var(--muted); }
-
-    /* ─── Transcript Modal ──────────────────────────────────────── */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.75);
-      z-index: 300;
+    .agent-avatar {
+      width: 72px; height: 72px;
+      background: var(--blue-glow);
+      border: 2px solid rgba(37,99,235,0.3);
+      border-radius: 50%;
+      display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1.5rem;
-      backdrop-filter: blur(4px);
+      font-size: 2rem;
+      flex-shrink: 0;
     }
 
-    .modal-overlay.open { display: flex; }
+    .agent-name { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 0.3rem; }
+    .agent-meta { font-size: 0.82rem; color: var(--muted); display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .agent-meta-item { display: flex; align-items: center; gap: 0.4rem; }
+    .agent-live-badge {
+      margin-left: auto;
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(34,197,94,0.25);
+      border-radius: 30px;
+      padding: 0.5rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    .script-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .script-block-header {
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text2);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .script-item {
+      padding: 0.85rem 1.25rem;
+      font-size: 0.83rem;
+      color: var(--text2);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 0.75rem;
+      line-height: 1.5;
+    }
+    .script-item:last-child { border-bottom: none; }
+    .script-item-trigger { color: var(--blue-light); font-weight: 600; width: 160px; flex-shrink: 0; }
+
+    .update-item {
+      display: flex;
+      gap: 1rem;
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+    .update-item:last-child { border-bottom: none; }
+    .update-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--blue-light); margin-top: 0.35rem; flex-shrink: 0; }
+    .update-text { font-size: 0.83rem; color: var(--text2); flex: 1; }
+    .update-date { font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
+
+    /* ─── Notifications ─────────────────────────────────────────── */
+    .notif-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+      transition: background var(--transition);
+    }
+    .notif-item:last-child { border-bottom: none; }
+    .notif-item:hover { background: var(--surface2); }
+    .notif-item.unread { border-left: 3px solid var(--blue); }
+
+    .notif-icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .notif-icon.lead { background: rgba(239,68,68,0.1); }
+    .notif-icon.appt { background: rgba(34,197,94,0.1); }
+    .notif-icon.review { background: rgba(234,179,8,0.1); }
+    .notif-icon.call { background: rgba(37,99,235,0.1); }
+
+    .notif-body { flex: 1; }
+    .notif-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.15rem; }
+    .notif-desc { font-size: 0.78rem; color: var(--muted); }
+    .notif-time { font-size: 0.72rem; color: var(--muted2); white-space: nowrap; }
+
+    /* ─── Settings ──────────────────────────────────────────────── */
+    .settings-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .settings-section-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .settings-body { padding: 1.5rem; }
+
+    .settings-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .settings-row.single { grid-template-columns: 1fr; }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .toggle-row:last-child { border-bottom: none; }
+
+    .toggle-label { font-size: 0.85rem; font-weight: 500; }
+    .toggle-desc { font-size: 0.75rem; color: var(--muted); margin-top: 0.1rem; }
+
+    .toggle {
+      position: relative;
+      width: 40px; height: 22px;
+      flex-shrink: 0;
+    }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle-track {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--surface3);
+      border: 1px solid var(--border2);
+      border-radius: 11px;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+    .toggle-track::before {
+      content: '';
+      position: absolute;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--muted2);
+      top: 2px; left: 2px;
+      transition: transform var(--transition), background var(--transition);
+    }
+    .toggle input:checked + .toggle-track { background: rgba(37,99,235,0.3); border-color: var(--blue); }
+    .toggle input:checked + .toggle-track::before { transform: translateX(18px); background: var(--blue-light); }
+
+    .integration-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 0.75rem;
+    }
+    .integration-card:last-child { margin-bottom: 0; }
+
+    .integration-info { display: flex; align-items: center; gap: 0.75rem; }
+    .integration-icon { font-size: 1.4rem; }
+    .integration-name { font-size: 0.87rem; font-weight: 600; }
+    .integration-status { font-size: 0.75rem; color: var(--muted); }
+
+    .billing-plan-card {
+      background: var(--blue-glow);
+      border: 1px solid rgba(37,99,235,0.25);
+      border-radius: var(--radius2);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .plan-tag { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--blue-light); margin-bottom: 0.4rem; }
+    .plan-name-big { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.25rem; }
+    .plan-details { font-size: 0.82rem; color: var(--muted); }
+
+    /* ─── Modal ─────────────────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      backdrop-filter: blur(4px);
+      animation: fadeIn 150ms ease;
+    }
 
     .modal {
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
+      border: 1px solid var(--border2);
+      border-radius: 18px;
       width: 100%;
       max-width: 600px;
       max-height: 80vh;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
     }
 
     .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       padding: 1.25rem 1.5rem;
       border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
 
-    .modal-header h3 { font-size: 1rem; font-weight: 600; }
+    .modal-title { font-size: 1rem; font-weight: 700; }
 
     .modal-close {
-      background: none;
+      background: var(--surface3);
       border: 1px solid var(--border);
-      border-radius: 8px;
       color: var(--muted);
+      border-radius: 7px;
       width: 32px; height: 32px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color var(--transition), border-color var(--transition);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1rem;
+      transition: all var(--transition);
     }
-
-    .modal-close:hover { color: var(--text); border-color: var(--muted); }
+    .modal-close:hover { background: var(--border2); color: var(--text); }
 
     .modal-body { padding: 1.5rem; overflow-y: auto; flex: 1; }
 
-    .transcript-line { margin-bottom: 1rem; }
+    /* ─── Transcript ─────────────────────────────────────────────── */
+    .transcript { display: flex; flex-direction: column; gap: 0.75rem; }
 
-    .transcript-speaker {
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 0.2rem;
+    .msg-row { display: flex; gap: 0.75rem; }
+    .msg-row.agent { justify-content: flex-start; }
+    .msg-row.caller { justify-content: flex-end; }
+
+    .msg-avatar {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .msg-row.agent .msg-avatar { background: var(--blue-glow); color: var(--blue-light); border: 1px solid rgba(37,99,235,0.3); }
+    .msg-row.caller .msg-avatar { background: var(--surface3); color: var(--text2); border: 1px solid var(--border2); }
+
+    .msg-bubble {
+      max-width: 75%;
+      padding: 0.65rem 0.95rem;
+      border-radius: 12px;
+      font-size: 0.83rem;
+      line-height: 1.55;
+    }
+    .msg-row.agent .msg-bubble { background: rgba(37,99,235,0.12); color: var(--text2); border-bottom-left-radius: 4px; }
+    .msg-row.caller .msg-bubble { background: var(--surface3); color: var(--text); border-bottom-right-radius: 4px; }
+
+    .msg-label {
+      font-size: 0.68rem;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+    .msg-row.caller .msg-label { text-align: right; }
+
+    /* ─── Heatmap ───────────────────────────────────────────────── */
+    .heatmap {
+      display: grid;
+      grid-template-columns: repeat(24, 1fr);
+      gap: 3px;
     }
 
-    .transcript-speaker.agent  { color: var(--blue); }
-    .transcript-speaker.caller { color: var(--green); }
+    .heatmap-col { display: flex; flex-direction: column; gap: 3px; align-items: center; }
 
-    .transcript-text {
-      font-size: 0.875rem;
-      color: var(--text);
-      background: var(--surface2);
-      border-radius: 8px;
-      padding: 0.65rem 0.9rem;
-      line-height: 1.5;
+    .heat-cell {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 3px;
+      transition: opacity var(--transition);
+    }
+    .heat-cell:hover { opacity: 0.8; }
+
+    .heatmap-labels {
+      display: grid;
+      grid-template-columns: repeat(24, 1fr);
+      gap: 3px;
+      margin-top: 4px;
+    }
+
+    .heat-label { font-size: 0.55rem; color: var(--muted); text-align: center; }
+
+    /* ─── Demo Banner ───────────────────────────────────────────── */
+    .demo-banner {
+      background: linear-gradient(90deg, rgba(37,99,235,0.15), rgba(168,85,247,0.15));
+      border-bottom: 1px solid rgba(37,99,235,0.3);
+      padding: 0.6rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      font-size: 0.82rem;
+      color: var(--text2);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    .demo-banner strong { color: var(--blue-light); }
+
+    /* ─── Mobile Bottom Nav ─────────────────────────────────────── */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      z-index: 300;
+      padding: 0.5rem 0;
+    }
+
+    .mobile-nav-inner {
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .mobile-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+      padding: 0.4rem 0.75rem;
+      cursor: pointer;
+      border-radius: var(--radius);
+      font-size: 0.6rem;
+      color: var(--muted);
+      transition: color var(--transition);
+      position: relative;
+    }
+    .mobile-nav-item .nav-icon { font-size: 1.25rem; }
+    .mobile-nav-item.active { color: var(--blue-light); }
+    .mobile-nav-item .nav-badge {
+      position: absolute;
+      top: 2px; right: 8px;
+      font-size: 0.55rem;
+      padding: 0.08rem 0.35rem;
     }
 
     /* ─── Responsive ────────────────────────────────────────────── */
-    @media (max-width: 768px) {
-      .sidebar { display: none; }
-      .main { padding: 1.25rem 1rem 3rem; }
+    @media (max-width: 1100px) {
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .calendar-layout { grid-template-columns: 1fr; }
+      .chart-card canvas { max-height: 180px; }
+    }
 
-      .mobile-nav {
-        display: flex !important;
-        position: fixed;
-        bottom: 0; left: 0; right: 0;
-        background: var(--surface);
-        border-top: 1px solid var(--border);
-        z-index: 99;
-        padding: 0.5rem;
-        gap: 0.25rem;
-      }
-
-      .mobile-nav-item {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.2rem;
-        padding: 0.5rem 0.25rem;
-        border-radius: 8px;
-        font-size: 0.65rem;
-        font-weight: 500;
-        color: var(--muted);
-        cursor: pointer;
-        transition: background var(--transition), color var(--transition);
-      }
-
-      .mobile-nav-item svg { width: 20px; height: 20px; }
-      .mobile-nav-item:hover { color: var(--text); }
-      .mobile-nav-item.active { color: var(--blue); background: var(--blue-glow); }
-
+    @media (max-width: 800px) {
+      :root { --sidebar-w: 240px; }
+      .sidebar { transform: translateX(calc(-1 * var(--sidebar-w))); }
+      .sidebar.mobile-open { transform: translateX(0); }
+      .main-content { margin-left: 0; padding: 1.25rem 1rem 80px; }
+      .mobile-nav { display: block; }
+      .stats-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .settings-row { grid-template-columns: 1fr; }
+      .table-wrap { overflow-x: auto; }
+      .agent-hero { flex-direction: column; text-align: center; }
+      .agent-live-badge { margin-left: 0; }
+      .rating-hero { flex-direction: column; gap: 1rem; }
+      .rating-target { margin-left: 0; width: 100%; }
       .header-client { display: none; }
       .header-divider { display: none; }
-
-      tbody td { padding: 0.75rem 1rem; }
-      thead th  { padding: 0.65rem 1rem; }
     }
 
-    .mobile-nav { display: none; }
-
-    @media (max-width: 480px) {
-      .stats-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-      .stat-value { font-size: 1.75rem; }
-      .agent-details { grid-template-columns: 1fr 1fr; }
-    }
-
-    .fade-in { animation: fadeIn 0.2s ease; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to   { opacity: 1; transform: translateY(0); }
+    @media (max-width: 500px) {
+      .section-title { font-size: 1.1rem; }
+      .stat-value { font-size: 1.8rem; }
+      .modal { margin: 0; border-radius: 18px 18px 0 0; max-height: 90vh; }
+      .modal-overlay { align-items: flex-end; padding: 0; }
     }
   </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════════════
-     DEMO BANNER
-═══════════════════════════════════════════════════════════ -->
-<div class="demo-banner">
-  <div class="demo-banner-left">
-    <div class="pulse-dot"></div>
-    📊 This is a live demo — Pinedale Family Dental (sample data)
-  </div>
-  <a href="https://buy.stripe.com/dRm7sK6kAe6Pfs75oL3F604" target="_blank" class="cta-banner-btn">
-    Get your own dashboard →
-  </a>
+<!-- ─── Demo Banner ───────────────────────────────────────── -->
+<div class="demo-banner" id="demo-banner">
+  <span>👁</span>
+  <span><strong>Live Demo</strong> — You're viewing a sample dashboard for <strong>Pinedale Family Dental</strong></span>
+  <span style="color:var(--muted);">·</span>
+  <span style="color:var(--muted);">All data is illustrative. <a href="https://bummerland17.github.io/wolfpack-ai/" style="color:var(--blue-light);">Get your own dashboard →</a></span>
+  <button onclick="document.getElementById('demo-banner').remove()" style="margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;line-height:1;">✕</button>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     HEADER
-═══════════════════════════════════════════════════════════ -->
-<header class="header">
-  <div class="header-left">
-    <div class="logo">Wolfpack<span>AI</span></div>
-    <div class="header-divider"></div>
-    <div class="header-client">
-      <strong>Pinedale Family Dental</strong> &nbsp;|&nbsp; Agent: Alex
+<!-- ─── Login Screen ──────────────────────────────────────── -->
+<div id="login-screen" style="display:none !important;">
+  <div class="login-card">
+    <div class="login-logo">Wolfpack <span>AI</span></div>
+    <div class="login-tagline">Client Command Center</div>
+    <h2>Welcome back</h2>
+    <p>Sign in to view your AI agent's performance</p>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" id="password-input" class="form-input" placeholder="Enter your password" />
     </div>
+    <button class="btn-primary" onclick="attemptLogin()">Sign In →</button>
+    <div class="login-error" id="login-error"></div>
   </div>
-  <div style="display:flex;align-items:center;gap:1rem">
-    <div class="agent-status-badge">
-      <div class="status-dot"></div>
-      <span>Agent Active</span>
+</div>
+
+<!-- ─── App Shell ─────────────────────────────────────────── -->
+<div id="app">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <button class="sidebar-toggle" onclick="toggleSidebar()" title="Toggle sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="logo">Wolfpack <span>AI</span></div>
+      <div class="header-divider"></div>
+      <div class="header-client"><strong id="header-business-name">Loading...</strong> <span>Dashboard</span></div>
     </div>
-    <a href="index.html" class="back-link">← All demos</a>
+    <div class="header-right">
+      <div class="agent-status-pill">
+        <div class="pulse-dot"></div>
+        <span>Agent Live</span>
+      </div>
+      <button class="notif-btn" onclick="showSection('notifications')" title="Notifications">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="notif-badge" id="notif-badge">5</span>
+      </button>
+      <button class="logout-btn" onclick="logout()">Sign Out</button>
+    </div>
+  </header>
+
+  <div class="app-layout">
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-nav">
+        <div class="nav-section-label">Main</div>
+        <div class="nav-item active" onclick="showSection('overview')" data-section="overview">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">Overview</span>
+        </div>
+        <div class="nav-item" onclick="showSection('calendar')" data-section="calendar">
+          <span class="nav-icon">📅</span>
+          <span class="nav-label">Calendar</span>
+        </div>
+        <div class="nav-item" onclick="showSection('leads')" data-section="leads">
+          <span class="nav-icon">🔥</span>
+          <span class="nav-label">Warm Leads</span>
+        </div>
+        <div class="nav-item" onclick="showSection('calls')" data-section="calls">
+          <span class="nav-icon">📞</span>
+          <span class="nav-label">Call Log</span>
+        </div>
+
+        <div class="nav-section-label">Insights</div>
+        <div class="nav-item" onclick="showSection('reviews')" data-section="reviews">
+          <span class="nav-icon">⭐</span>
+          <span class="nav-label">Reviews</span>
+        </div>
+        <div class="nav-item" onclick="showSection('performance')" data-section="performance">
+          <span class="nav-icon">📈</span>
+          <span class="nav-label">Performance</span>
+        </div>
+
+        <div class="nav-section-label">Account</div>
+        <div class="nav-item" onclick="showSection('agent')" data-section="agent">
+          <span class="nav-icon">🤖</span>
+          <span class="nav-label">Your Agent</span>
+        </div>
+        <div class="nav-item" onclick="showSection('notifications')" data-section="notifications">
+          <span class="nav-icon">🔔</span>
+          <span class="nav-label">Notifications</span>
+          <span class="nav-badge" id="sidebar-notif-badge">5</span>
+        </div>
+        <div class="nav-item" onclick="showSection('settings')" data-section="settings">
+          <span class="nav-icon">⚙️</span>
+          <span class="nav-label">Settings</span>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="plan-pill">
+          <div class="plan-name" id="sidebar-plan-name">SmartBook Autopilot</div>
+          <div class="plan-price" id="sidebar-plan-price">$497/mo · Active</div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Sidebar overlay (mobile) -->
+    <div id="sidebar-overlay" onclick="toggleSidebar()" style="display:none;position:fixed;inset:0;z-index:140;background:rgba(0,0,0,0.5);"></div>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+
+      <!-- ─── OVERVIEW ────────────────────────────────── -->
+      <section class="section active" id="section-overview">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Overview</div>
+            <div class="section-subtitle" id="overview-subtitle">Loading your performance data...</div>
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:center;">
+            <span style="font-size:0.78rem;color:var(--muted);">March 2026</span>
+            <button class="btn-secondary btn-sm">📤 Export Report</button>
+          </div>
+        </div>
+
+        <div class="stats-grid" id="stats-grid">
+          <!-- Injected by JS -->
+        </div>
+
+        <div class="bar-chart-wrap">
+          <div class="bar-chart-header">
+            <div class="bar-chart-title">Calls per Day — Last 14 Days</div>
+            <span style="font-size:0.75rem;color:var(--muted);">Today highlighted</span>
+          </div>
+          <div class="bar-chart" id="daily-bar-chart"></div>
+        </div>
+
+        <div class="grid-2" id="overview-bottom">
+          <!-- Quick wins + top calls reasons -->
+        </div>
+      </section>
+
+      <!-- ─── CALENDAR ────────────────────────────────── -->
+      <section class="section" id="section-calendar">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Calendar</div>
+            <div class="section-subtitle">Scheduled appointments and follow-ups</div>
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:center;">
+            <div class="cal-view-toggle">
+              <button class="cal-view-btn active" id="btn-month-view" onclick="setCalView('month')">Month</button>
+              <button class="cal-view-btn" id="btn-week-view" onclick="setCalView('week')">Week</button>
+            </div>
+            <button class="btn-disabled btn-sm">🔗 Connect Google Calendar</button>
+          </div>
+        </div>
+
+        <div class="calendar-layout">
+          <div class="calendar-card">
+            <div class="calendar-header">
+              <div class="cal-month-title" id="cal-month-title">March 2026</div>
+              <div class="cal-nav">
+                <button class="cal-nav-btn" onclick="calNav(-1)">‹</button>
+                <button class="cal-nav-btn" onclick="calNav(1)">›</button>
+              </div>
+            </div>
+            <div class="calendar-grid">
+              <div class="cal-dow-row">
+                <div class="cal-dow">Sun</div><div class="cal-dow">Mon</div>
+                <div class="cal-dow">Tue</div><div class="cal-dow">Wed</div>
+                <div class="cal-dow">Thu</div><div class="cal-dow">Fri</div>
+                <div class="cal-dow">Sat</div>
+              </div>
+              <div class="cal-days" id="cal-days"></div>
+            </div>
+          </div>
+          <div class="appt-panel" id="appt-panel">
+            <div class="appt-panel-title" id="appt-panel-title">Select a day to view appointments</div>
+            <div id="appt-panel-content">
+              <div class="appt-empty">
+                <div style="font-size:2rem;margin-bottom:0.5rem;">📅</div>
+                <div>Click any day on the calendar to see appointments</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── WARM LEADS ──────────────────────────────── -->
+      <section class="section" id="section-leads">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Warm Leads</div>
+            <div class="section-subtitle" id="leads-header-sub">Callers who expressed interest in scheduling</div>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <div class="table-toolbar">
+            <div class="filter-tabs">
+              <button class="filter-tab active" onclick="filterLeads('all', this)">All</button>
+              <button class="filter-tab" onclick="filterLeads('new', this)">New</button>
+              <button class="filter-tab" onclick="filterLeads('contacted', this)">Contacted</button>
+              <button class="filter-tab" onclick="filterLeads('closed', this)">Closed</button>
+            </div>
+            <span id="leads-summary" style="font-size:0.8rem;color:var(--muted);"></span>
+          </div>
+          <div style="overflow-x:auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Caller</th>
+                  <th>AI Summary</th>
+                  <th>Score</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="leads-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── CALL LOG ────────────────────────────────── -->
+      <section class="section" id="section-calls">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Call Log</div>
+            <div class="section-subtitle">Complete record of all agent calls</div>
+          </div>
+          <button class="btn-secondary btn-sm" onclick="exportCSV()">⬇ Export CSV</button>
+        </div>
+
+        <div class="stats-bar" id="call-stats-bar">
+          <!-- Injected by JS -->
+        </div>
+
+        <div class="table-wrap">
+          <div class="table-toolbar">
+            <div class="filter-tabs">
+              <button class="filter-tab active" onclick="filterCalls('all', this)">All</button>
+              <button class="filter-tab" onclick="filterCalls('completed', this)">Completed</button>
+              <button class="filter-tab" onclick="filterCalls('voicemail', this)">Voicemail</button>
+              <button class="filter-tab" onclick="filterCalls('no-answer', this)">No Answer</button>
+            </div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Duration</th>
+                  <th>Caller ID</th>
+                  <th>Type</th>
+                  <th>Outcome</th>
+                  <th>Transcript</th>
+                </tr>
+              </thead>
+              <tbody id="calls-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── REVIEWS ─────────────────────────────────── -->
+      <section class="section" id="section-reviews">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Reviews & Reputation</div>
+            <div class="section-subtitle">Google Business Profile performance</div>
+          </div>
+          <button class="btn-secondary btn-sm">🔗 View Google Profile</button>
+        </div>
+
+        <div class="rating-hero" id="rating-hero"></div>
+
+        <div class="grid-2" style="margin-bottom:1.5rem;">
+          <div>
+            <div class="card-title" style="margin-bottom:1rem;">📝 Recent Reviews</div>
+            <div id="reviews-list"></div>
+          </div>
+          <div>
+            <div class="card-title" style="margin-bottom:1rem;">🏆 Your Area Rankings</div>
+            <div id="competitors-list" style="display:flex;flex-direction:column;gap:0.75rem;"></div>
+            <div style="margin-top:1.5rem;">
+              <div class="card-title" style="margin-bottom:0.75rem;">📊 Rating Trend (6 months)</div>
+              <div class="chart-card">
+                <canvas id="rating-trend-chart" height="120"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── PERFORMANCE ─────────────────────────────── -->
+      <section class="section" id="section-performance">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Performance</div>
+            <div class="section-subtitle">Deep-dive analytics on call patterns and conversions</div>
+          </div>
+          <select class="form-input" style="width:auto;padding:0.5rem 1rem;font-size:0.82rem;" onchange="updatePerformanceRange(this.value)">
+            <option value="30">Last 30 days</option>
+            <option value="60">Last 60 days</option>
+            <option value="90">Last 90 days</option>
+          </select>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:1.5rem;">
+          <div class="chart-card">
+            <div class="card-title">📆 Calls by Day of Week</div>
+            <canvas id="dow-chart"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="card-title">📈 Monthly Trend</div>
+            <canvas id="monthly-chart"></canvas>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:1.5rem;">
+          <div class="card-title">🕐 Calls by Hour — Weekly Heatmap</div>
+          <div class="heatmap" id="heatmap"></div>
+          <div class="heatmap-labels" id="heatmap-labels"></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="chart-card">
+            <div class="card-title">📋 Top Call Reasons</div>
+            <canvas id="reasons-chart"></canvas>
+          </div>
+          <div class="chart-card">
+            <div class="card-title">🔽 Conversion Funnel</div>
+            <div class="funnel-wrap" id="funnel-wrap" style="margin-top:1rem;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── AGENT ────────────────────────────────────── -->
+      <section class="section" id="section-agent">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Your Agent</div>
+            <div class="section-subtitle">Configuration, script, and status</div>
+          </div>
+        </div>
+
+        <div class="agent-hero" id="agent-hero"></div>
+
+        <div class="grid-2" style="margin-bottom:1.5rem;">
+          <div>
+            <div class="card-title" style="margin-bottom:0.75rem;">📝 How Your Agent Handles Calls</div>
+            <div class="script-block" id="script-block"></div>
+          </div>
+          <div>
+            <div class="card-title" style="margin-bottom:0.75rem;">🕐 Recent Script Updates</div>
+            <div class="script-block" id="updates-block"></div>
+            <div style="margin-top:1rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
+              <a class="btn-primary" style="text-decoration:none;display:inline-flex;align-items:center;gap:0.4rem;width:auto;padding:0.65rem 1.25rem;font-size:0.85rem;" href="mailto:hello@pantrymate.net?subject=Script Change Request">
+                ✏️ Request Script Change
+              </a>
+              <button class="btn-secondary" onclick="alert('Call +1 (307) 555-1234 to test your agent live!')">
+                📞 Test Your Agent
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── NOTIFICATIONS ───────────────────────────── -->
+      <section class="section" id="section-notifications">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Notifications</div>
+            <div class="section-subtitle">Everything that's happened, newest first</div>
+          </div>
+          <button class="btn-secondary btn-sm" onclick="markAllRead()">✓ Mark All Read</button>
+        </div>
+
+        <div class="table-wrap" id="notifications-list">
+          <!-- Injected by JS -->
+        </div>
+      </section>
+
+      <!-- ─── SETTINGS ────────────────────────────────── -->
+      <section class="section" id="section-settings">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Settings</div>
+            <div class="section-subtitle">Manage your account and preferences</div>
+          </div>
+        </div>
+
+        <!-- Business Info -->
+        <div class="settings-section">
+          <div class="settings-section-header">🏢 Business Information</div>
+          <div class="settings-body">
+            <div class="settings-row">
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label">Business Name</label>
+                <input type="text" class="form-input" id="set-business-name" value="Pinedale Family Dental" />
+              </div>
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label">Contact Name</label>
+                <input type="text" class="form-input" id="set-client-name" value="Dr. Sarah Johnson" />
+              </div>
+            </div>
+            <div class="settings-row">
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label">Business Phone</label>
+                <input type="text" class="form-input" id="set-phone" value="(307) 555-0101" />
+              </div>
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label">Address</label>
+                <input type="text" class="form-input" id="set-address" value="142 Pine St, Pinedale, WY 82941" />
+              </div>
+            </div>
+            <div class="settings-row single">
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label">Business Hours</label>
+                <input type="text" class="form-input" id="set-hours" value="Mon–Fri 8am–5pm, Sat 9am–2pm" />
+              </div>
+            </div>
+            <div style="margin-top:1rem;">
+              <button class="btn-primary" style="width:auto;padding:0.65rem 1.5rem;font-size:0.85rem;" onclick="saveSettings()">Save Changes</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="settings-section">
+          <div class="settings-section-header">🔔 Notification Preferences</div>
+          <div class="settings-body">
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">Warm Lead Alerts</div>
+                <div class="toggle-desc">Get notified immediately when a new warm lead comes in</div>
+              </div>
+              <label class="toggle"><input type="checkbox" checked /><span class="toggle-track"></span></label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">Appointment Booked</div>
+                <div class="toggle-desc">Alert when your agent books a new appointment</div>
+              </div>
+              <label class="toggle"><input type="checkbox" checked /><span class="toggle-track"></span></label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">Daily Summary Email</div>
+                <div class="toggle-desc">Receive a daily digest of calls and performance</div>
+              </div>
+              <label class="toggle"><input type="checkbox" checked /><span class="toggle-track"></span></label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">Weekly Performance Report</div>
+                <div class="toggle-desc">Detailed weekly report every Monday morning</div>
+              </div>
+              <label class="toggle"><input type="checkbox" /><span class="toggle-track"></span></label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">New Review Alerts</div>
+                <div class="toggle-desc">Get notified when a new Google review is posted</div>
+              </div>
+              <label class="toggle"><input type="checkbox" checked /><span class="toggle-track"></span></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Integrations -->
+        <div class="settings-section">
+          <div class="settings-section-header">🔗 Integrations</div>
+          <div class="settings-body">
+            <div class="integration-card">
+              <div class="integration-info">
+                <div class="integration-icon">📅</div>
+                <div>
+                  <div class="integration-name">Google Calendar</div>
+                  <div class="integration-status">Sync appointments automatically</div>
+                </div>
+              </div>
+              <button class="btn-secondary btn-sm">Connect</button>
+            </div>
+            <div class="integration-card">
+              <div class="integration-info">
+                <div class="integration-icon">📊</div>
+                <div>
+                  <div class="integration-name">QuickBooks</div>
+                  <div class="integration-status">Revenue tracking and invoicing</div>
+                </div>
+              </div>
+              <button class="btn-secondary btn-sm">Connect</button>
+            </div>
+            <div class="integration-card">
+              <div class="integration-info">
+                <div class="integration-icon">⭐</div>
+                <div>
+                  <div class="integration-name">Google My Business</div>
+                  <div class="integration-status">Auto-respond to reviews</div>
+                </div>
+              </div>
+              <button class="btn-secondary btn-sm">Connect</button>
+            </div>
+            <div class="integration-card">
+              <div class="integration-info">
+                <div class="integration-icon">📱</div>
+                <div>
+                  <div class="integration-name">SMS Notifications</div>
+                  <div class="integration-status">Text alerts for urgent leads</div>
+                </div>
+              </div>
+              <button class="btn-green btn-sm">Active</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Billing -->
+        <div class="settings-section">
+          <div class="settings-section-header">💳 Billing & Plan</div>
+          <div class="settings-body">
+            <div class="billing-plan-card" id="billing-plan-card"></div>
+            <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1rem;">
+              <button class="btn-secondary" onclick="alert('Upgrade options coming soon. Contact hello@pantrymate.net')">⬆ Upgrade Plan</button>
+              <button class="btn-secondary" onclick="generateReport()">📄 Download Monthly Report</button>
+              <button class="btn-ghost" onclick="alert('To manage billing, contact hello@pantrymate.net')">Manage Billing</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
   </div>
-</header>
 
-<div class="layout">
-
-  <!-- Sidebar -->
-  <nav class="sidebar">
-    <div class="nav-label">Menu</div>
-    <div class="nav-item active" onclick="showSection('overview', this)">
-      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-      Overview
-    </div>
-    <div class="nav-item" onclick="showSection('leads', this)">
-      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      Warm Leads
-    </div>
-    <div class="nav-item" onclick="showSection('calls', this)">
-      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.78a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7a2 2 0 0 1 1.72 2.06z"/></svg>
-      Call Log
-    </div>
-    <div class="nav-item" onclick="showSection('agent', this)">
-      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      Your Agent
-    </div>
-    <div class="nav-sep"></div>
-    <div class="nav-item" onclick="showSection('support', this)">
-      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      Support
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-nav">
+    <div class="mobile-nav-inner">
+      <div class="mobile-nav-item active" onclick="showSection('overview')" data-section="overview">
+        <span class="nav-icon">📊</span><span>Overview</span>
+      </div>
+      <div class="mobile-nav-item" onclick="showSection('calendar')" data-section="calendar">
+        <span class="nav-icon">📅</span><span>Calendar</span>
+      </div>
+      <div class="mobile-nav-item" onclick="showSection('leads')" data-section="leads">
+        <span class="nav-icon">🔥</span><span>Leads</span>
+      </div>
+      <div class="mobile-nav-item" onclick="showSection('calls')" data-section="calls">
+        <span class="nav-icon">📞</span><span>Calls</span>
+      </div>
+      <div class="mobile-nav-item" onclick="showSection('notifications')" data-section="notifications">
+        <span class="nav-icon">🔔</span><span>Alerts</span>
+        <span class="nav-badge" id="mobile-notif-badge">5</span>
+      </div>
     </div>
   </nav>
-
-  <main class="main">
-
-    <!-- ── OVERVIEW ──────────────────────────────────────────────── -->
-    <section id="sec-overview" class="section active fade-in">
-      <div class="section-header">
-        <h1>Overview</h1>
-        <p>Welcome back, Dr. Sarah Johnson — here's how Alex is performing.</p>
-      </div>
-
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon blue">📞</div>
-          <div class="stat-value">47</div>
-          <div class="stat-label">Total Calls</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon green">🎙️</div>
-          <div class="stat-value">12</div>
-          <div class="stat-label">Live Conversations</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon amber">🔥</div>
-          <div class="stat-value">3</div>
-          <div class="stat-label">Warm Leads</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon purple">📅</div>
-          <div class="stat-value">2</div>
-          <div class="stat-label">Appointments Booked</div>
-        </div>
-      </div>
-
-      <div class="info-grid">
-        <div class="info-card">
-          <h3>Account Details</h3>
-          <div class="info-row"><span class="key">Business</span>     <span class="val">Pinedale Family Dental</span></div>
-          <div class="info-row"><span class="key">Plan</span>          <span class="val">SmartBook Autopilot</span></div>
-          <div class="info-row"><span class="key">Monthly Rate</span> <span class="val">$497/mo</span></div>
-          <div class="info-row"><span class="key">Start Date</span>   <span class="val">March 12, 2026</span></div>
-        </div>
-        <div class="info-card">
-          <h3>Your Agent</h3>
-          <div class="info-row"><span class="key">Agent Name</span>  <span class="val">Alex</span></div>
-          <div class="info-row"><span class="key">Phone</span>        <span class="val">+1 (307) 555-1234</span></div>
-          <div class="info-row"><span class="key">Status</span>       <span class="val" style="color:var(--green)">● Active</span></div>
-          <div class="info-row"><span class="key">Uptime</span>       <span class="val">24/7</span></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── WARM LEADS ────────────────────────────────────────────── -->
-    <section id="sec-leads" class="section fade-in">
-      <div class="section-header">
-        <h1>Warm Leads</h1>
-        <p>Callers who expressed genuine interest and are worth following up with.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <h2>Lead Tracker</h2>
-          <span class="count">3 leads</span>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Phone</th>
-                <th>Name</th>
-                <th>What They Said</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Mar 16, 2026</td>
-                <td style="font-family:monospace;font-size:0.82rem">+1 (307) 555-2298</td>
-                <td>Marcus Webb</td>
-                <td style="max-width:280px;color:var(--muted)">Toothache emergency, new patient — wants to be seen ASAP. Very motivated.</td>
-                <td><span class="badge new"><span class="badge-dot"></span>new</span></td>
-              </tr>
-              <tr>
-                <td>Mar 14, 2026</td>
-                <td style="font-family:monospace;font-size:0.82rem">+1 (307) 555-8810</td>
-                <td>Jennifer Tran</td>
-                <td style="max-width:280px;color:var(--muted)">Interested in Invisalign for herself. Asked about pricing and payment plans.</td>
-                <td><span class="badge contacted"><span class="badge-dot"></span>contacted</span></td>
-              </tr>
-              <tr>
-                <td>Mar 13, 2026</td>
-                <td style="font-family:monospace;font-size:0.82rem">+1 (307) 555-6631</td>
-                <td>David Kowalski</td>
-                <td style="max-width:280px;color:var(--muted)">Family of 4 looking for a new dentist — moving to Pinedale next month. Very ready to book.</td>
-                <td><span class="badge booked"><span class="badge-dot"></span>booked</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── CALL LOG ──────────────────────────────────────────────── -->
-    <section id="sec-calls" class="section fade-in">
-      <div class="section-header">
-        <h1>Call Log</h1>
-        <p>Every call your AI agent has handled, with full transcripts.</p>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <h2>All Calls</h2>
-          <span class="count">8 calls</span>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Duration</th>
-                <th>Caller</th>
-                <th>Status</th>
-                <th>Transcript</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Mar 16, 2026</td>
-                <td style="color:var(--muted)">8:03 AM</td>
-                <td style="color:var(--muted)">4m 11s</td>
-                <td style="font-family:monospace;font-size:0.82rem">+1 (307) 555-2298</td>
-                <td><span class="badge completed"><span class="badge-dot"></span>completed</span></td>
-                <td><a href="#" onclick="openTranscript('emergency'); return false;" style="font-size:0.82rem">View →</a></td>
-              </tr>
-              <tr>
-                <td>Mar 15, 2026</td>
-                <td style="color:var(--muted)">9:14 AM</td>
-                <td style="color:var(--muted)">2m 38s</td>
-                <td style="font-family:monospace;font-size:0.82rem">+1 (307) 555-9870</td>
-                <td><span class="badge completed"><span class="badge-dot"></span>completed</span></td>
-                <td><a href="#" onclick="openTranscript('booking'); return false;" style="font-size:0.82rem">View →</a></td>
-              </tr>
-              <tr>
-                <td>Mar 15, 2026</td>
-                <td style="color:var(--muted)">11:47 AM</td>
-                <td style="color:var(--muted)">0m 52s</td>
-                <td style="font-family:monospace;font-size:0.82rem">+1 (307) 555-4421</td>
-                <td><span class="badge voicemail"><span class="badge-dot"></span>voicemail</span></td>
-                <td><a href="#" onclick="openTranscript('voicemail'); return false;" style="font-size:0.82rem">View →</a></td>
-              </tr>
-              <tr>
-                <td>Mar 14, 2026</td>
-                <td style="color:var(--muted)">2:22 PM</td>
-                <td style="color:var(--muted)">5m 07s</td>
-                <td style="font-family:monospace;font-size:0.82rem">+1 (307) 555-8810</td>
-                <td><span class="badge completed"><span class="badge-dot"></span>completed</span></td>
-                <td><a href="#" onclick="openTranscript('invisalign'); return false;" style="font-size:0.82rem">View →</a></td>
-              </tr>
-              <tr>
-                <td>Mar 14, 2026</td>
-                <td style="color:var(--muted)">4:55 PM</td>
-                <td style="color:var(--muted)">—</td>
-                <td style="font-family:monospace;font-size:0.82rem">+1 (307) 555-1192</td>
-                <td><span class="badge no-answer"><span class="badge-dot"></span>no answer</span></td>
-                <td><span style="color:var(--muted);font-size:0.82rem">—</span></td>
-              </tr>
-              <tr>
-                <td>Mar 13, 2026</td>
-                <td style="color:var(--muted)">10:31 AM</td>
-                <td style="color:var(--muted)">3m 44s</td>
-                <td style="font-family:monospace;font-size:0.82rem">+1 (307) 555-6631</td>
-                <td><span class="badge completed"><span class="badge-dot"></span>completed</span></td>
-                <td><a href="#" onclick="openTranscript('family'); return false;" style="font-size:0.82rem">View →</a></td>
-              </tr>
-              <tr>
-                <td>Mar 13, 2026</td>
-                <td style="color:var(--muted)">7:48 PM</td>
-                <td style="color:var(--muted)">1m 12s</td>
-                <td style="font-family:monospace;font-size:0.82rem">+1 (307) 555-3307</td>
-                <td><span class="badge completed"><span class="badge-dot"></span>completed</span></td>
-                <td><a href="#" onclick="openTranscript('afterhours'); return false;" style="font-size:0.82rem">View →</a></td>
-              </tr>
-              <tr>
-                <td>Mar 12, 2026</td>
-                <td style="color:var(--muted)">3:15 PM</td>
-                <td style="color:var(--muted)">0m 48s</td>
-                <td style="font-family:monospace;font-size:0.82rem">+1 (307) 555-7743</td>
-                <td><span class="badge voicemail"><span class="badge-dot"></span>voicemail</span></td>
-                <td><span style="color:var(--muted);font-size:0.82rem">—</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── YOUR AGENT ────────────────────────────────────────────── -->
-    <section id="sec-agent" class="section fade-in">
-      <div class="section-header">
-        <h1>Your Agent</h1>
-        <p>Details about your dedicated AI voice agent.</p>
-      </div>
-
-      <div class="agent-card">
-        <div class="agent-avatar">🤖</div>
-        <div class="agent-name">Alex</div>
-        <div class="agent-sub">AI Voice Agent for Pinedale Family Dental</div>
-        <div class="agent-details">
-          <div class="agent-detail">
-            <div class="label">Phone Number</div>
-            <div class="value">+1 (307) 555-1234</div>
-          </div>
-          <div class="agent-detail">
-            <div class="label">Plan</div>
-            <div class="value">SmartBook Autopilot</div>
-          </div>
-          <div class="agent-detail">
-            <div class="label">Monthly Rate</div>
-            <div class="value">$497/mo</div>
-          </div>
-          <div class="agent-detail">
-            <div class="label">Status</div>
-            <div class="value" style="color:var(--green)">● Online 24/7</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="script-card">
-        <h3>How Your Agent Handles Calls</h3>
-        <div class="script-item"><div class="script-num">1</div><div>Answers calls within 2 rings using a friendly, professional greeting personalized to Pinedale Family Dental.</div></div>
-        <div class="script-item"><div class="script-num">2</div><div>Qualifies the caller — understanding their needs, urgency, and whether they're an existing or new patient.</div></div>
-        <div class="script-item"><div class="script-num">3</div><div>Books appointments directly into your calendar, or escalates to a human for complex situations.</div></div>
-        <div class="script-item"><div class="script-num">4</div><div>Captures warm leads with full context, so your team can follow up with everything they need.</div></div>
-        <div class="script-item"><div class="script-num">5</div><div>Sends a summary to your dashboard after every call — nothing falls through the cracks.</div></div>
-      </div>
-
-      <div class="info-card">
-        <h3>Capabilities</h3>
-        <div class="info-row"><span class="key">Appointment Booking</span>   <span class="val" style="color:var(--green)">✓ Enabled</span></div>
-        <div class="info-row"><span class="key">Lead Capture</span>           <span class="val" style="color:var(--green)">✓ Enabled</span></div>
-        <div class="info-row"><span class="key">Call Transcription</span>     <span class="val" style="color:var(--green)">✓ Enabled</span></div>
-        <div class="info-row"><span class="key">Voicemail Detection</span>    <span class="val" style="color:var(--green)">✓ Enabled</span></div>
-        <div class="info-row"><span class="key">After-Hours Coverage</span>   <span class="val" style="color:var(--green)">✓ Enabled</span></div>
-        <div class="info-row"><span class="key">Dashboard Reporting</span>    <span class="val" style="color:var(--green)">✓ Enabled</span></div>
-      </div>
-    </section>
-
-    <!-- ── SUPPORT ───────────────────────────────────────────────── -->
-    <section id="sec-support" class="section fade-in">
-      <div class="section-header">
-        <h1>Support</h1>
-        <p>We're here whenever you need us.</p>
-      </div>
-
-      <div class="support-hero">
-        <h2>24-Hour Response Guarantee</h2>
-        <p>Every support request gets a real human response within 24 hours — usually much faster.</p>
-        <a href="mailto:wolfgang@wolfpackai.com" class="support-email-btn">✉️ &nbsp;Email Support</a>
-      </div>
-
-      <div class="support-cards">
-        <div class="support-card">
-          <div class="icon">✉️</div>
-          <h4>Email Support</h4>
-          <p><a href="mailto:wolfgang@wolfpackai.com">wolfgang@wolfpackai.com</a><br/>Response within 24 hours</p>
-        </div>
-        <div class="support-card">
-          <div class="icon">⚡</div>
-          <h4>24/7 Agent Monitoring</h4>
-          <p>Your AI agent is monitored around the clock. Issues are resolved proactively.</p>
-        </div>
-        <div class="support-card">
-          <div class="icon">🔧</div>
-          <h4>Script Updates</h4>
-          <p>Need to update your agent's responses or handle new scenarios? Just ask.</p>
-        </div>
-        <div class="support-card">
-          <div class="icon">📊</div>
-          <h4>Monthly Reports</h4>
-          <p>Receive a detailed performance report every month with insights and recommendations.</p>
-        </div>
-      </div>
-    </section>
-
-  </main>
 </div>
 
-<!-- Mobile nav -->
-<nav class="mobile-nav">
-  <div class="mobile-nav-item active" onclick="showSection('overview', this, true)">
-    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-    Overview
-  </div>
-  <div class="mobile-nav-item" onclick="showSection('leads', this, true)">
-    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-    Leads
-  </div>
-  <div class="mobile-nav-item" onclick="showSection('calls', this, true)">
-    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.78a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7a2 2 0 0 1 1.72 2.06z"/></svg>
-    Calls
-  </div>
-  <div class="mobile-nav-item" onclick="showSection('agent', this, true)">
-    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-    Agent
-  </div>
-</nav>
-
-<!-- Transcript Modal -->
-<div class="modal-overlay" id="transcript-modal" onclick="closeModal(event)">
-  <div class="modal">
+<!-- ─── Transcript Modal ───────────────────────────────── -->
+<div class="modal-overlay hidden" id="transcript-modal" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
     <div class="modal-header">
-      <h3 id="modal-title">Call Transcript</h3>
-      <button class="modal-close" onclick="closeTranscript()">✕</button>
+      <div class="modal-title" id="transcript-modal-title">Call Transcript</div>
+      <button class="modal-close" onclick="closeTranscriptModal()">✕</button>
     </div>
-    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-body">
+      <div id="transcript-modal-meta" style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid var(--border);font-size:0.8rem;color:var(--muted);"></div>
+      <div class="transcript" id="transcript-content"></div>
+    </div>
   </div>
 </div>
 
 <script>
-  'use strict';
+// ═══════════════════════════════════════════════════════════
+// CONFIGURATION — replace with real API data in production
+// ═══════════════════════════════════════════════════════════
 
-  const TRANSCRIPTS = {
-    booking: {
-      title: 'Transcript — Mar 15, 2026 at 9:14 AM',
-      lines: [
-        { s: 'agent',  t: "Thank you for calling Pinedale Family Dental! This is Alex. How can I help you today?" },
-        { s: 'caller', t: "Hi, I'm looking to schedule a cleaning for myself and my daughter." },
-        { s: 'agent',  t: "Absolutely! I'd be happy to help you with that. Are you both existing patients with us?" },
-        { s: 'caller', t: "I am, but my daughter is new — she just turned 7." },
-        { s: 'agent',  t: "Perfect! I can get you both scheduled. What days generally work best for you?" },
-        { s: 'caller', t: "Weekday mornings if possible." },
-        { s: 'agent',  t: "We have Tuesday March 24th at 9:00 AM available for back-to-back appointments. Would that work?" },
-        { s: 'caller', t: "That's perfect, yes!" },
-        { s: 'agent',  t: "Wonderful! I've booked both appointments. You'll receive a confirmation text shortly. Is there anything else I can help with?" },
-        { s: 'caller', t: "No, that's great. Thank you!" },
-        { s: 'agent',  t: "You're welcome! We'll see you both on the 24th. Have a wonderful day!" },
-      ]
+const CONFIG = {
+  client_name: "Dr. Sarah Johnson",
+  business_name: "Pinedale Family Dental",
+  agent_name: "Alex",
+  agent_voice: "Aria (Natural)",
+  phone_number: "+1 (307) 555-1234",
+  plan: "SmartBook Autopilot",
+  price: "$497/mo",
+  start_date: "March 1, 2026",
+  avg_job_value: 350,
+  password: "pine2026",
+  google_rating: 4.2,
+  total_reviews: 47
+};
+
+const STATS = {
+  total_calls: 47,
+  live_conversations: 12,
+  warm_leads: 3,
+  appointments_booked: 2,
+  revenue_recovered: 700,
+  recovery_rate: 89,
+  last_week_calls: 11,
+  this_week_calls: 14,
+  last_week_leads: 1,
+  this_week_leads: 2
+};
+
+const APPOINTMENTS = [
+  { id:1, date:'2026-03-05', time:'9:00 AM', client:'Patricia Moore', phone:'(307) 555-0201', type:'Teeth Cleaning', status:'completed', notes:'Regular 6-month cleaning. Patient mentioned sensitivity on lower left molar.' },
+  { id:2, date:'2026-03-08', time:'10:30 AM', client:'James Sutherland', phone:'(307) 555-0334', type:'New Patient Exam', status:'completed', notes:'New patient inquiry from after-hours call. Agent collected insurance info.' },
+  { id:3, date:'2026-03-11', time:'2:00 PM', client:'Maria Torres', phone:'(307) 555-0482', type:'Cavity Filling', status:'confirmed', notes:'Has two cavities to address. Requested Dr. Johnson specifically.' },
+  { id:4, date:'2026-03-13', time:'11:00 AM', client:'Tom Fielding', phone:'(307) 555-0551', type:'Teeth Cleaning', status:'confirmed', notes:'Annual checkup. Wants to discuss whitening options.' },
+  { id:5, date:'2026-03-17', time:'3:30 PM', client:'Ashley Nguyen', phone:'(307) 555-0672', type:'Consultation', status:'pending', notes:'Interested in Invisalign. AI flagged as warm lead — very interested.' },
+  { id:6, date:'2026-03-19', time:'9:00 AM', client:'Robert Collins', phone:'(307) 555-0789', type:'Emergency - Tooth Pain', status:'confirmed', notes:'Urgent call after hours. Reporting severe tooth pain. Slot reserved.' },
+  { id:7, date:'2026-03-21', time:'1:00 PM', client:'Linda Park', phone:'(307) 555-0891', type:'Teeth Cleaning', status:'pending', notes:'Called during lunch hours. Needs to confirm day before.' },
+  { id:8, date:'2026-03-25', time:'10:00 AM', client:'Chris Delgado', phone:'(307) 555-0923', type:'Crown Fitting', status:'confirmed', notes:'Second visit for crown placement. Temporary crown in place.' },
+  { id:9, date:'2026-03-28', time:'2:30 PM', client:'Bethany Wells', phone:'(307) 555-1023', type:'New Patient Exam', status:'cancelled', notes:'Cancelled — rescheduling next month. Agent flagged for follow-up call.' }
+];
+
+const LEADS = [
+  {
+    id:1, date:'Mar 11', caller:'Marcus Webb', phone:'(307) 555-2201',
+    summary:'Very interested in Invisalign treatment. Asked about pricing and timeline. Said he\'d been considering it for 2 years and is ready to book.',
+    score:'hot', status:'new',
+    full_summary:'Marcus called at 7:42 PM after hours. Expressed strong interest in Invisalign, asked for specific pricing and whether Dr. Johnson does the consultation herself. Said he\'s been wanting this for years and is finally ready. Agent collected contact info and offered to book a free consultation.'
+  },
+  {
+    id:2, date:'Mar 09', caller:'Jennifer Tran', phone:'(307) 555-3302',
+    summary:'Asked about teeth whitening options and costs. Comparing a few local dentists. Said she\'d call back to book.',
+    score:'warm', status:'contacted',
+    full_summary:'Jennifer called during lunch hours. Asked about in-office whitening vs take-home kits and pricing for both. She mentioned she\'s also called two other dental offices. Agent gave a brief overview and suggested a free consultation. Jennifer said she\'d think about it and possibly call back this week.'
+  },
+  {
+    id:3, date:'Mar 07', caller:'David Kowalski', phone:'(307) 555-4411',
+    summary:'General inquiry about accepting new patients and insurance plans.',
+    score:'cold', status:'new',
+    full_summary:'David called to ask if the practice is accepting new patients and which insurance plans are accepted. Agent confirmed yes and listed major plans. David didn\'t express urgency or schedule — said he\'d call back when ready to book. Agent offered to take his number for follow-up; he declined.'
+  }
+];
+
+const CALLS = [
+  {
+    id:1, date:'Mar 11', time:'7:42 PM', duration:'3m 24s', caller:'(307) 555-2201',
+    type:'inbound', outcome:'completed', caller_name:'Marcus Webb',
+    transcript:[
+      {role:'agent', text:'Thank you for calling Pinedale Family Dental. This is Alex, Dr. Johnson\'s virtual assistant. How can I help you today?'},
+      {role:'caller', text:'Hi, yeah I\'m calling about Invisalign. I\'ve been thinking about it for like two years and I finally want to just get it done.'},
+      {role:'agent', text:'That\'s great news! Dr. Johnson does offer Invisalign consultations. She\'d love to help you get started. Can I get your name?'},
+      {role:'caller', text:'Marcus Webb.'},
+      {role:'agent', text:'Perfect, Marcus. The initial consultation is actually complimentary — no charge. Would you like me to find an available time for you?'},
+      {role:'caller', text:'Yeah absolutely, what does she have open next week?'},
+      {role:'agent', text:'She has openings on Tuesday the 17th at 3:30 PM or Thursday the 19th at 11 AM. Which works better for you?'},
+      {role:'caller', text:'Tuesday works. Yeah let\'s do that.'},
+      {role:'agent', text:'Perfect! I\'ve noted that down. You\'ll receive a confirmation text shortly. Is there anything else I can help you with?'},
+      {role:'caller', text:'No that\'s great, thanks a lot.'},
+      {role:'agent', text:'Wonderful! We\'ll see you Tuesday the 17th at 3:30. Have a great evening, Marcus!'}
+    ]
+  },
+  {
+    id:2, date:'Mar 11', time:'2:15 PM', duration:'1m 52s', caller:'(307) 555-7732',
+    type:'inbound', outcome:'completed', caller_name:'Christine Arnold',
+    transcript:[
+      {role:'agent', text:'Thank you for calling Pinedale Family Dental. This is Alex. How can I help you today?'},
+      {role:'caller', text:'Hi, I need to reschedule my appointment. It\'s Christine Arnold.'},
+      {role:'agent', text:'Of course, Christine! Let me pull that up. I have you down for a cleaning on Friday the 14th at 10 AM. What date works better for you?'},
+      {role:'caller', text:'Can we do the following Monday? The 18th?'},
+      {role:'agent', text:'Let me check... yes, we have 10 AM and 2 PM available on the 18th.'},
+      {role:'caller', text:'10 AM is perfect.'},
+      {role:'agent', text:'Done! You\'re now scheduled for Monday March 18th at 10 AM. You\'ll get a reminder text the day before. Anything else I can help with?'},
+      {role:'caller', text:'Nope, that\'s all. Thanks!'}
+    ]
+  },
+  {
+    id:3, date:'Mar 10', time:'6:55 PM', duration:'2m 11s', caller:'(307) 555-3302',
+    type:'inbound', outcome:'completed', caller_name:'Jennifer Tran',
+    transcript:[
+      {role:'agent', text:'Thank you for calling Pinedale Family Dental. This is Alex. How can I help you today?'},
+      {role:'caller', text:'Hi, I was wondering about teeth whitening. How much does it cost and how does it work?'},
+      {role:'agent', text:'Great question! Dr. Johnson offers both in-office whitening, which typically takes about an hour, and take-home custom trays. In-office whitening usually gives the most dramatic results in one visit. Would you like to come in for a free consultation to see which option is best for your smile?'},
+      {role:'caller', text:'Maybe. I\'m also looking at a couple other places. What makes you guys different?'},
+      {role:'agent', text:'Dr. Johnson has been practicing for 15 years in the Pinedale community and has a very personal approach to each patient. We also do a digital shade analysis so you can see expected results beforehand. I can hold a consultation slot for you — there\'s no commitment.'},
+      {role:'caller', text:'Ok let me think about it and I\'ll call back.'},
+      {role:'agent', text:'Of course! I\'ll make a note of your interest. We\'d love to help brighten your smile. Have a great evening!'}
+    ]
+  },
+  {
+    id:4, date:'Mar 10', time:'11:30 AM', duration:'0m 0s', caller:'(307) 555-8821',
+    type:'inbound', outcome:'no-answer', caller_name:'Unknown',
+    transcript:[]
+  },
+  {
+    id:5, date:'Mar 09', time:'3:45 PM', duration:'0m 47s', caller:'(307) 555-4411',
+    type:'inbound', outcome:'completed', caller_name:'David Kowalski',
+    transcript:[
+      {role:'agent', text:'Thank you for calling Pinedale Family Dental. This is Alex. How can I help?'},
+      {role:'caller', text:'Yeah are you guys taking new patients? And do you take BlueCross BlueShield?'},
+      {role:'agent', text:'Yes, we are accepting new patients and we do accept BlueCross BlueShield, along with Delta Dental and most major plans. Would you like to schedule a new patient exam?'},
+      {role:'caller', text:'Not right now. I\'ll call back when I\'m ready.'},
+      {role:'agent', text:'No problem at all! We\'re here whenever you\'re ready. Have a great day!'}
+    ]
+  },
+  {
+    id:6, date:'Mar 08', time:'8:12 PM', duration:'4m 03s', caller:'(307) 555-0334',
+    type:'inbound', outcome:'completed', caller_name:'James Sutherland',
+    transcript:[
+      {role:'agent', text:'Thank you for calling Pinedale Family Dental. You\'ve reached us after hours but I can absolutely help you. I\'m Alex, Dr. Johnson\'s virtual assistant. What can I do for you?'},
+      {role:'caller', text:'Hi, I just moved to Pinedale and I need to find a new dentist. I haven\'t had a checkup in like 2 years.'},
+      {role:'agent', text:'Welcome to Pinedale! You\'ve called the right place. Dr. Johnson is wonderful and we\'d love to be your new dental home. I can get you set up as a new patient right now — what\'s your name?'},
+      {role:'caller', text:'James Sutherland.'},
+      {role:'agent', text:'Great, James. Do you have dental insurance or will you be self-pay?'},
+      {role:'caller', text:'I have MetLife through my employer.'},
+      {role:'agent', text:'Perfect, we accept MetLife. I\'ve got Tuesday March 8th at 10:30 AM open for a new patient exam. That would include X-rays and a full checkup with Dr. Johnson. Does that work?'},
+      {role:'caller', text:'Yeah that\'s perfect actually.'},
+      {role:'agent', text:'Wonderful! You\'re all set. We\'ll send a text confirmation and new patient forms to fill out online. Is there a good number to reach you?'}
+    ]
+  },
+  {
+    id:7, date:'Mar 07', time:'5:22 PM', duration:'0m 32s', caller:'(307) 555-9901',
+    type:'inbound', outcome:'voicemail', caller_name:'Unknown',
+    transcript:[{role:'caller', text:'[Caller left voicemail: "Hi, this is Carol. I wanted to ask about a chipped tooth. Please call me back at (307) 555-9901. Thanks."]'}]
+  },
+  {
+    id:8, date:'Mar 06', time:'9:05 AM', duration:'1m 15s', caller:'(307) 555-6643',
+    type:'inbound', outcome:'transferred', caller_name:'Bob Reyes',
+    transcript:[
+      {role:'agent', text:'Thank you for calling Pinedale Family Dental. This is Alex. How can I help you?'},
+      {role:'caller', text:'I need to talk to someone about a billing issue from my last visit.'},
+      {role:'agent', text:'Of course, I\'ll transfer you to our billing department right now. One moment please!'}
+    ]
+  }
+];
+
+const REVIEWS = [
+  {
+    name:'Sandra K.', rating:5, date:'Mar 8, 2026',
+    text:'Dr. Johnson and her staff are absolutely wonderful. I\'ve been coming here for 3 years and every visit is smooth and professional. The new phone system is so convenient — I called after hours and got everything sorted out immediately!',
+    responded:true
+  },
+  {
+    name:'Mike T.', rating:4, date:'Feb 28, 2026',
+    text:'Good experience overall. Dr. Johnson was thorough and explained everything clearly. Wait time was a bit long but the care was excellent. Would recommend.',
+    responded:true
+  },
+  {
+    name:'Rachel B.', rating:3, date:'Feb 15, 2026',
+    text:'The dental work itself was fine but had some trouble getting through on the phone initially. Seems like they\'ve improved recently with a new answering system.',
+    responded:false
+  }
+];
+
+const COMPETITORS = [
+  { name:'Pinedale Dental Care', rating:4.1, reviews:31 },
+  { name:'Green River Family Dentistry', rating:3.9, reviews:58 },
+  { name:'High Desert Smiles', rating:4.5, reviews:22 }
+];
+
+const NOTIFICATIONS = [
+  { id:1, type:'lead', icon:'🔥', title:'New Hot Lead: Marcus Webb', desc:'Called after hours — very interested in Invisalign. AI booked a consultation.', time:'2h ago', unread:true },
+  { id:2, type:'appt', icon:'📅', title:'Appointment Booked', desc:'Maria Torres confirmed for March 11 at 2:00 PM — Cavity Filling.', time:'5h ago', unread:true },
+  { id:3, type:'review', icon:'⭐', title:'New 5-Star Review', desc:'Sandra K. left a 5-star review on Google: "absolutely wonderful..."', time:'3 days ago', unread:true },
+  { id:4, type:'call', icon:'📞', title:'Call Milestone: 47 Calls', desc:'Your agent has handled 47 calls this month. On pace for best month yet!', time:'4 days ago', unread:true },
+  { id:5, type:'lead', icon:'💛', title:'Warm Lead: Jennifer Tran', desc:'Inquired about whitening. Comparing local dentists. Follow up recommended.', time:'5 days ago', unread:true }
+];
+
+const SCRIPT_ITEMS = [
+  { trigger:'New caller', response:'Greets warmly, asks how they can help, collects name and reason for calling.' },
+  { trigger:'Appointment request', response:'Checks available slots, offers 2–3 options, confirms booking and sends text reminder.' },
+  { trigger:'After-hours call', response:'Acknowledges off-hours, reassures the caller help is available, books appointments as normal.' },
+  { trigger:'Emergency / pain', response:'Expresses urgency, reserves next available emergency slot, advises on interim pain management.' },
+  { trigger:'Insurance questions', response:'Confirms accepted plans (Delta, MetLife, BlueCross), notes self-pay and payment plan options.' },
+  { trigger:'Reschedule / cancel', response:'Processes the change, offers alternative times, notes cancellation reason for the office.' },
+  { trigger:'New patient', response:'Collects full info (name, insurance, DOB), sends online intake forms via text, books exam.' }
+];
+
+const SCRIPT_UPDATES = [
+  { date:'Mar 5, 2026', text:'Added Invisalign consultation offer script for callers who mention orthodontics or aligners.' },
+  { date:'Feb 22, 2026', text:'Updated emergency handling to reserve same-day slot automatically when caller reports tooth pain.' },
+  { date:'Feb 10, 2026', text:'Added whitening upsell prompt for callers booking routine cleanings.' },
+  { date:'Jan 28, 2026', text:'Initial script deployed. Covers booking, reschedules, insurance, new patients, and after-hours.' }
+];
+
+const DAILY_CALLS = [2,4,3,5,1,6,4,3,7,5,2,4,3,4]; // last 14 days
+
+const CALL_REASONS = { 'Appointment Booking': 38, 'Inquiry': 22, 'Existing Patient': 19, 'After Hours': 14, 'Other': 7 };
+
+const DOW_DATA = { labels:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], data:[4,9,11,8,12,13,6] };
+
+const MONTHLY_DATA = {
+  labels:['Jan','Feb','Mar'],
+  data:[31,39,47]
+};
+
+const RATING_TREND = {
+  labels:['Oct','Nov','Dec','Jan','Feb','Mar'],
+  data:[3.8,3.9,4.0,4.0,4.1,4.2]
+};
+
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+let currentSection = 'overview';
+let calYear = 2026, calMonth = 2; // 0-indexed March = 2
+let calView = 'month';
+let selectedCalDate = null;
+let leadsFilter = 'all';
+let callsFilter = 'all';
+let chartsInit = {};
+let unreadNotifs = NOTIFICATIONS.filter(n => n.unread).length;
+
+// ═══════════════════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════════════════
+function attemptLogin() {
+  const val = document.getElementById('password-input').value.trim();
+  if (val === CONFIG.password) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    initDashboard();
+  } else {
+    document.getElementById('login-error').textContent = 'Incorrect password. Try again.';
+    document.getElementById('password-input').value = '';
+    document.getElementById('password-input').focus();
+  }
+}
+
+document.getElementById('password-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') attemptLogin();
+});
+
+function logout() {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-error').textContent = '';
+}
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+function initDashboard() {
+  document.getElementById('header-business-name').textContent = CONFIG.business_name;
+  document.getElementById('sidebar-plan-name').textContent = CONFIG.plan;
+  document.getElementById('sidebar-plan-price').textContent = CONFIG.price + ' · Active';
+
+  updateNotifBadges();
+  renderOverview();
+  renderCalendar();
+  renderLeads('all');
+  renderCalls('all');
+  renderReviews();
+  renderAgent();
+  renderNotifications();
+  renderBilling();
+  renderOverviewBottom();
+}
+
+// ═══════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.section === id));
+  document.querySelectorAll('.mobile-nav-item').forEach(n => n.classList.toggle('active', n.dataset.section === id));
+
+  currentSection = id;
+
+  // Close mobile sidebar
+  if (window.innerWidth <= 800) {
+    const sb = document.getElementById('sidebar');
+    sb.classList.remove('mobile-open');
+    document.getElementById('sidebar-overlay').style.display = 'none';
+  }
+
+  // Lazy-init charts
+  if (id === 'performance' && !chartsInit.performance) {
+    chartsInit.performance = true;
+    setTimeout(initPerformanceCharts, 50);
+  }
+  if (id === 'reviews' && !chartsInit.reviews) {
+    chartsInit.reviews = true;
+    setTimeout(initReviewChart, 50);
+  }
+}
+
+function toggleSidebar() {
+  const sb = document.getElementById('sidebar');
+  const mc = document.getElementById('main-content');
+  const overlay = document.getElementById('sidebar-overlay');
+  if (window.innerWidth <= 800) {
+    const open = sb.classList.toggle('mobile-open');
+    overlay.style.display = open ? 'block' : 'none';
+  } else {
+    sb.classList.toggle('collapsed');
+    mc.classList.toggle('full');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// OVERVIEW
+// ═══════════════════════════════════════════════════════════
+function renderOverview() {
+  const revenue = STATS.warm_leads * CONFIG.avg_job_value;
+  document.getElementById('overview-subtitle').textContent =
+    `${CONFIG.business_name} · ${CONFIG.plan} · Active since ${CONFIG.start_date}`;
+
+  const cards = [
+    {
+      label:'Total Calls This Month', value: STATS.total_calls,
+      desc:'All inbound & outbound', color:'var(--blue)',
+      change:`+${STATS.this_week_calls - STATS.last_week_calls} this week`, direction:'up'
     },
-    emergency: {
-      title: 'Transcript — Mar 16, 2026 at 8:03 AM',
-      lines: [
-        { s: 'agent',  t: "Thank you for calling Pinedale Family Dental, this is Alex! How can I help?" },
-        { s: 'caller', t: "I have a really bad toothache and I'm not a patient yet. Do you take new patients?" },
-        { s: 'agent',  t: "We absolutely do! I'm sorry to hear you're in pain — let's get you seen as soon as possible. Can I get your name and a callback number?" },
-        { s: 'caller', t: "Sure, Marcus Webb, (307) 555-2298." },
-        { s: 'agent',  t: "Thank you Marcus. Given the urgency, I'm flagging this as a priority and Dr. Johnson's team will call you back within the hour to get you in today if possible." },
-        { s: 'caller', t: "Oh wow, thank you so much. That's such a relief." },
-        { s: 'agent',  t: "Of course! Can you describe the pain a little — is it sharp, throbbing, constant?" },
-        { s: 'caller', t: "Throbbing. Started last night, kept me up." },
-        { s: 'agent',  t: "Understood. I've noted that as well. Hold on for a team member if you're able, or we'll call you right back at (307) 555-2298 within the hour." },
-        { s: 'caller', t: "I'll wait for the callback, thank you." },
-      ]
+    {
+      label:'Live Conversations', value: STATS.live_conversations,
+      desc:'Captured by your agent', color:'var(--green)',
+      change:'+3 vs last week', direction:'up'
     },
-    voicemail: {
-      title: 'Transcript — Mar 15, 2026 at 11:47 AM',
-      lines: [
-        { s: 'agent',  t: "Thank you for calling Pinedale Family Dental! We're with patients right now but we'd love to help. Please leave your name, phone number, and the reason for your call and we'll get back to you within one business day. Or press 0 to try us again. Thanks for calling!" },
-      ]
+    {
+      label:'Warm Leads', value: STATS.warm_leads,
+      desc:'Ready to convert', color:'#fb923c',
+      change:`+${STATS.this_week_leads} this week`, direction:'up'
     },
-    invisalign: {
-      title: 'Transcript — Mar 14, 2026 at 2:22 PM',
-      lines: [
-        { s: 'agent',  t: "Pinedale Family Dental, this is Alex. How can I help you today?" },
-        { s: 'caller', t: "Hi! I've been wanting to look into Invisalign for a while. Does Dr. Johnson do that?" },
-        { s: 'agent',  t: "She does! Invisalign is one of our most popular treatments. Are you an existing patient with us?" },
-        { s: 'caller', t: "No, but I've been thinking about switching dentists. I'm Jennifer Tran." },
-        { s: 'agent',  t: "Welcome, Jennifer! We'd love to have you. The best first step is a complimentary Invisalign consultation — it's about 30 minutes and Dr. Johnson will assess your case and walk you through what the process would look like for you." },
-        { s: 'caller', t: "That sounds perfect. Any idea on pricing? I've heard it varies a lot." },
-        { s: 'agent',  t: "It does vary based on the complexity of the case — typically anywhere from $3,500 to $7,000. Dr. Johnson can give you an exact number at the consultation. We also offer financing options through CareCredit." },
-        { s: 'caller', t: "Okay, that's really helpful. Can I think about it and call back?" },
-        { s: 'agent',  t: "Of course! I'll make a note that you're interested. You can call us anytime or I can have someone from our team reach out to you if you'd like?" },
-        { s: 'caller', t: "Sure, a call would be great. My number is (307) 555-8810." },
-        { s: 'agent',  t: "Perfect, I've got that. Someone will reach out within 24 hours. Thanks for calling, Jennifer!" },
-      ]
+    {
+      label:'Appointments Booked', value: STATS.appointments_booked,
+      desc:'Via AI this month', color:'var(--purple)',
+      change:'On track', direction:'neutral'
     },
-    family: {
-      title: 'Transcript — Mar 13, 2026 at 10:31 AM',
-      lines: [
-        { s: 'agent',  t: "Thank you for calling Pinedale Family Dental! This is Alex. How can I help?" },
-        { s: 'caller', t: "Hi, we're actually moving to Pinedale next month and we're looking for a family dentist. We have four of us — me, my wife, and two kids ages 9 and 11." },
-        { s: 'agent',  t: "Perfect timing! We're a full family practice and we love new families. I'm David Kowalski, by the way." },
-        { s: 'agent',  t: "Great to meet you, David! We'd be happy to get your whole family set up. Typically with new patients, we start with a comprehensive exam and cleaning. Would you want to stagger the appointments or do them on the same day?" },
-        { s: 'caller', t: "Same day would be ideal — easier with the kids." },
-        { s: 'agent',  t: "Totally understand! We can absolutely block out a family appointment slot. When are you moving to Pinedale?" },
-        { s: 'caller', t: "Mid-April, around the 14th." },
-        { s: 'agent',  t: "I'll flag this for our scheduling team and have them call you to pick a specific date in late April. What's the best number to reach you?" },
-        { s: 'caller', t: "(307) 555-6631." },
-        { s: 'agent',  t: "Got it! Welcome to Pinedale, David. We'll be in touch soon!" },
-      ]
+    {
+      label:'Revenue Recovered', value:'$' + revenue.toLocaleString(),
+      desc:`${STATS.warm_leads} leads × avg $${CONFIG.avg_job_value}`, color:'var(--amber)',
+      change:'Est. potential', direction:'up'
     },
-    afterhours: {
-      title: 'Transcript — Mar 13, 2026 at 7:48 PM',
-      lines: [
-        { s: 'agent',  t: "Thank you for calling Pinedale Family Dental! Our office is currently closed but I'm here to help. What can I assist you with?" },
-        { s: 'caller', t: "Oh great, I wasn't expecting anyone to pick up! I just wanted to confirm my appointment tomorrow at 10 AM." },
-        { s: 'agent',  t: "Of course! Can I get your name?" },
-        { s: 'caller', t: "Sarah Morris." },
-        { s: 'agent',  t: "Thanks Sarah — your appointment is confirmed for tomorrow, Friday March 14th at 10:00 AM with Dr. Johnson. You'll also receive a reminder text in the morning. Is there anything else?" },
-        { s: 'caller', t: "Nope, that's all. Thanks, this is really impressive!" },
-        { s: 'agent',  t: "Happy to help! See you tomorrow, Sarah." },
-      ]
+    {
+      label:'Recovery Rate', value: STATS.recovery_rate + '%',
+      desc:'Missed calls captured', color:'var(--green)',
+      change:'vs 71% industry avg', direction:'up'
+    }
+  ];
+
+  document.getElementById('stats-grid').innerHTML = cards.map(c => `
+    <div class="stat-card" style="--stat-color:${c.color}">
+      <div class="stat-label">${c.label}</div>
+      <div class="stat-value">${c.value}</div>
+      <div class="stat-footer">
+        <div class="stat-description">${c.desc}</div>
+        <div class="stat-change ${c.direction}">${c.change}</div>
+      </div>
+    </div>
+  `).join('');
+
+  renderBarChart();
+}
+
+function renderBarChart() {
+  const max = Math.max(...DAILY_CALLS);
+  const today = DAILY_CALLS.length - 1;
+  const labels = [];
+  const now = new Date();
+  for (let i = DAILY_CALLS.length - 1; i >= 0; i--) {
+    const d = new Date(now);
+    d.setDate(now.getDate() - i);
+    labels.push(d.toLocaleDateString('en-US', { weekday:'short' }).substring(0,1) + (d.getDate()));
+  }
+
+  document.getElementById('daily-bar-chart').innerHTML = DAILY_CALLS.map((v, i) => `
+    <div class="bar-col" title="${labels[i]}: ${v} calls">
+      <div class="bar-fill-wrap">
+        <div class="bar-fill ${i === today ? 'today' : ''}" style="height:${max > 0 ? Math.max(6, (v/max)*100) : 0}%;"></div>
+      </div>
+      <div class="bar-label">${labels[i]}</div>
+    </div>
+  `).join('');
+}
+
+function renderOverviewBottom() {
+  document.getElementById('overview-bottom').innerHTML = `
+    <div class="card">
+      <div class="card-title">📋 Top Call Reasons</div>
+      ${Object.entries(CALL_REASONS).map(([k,v]) => {
+        const total = Object.values(CALL_REASONS).reduce((a,b)=>a+b,0);
+        const pct = Math.round(v/total*100);
+        const colors = {'Appointment Booking':'var(--blue)','Inquiry':'var(--green)','Existing Patient':'var(--purple)','After Hours':'var(--amber)','Other':'var(--muted)'};
+        return `
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.6rem;">
+            <div style="font-size:0.8rem;color:var(--text2);width:140px;flex-shrink:0;">${k}</div>
+            <div style="flex:1;height:8px;background:var(--surface3);border-radius:4px;overflow:hidden;">
+              <div style="width:${pct}%;height:100%;background:${colors[k]||'var(--blue)'};border-radius:4px;"></div>
+            </div>
+            <div style="font-size:0.75rem;color:var(--muted);width:35px;text-align:right;">${pct}%</div>
+          </div>`;
+      }).join('')}
+    </div>
+    <div class="card">
+      <div class="card-title">⚡ Quick Actions</div>
+      <div style="display:flex;flex-direction:column;gap:0.6rem;margin-top:0.25rem;">
+        <button class="btn-secondary" style="justify-content:flex-start;display:flex;gap:0.6rem;align-items:center;" onclick="showSection('leads')">🔥 View 3 warm leads needing follow-up</button>
+        <button class="btn-secondary" style="justify-content:flex-start;display:flex;gap:0.6rem;align-items:center;" onclick="showSection('reviews')">⭐ 1 review needs a response</button>
+        <button class="btn-secondary" style="justify-content:flex-start;display:flex;gap:0.6rem;align-items:center;" onclick="showSection('calls')">📞 Review 8 calls from this week</button>
+        <button class="btn-secondary" style="justify-content:flex-start;display:flex;gap:0.6rem;align-items:center;" onclick="showSection('agent')">🤖 Test your agent live</button>
+      </div>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════════
+// CALENDAR
+// ═══════════════════════════════════════════════════════════
+function renderCalendar() {
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('cal-month-title').textContent = `${months[calMonth]} ${calYear}`;
+
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const daysInPrev = new Date(calYear, calMonth, 0).getDate();
+  const today = new Date();
+
+  let html = '';
+
+  // Previous month padding
+  for (let i = firstDay - 1; i >= 0; i--) {
+    html += `<div class="cal-day other-month"><div class="cal-day-num">${daysInPrev - i}</div></div>`;
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday = today.getFullYear()===calYear && today.getMonth()===calMonth && today.getDate()===d;
+    const isSelected = selectedCalDate === dateStr;
+    const appts = APPOINTMENTS.filter(a => a.date === dateStr);
+
+    const dots = appts.map(a => `<div class="cal-dot ${a.status}"></div>`).join('');
+
+    html += `
+      <div class="cal-day ${isToday?'today':''} ${isSelected?'selected':''}"
+           onclick="selectCalDay('${dateStr}')">
+        <div class="cal-day-num">${d}</div>
+        <div class="cal-dots">${dots}</div>
+      </div>`;
+  }
+
+  // Fill remaining cells
+  const totalCells = firstDay + daysInMonth;
+  const remaining = (7 - (totalCells % 7)) % 7;
+  for (let i = 1; i <= remaining; i++) {
+    html += `<div class="cal-day other-month"><div class="cal-day-num">${i}</div></div>`;
+  }
+
+  document.getElementById('cal-days').innerHTML = html;
+}
+
+function calNav(dir) {
+  calMonth += dir;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  selectedCalDate = null;
+  renderCalendar();
+  document.getElementById('appt-panel-content').innerHTML = '<div class="appt-empty"><div style="font-size:2rem;margin-bottom:0.5rem;">📅</div><div>Click any day on the calendar</div></div>';
+  document.getElementById('appt-panel-title').textContent = 'Select a day to view appointments';
+}
+
+function setCalView(v) {
+  calView = v;
+  document.getElementById('btn-month-view').classList.toggle('active', v==='month');
+  document.getElementById('btn-week-view').classList.toggle('active', v==='week');
+}
+
+function selectCalDay(dateStr) {
+  selectedCalDate = dateStr;
+  renderCalendar(); // re-render to show selection
+
+  const appts = APPOINTMENTS.filter(a => a.date === dateStr);
+  const d = new Date(dateStr + 'T12:00:00');
+  const label = d.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
+
+  document.getElementById('appt-panel-title').textContent = label;
+
+  if (appts.length === 0) {
+    document.getElementById('appt-panel-content').innerHTML = `
+      <div class="appt-empty">
+        <div style="font-size:2rem;margin-bottom:0.5rem;">✅</div>
+        <div>No appointments on this day</div>
+      </div>`;
+    return;
+  }
+
+  document.getElementById('appt-panel-content').innerHTML = `
+    <div class="appt-list">
+      ${appts.map(a => `
+        <div class="appt-item" id="appt-${a.id}">
+          <div class="appt-item-header">
+            <div class="appt-client">${a.client}</div>
+            <span class="status-badge ${a.status}">${a.status.charAt(0).toUpperCase()+a.status.slice(1)}</span>
+          </div>
+          <div class="appt-detail">🕐 ${a.time} &nbsp;·&nbsp; ${a.type} &nbsp;·&nbsp; <span class="phone-cell">${a.phone}</span></div>
+          <div class="appt-notes">💬 ${a.notes}</div>
+          ${a.status !== 'completed' && a.status !== 'cancelled' ? `
+            <button class="btn-green btn-sm" onclick="markApptCompleted(${a.id})">✓ Mark Completed</button>
+          ` : ''}
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+function markApptCompleted(id) {
+  const appt = APPOINTMENTS.find(a => a.id === id);
+  if (appt) {
+    appt.status = 'completed';
+    selectCalDay(appt.date);
+    renderCalendar();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// WARM LEADS
+// ═══════════════════════════════════════════════════════════
+function renderLeads(filter) {
+  leadsFilter = filter;
+  const filtered = filter === 'all' ? LEADS : LEADS.filter(l => l.status === filter);
+  const totalValue = filtered.length * CONFIG.avg_job_value;
+
+  document.getElementById('leads-summary').textContent =
+    `Total this month: ${LEADS.length} · Estimated value: $${(LEADS.length * CONFIG.avg_job_value).toLocaleString()}`;
+
+  const scoreMap = {
+    hot: '<span class="score-badge hot">🔥 Hot</span>',
+    warm: '<span class="score-badge warm">💛 Warm</span>',
+    cold: '<span class="score-badge cold">🔵 Cold</span>'
+  };
+
+  document.getElementById('leads-table-body').innerHTML = filtered.map(l => `
+    <tr>
+      <td class="date-cell">${l.date}</td>
+      <td>
+        <div style="font-weight:600;font-size:0.85rem;">${l.caller}</div>
+        <div class="phone-cell">${l.phone}</div>
+      </td>
+      <td style="max-width:280px;font-size:0.8rem;color:var(--text2);">${l.summary}</td>
+      <td>${scoreMap[l.score]}</td>
+      <td><span class="status-badge ${l.status === 'new' ? 'confirmed' : l.status === 'contacted' ? 'pending' : 'cancelled'}">${l.status.charAt(0).toUpperCase()+l.status.slice(1)}</span></td>
+      <td>
+        <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+          ${l.status === 'new' ? `<button class="btn-green btn-sm" onclick="updateLeadStatus(${l.id},'contacted')">Mark Contacted</button>` : ''}
+          ${l.status !== 'closed' ? `<button class="btn-amber btn-sm" onclick="updateLeadStatus(${l.id},'closed')">Close</button>` : ''}
+          <button class="btn-ghost btn-sm" onclick="showLeadDetail(${l.id})">View</button>
+        </div>
+      </td>
+    </tr>
+  `).join('') || '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--muted);">No leads in this category</td></tr>';
+}
+
+function filterLeads(filter, btn) {
+  document.querySelectorAll('#section-leads .filter-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderLeads(filter);
+}
+
+function updateLeadStatus(id, status) {
+  const lead = LEADS.find(l => l.id === id);
+  if (lead) {
+    lead.status = status;
+    renderLeads(leadsFilter);
+  }
+}
+
+function showLeadDetail(id) {
+  const lead = LEADS.find(l => l.id === id);
+  if (!lead) return;
+  const scoreEmoji = { hot:'🔥', warm:'💛', cold:'🔵' };
+  document.getElementById('transcript-modal-title').textContent = `Lead Detail — ${lead.caller}`;
+  document.getElementById('transcript-modal-meta').innerHTML = `
+    <span>${lead.date}</span>
+    <span>${lead.phone}</span>
+    <span>${scoreEmoji[lead.score]} ${lead.score.charAt(0).toUpperCase()+lead.score.slice(1)} Lead</span>
+    <span style="text-transform:capitalize;">${lead.status}</span>
+  `;
+  document.getElementById('transcript-content').innerHTML = `
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;font-size:0.85rem;color:var(--text2);line-height:1.7;">
+      <div style="font-weight:700;color:var(--text);margin-bottom:0.5rem;">📋 AI Summary</div>
+      ${lead.full_summary}
+    </div>
+  `;
+  document.getElementById('transcript-modal').classList.remove('hidden');
+}
+
+// ═══════════════════════════════════════════════════════════
+// CALLS
+// ═══════════════════════════════════════════════════════════
+function renderCalls(filter) {
+  callsFilter = filter;
+  const filtered = filter === 'all' ? CALLS : CALLS.filter(c => c.outcome === filter);
+
+  const answered = CALLS.filter(c => c.outcome === 'completed').length;
+  const voicemail = CALLS.filter(c => c.outcome === 'voicemail').length;
+  const missed = CALLS.filter(c => c.outcome === 'no-answer').length;
+  const transferred = CALLS.filter(c => c.outcome === 'transferred').length;
+  const totalDur = CALLS.filter(c => c.duration && c.duration !== '0m 0s')
+    .reduce((acc, c) => {
+      const m = parseInt(c.duration) || 0;
+      const s = parseInt(c.duration.split('m ')[1]) || 0;
+      return acc + m * 60 + s;
+    }, 0);
+  const avgDur = CALLS.filter(c => c.outcome === 'completed').length > 0
+    ? Math.round(totalDur / CALLS.filter(c => c.outcome === 'completed').length)
+    : 0;
+
+  document.getElementById('call-stats-bar').innerHTML = `
+    <div class="stats-bar-item">
+      <div class="stats-bar-value text-green">${answered}</div>
+      <div class="stats-bar-label">Answered</div>
+    </div>
+    <div class="stats-bar-item">
+      <div class="stats-bar-value text-amber">${voicemail}</div>
+      <div class="stats-bar-label">Voicemail</div>
+    </div>
+    <div class="stats-bar-item">
+      <div class="stats-bar-value text-red">${missed}</div>
+      <div class="stats-bar-label">No Answer</div>
+    </div>
+    <div class="stats-bar-item">
+      <div class="stats-bar-value text-blue">${transferred}</div>
+      <div class="stats-bar-label">Transferred</div>
+    </div>
+    <div class="stats-bar-item">
+      <div class="stats-bar-value">${avgDur}s</div>
+      <div class="stats-bar-label">Avg Duration</div>
+    </div>
+  `;
+
+  document.getElementById('calls-table-body').innerHTML = filtered.map(c => `
+    <tr>
+      <td class="date-cell">${c.date}</td>
+      <td class="date-cell">${c.time}</td>
+      <td class="duration-cell">${c.duration}</td>
+      <td>
+        <div class="phone-cell">${c.caller}</div>
+        ${c.caller_name ? `<div style="font-size:0.75rem;color:var(--text2);">${c.caller_name}</div>` : ''}
+      </td>
+      <td><span class="call-type-badge ${c.type}">${c.type.charAt(0).toUpperCase()+c.type.slice(1)}</span></td>
+      <td><span class="outcome-badge ${c.outcome}">${c.outcome.split('-').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ')}</span></td>
+      <td>
+        ${c.transcript && c.transcript.length > 0
+          ? `<button class="btn-ghost btn-sm" onclick="openTranscript(${c.id})">📄 View</button>`
+          : '<span style="font-size:0.75rem;color:var(--muted);">—</span>'}
+      </td>
+    </tr>
+  `).join('') || '<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--muted);">No calls in this category</td></tr>';
+}
+
+function filterCalls(filter, btn) {
+  document.querySelectorAll('#section-calls .filter-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCalls(filter);
+}
+
+function openTranscript(id) {
+  const call = CALLS.find(c => c.id === id);
+  if (!call) return;
+
+  document.getElementById('transcript-modal-title').textContent = `Call Transcript — ${call.caller_name || call.caller}`;
+  document.getElementById('transcript-modal-meta').innerHTML = `
+    <span>📅 ${call.date}</span>
+    <span>🕐 ${call.time}</span>
+    <span>⏱ ${call.duration}</span>
+    <span class="call-type-badge ${call.type}">${call.type}</span>
+    <span class="outcome-badge ${call.outcome}">${call.outcome}</span>
+  `;
+
+  document.getElementById('transcript-content').innerHTML = call.transcript.map(msg => `
+    <div class="msg-row ${msg.role}">
+      ${msg.role === 'agent' ? `<div class="msg-avatar">AI</div>` : ''}
+      <div>
+        <div class="msg-label">${msg.role === 'agent' ? CONFIG.agent_name + ' (AI Agent)' : (call.caller_name || 'Caller')}</div>
+        <div class="msg-bubble">${msg.text}</div>
+      </div>
+      ${msg.role === 'caller' ? `<div class="msg-avatar">👤</div>` : ''}
+    </div>
+  `).join('');
+
+  document.getElementById('transcript-modal').classList.remove('hidden');
+}
+
+function closeTranscriptModal() {
+  document.getElementById('transcript-modal').classList.add('hidden');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('transcript-modal')) {
+    closeTranscriptModal();
+  }
+}
+
+function exportCSV() {
+  const rows = [['Date','Time','Duration','Caller','Type','Outcome']];
+  CALLS.forEach(c => rows.push([c.date, c.time, c.duration, c.caller_name||c.caller, c.type, c.outcome]));
+  const csv = rows.map(r => r.join(',')).join('\n');
+  const blob = new Blob([csv], { type:'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'call-log.csv';
+  a.click();
+}
+
+// ═══════════════════════════════════════════════════════════
+// REVIEWS
+// ═══════════════════════════════════════════════════════════
+function renderReviews() {
+  const rating = CONFIG.google_rating;
+  const stars = '★'.repeat(Math.floor(rating)) + (rating % 1 >= 0.5 ? '½' : '') + '☆'.repeat(5 - Math.ceil(rating));
+  const needed = Math.ceil((4.8 * CONFIG.total_reviews - rating * CONFIG.total_reviews) / (5 - 4.8));
+
+  document.getElementById('rating-hero').innerHTML = `
+    <div>
+      <div class="rating-big">${rating.toFixed(1)}</div>
+    </div>
+    <div>
+      <div class="stars-row" style="color:var(--amber);">${'★'.repeat(Math.floor(rating))}${'☆'.repeat(5-Math.floor(rating))}</div>
+      <div style="font-size:0.85rem;font-weight:600;color:var(--text2);">${CONFIG.total_reviews} Google Reviews</div>
+      <div style="font-size:0.78rem;color:var(--muted);margin-top:0.25rem;">Google Business Profile</div>
+    </div>
+    <div class="rating-target">
+      <div class="target-label">🎯 Your Target</div>
+      <div class="target-value">4.8★</div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:0.3rem;">Need ${needed} more 5-star reviews</div>
+    </div>
+    <div class="rating-target" style="border-color:rgba(34,197,94,0.2);background:rgba(34,197,94,0.06);">
+      <div class="target-label">🤖 AI Responses</div>
+      <div class="target-value" style="color:var(--green);">Active</div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:0.3rem;">Responds within 1 hour</div>
+    </div>
+  `;
+
+  document.getElementById('reviews-list').innerHTML = REVIEWS.map(r => `
+    <div class="review-card">
+      <div class="review-header">
+        <div>
+          <div class="reviewer-name">${r.name}</div>
+          <div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+        </div>
+        <div class="review-date">${r.date}</div>
+      </div>
+      <div class="review-text">${r.text}</div>
+      <div>
+        <span class="review-response ${r.responded ? 'responded' : 'pending'}">
+          ${r.responded ? '✓ Responded' : '⏳ AI responding within 1 hour'}
+        </span>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('competitors-list').innerHTML = COMPETITORS.map(c => `
+    <div class="competitor-card">
+      <div>
+        <div class="competitor-name">${c.name}</div>
+        <div class="competitor-sub">${c.reviews} reviews</div>
+      </div>
+      <div>
+        <div class="competitor-rating">${c.rating}★</div>
+        <div style="font-size:0.7rem;color:${rating >= c.rating ? 'var(--green)' : 'var(--red)'};font-weight:600;text-align:right;">
+          ${rating >= c.rating ? '✓ You lead' : `↑ ${(c.rating - rating).toFixed(1)} behind`}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function initReviewChart() {
+  const ctx = document.getElementById('rating-trend-chart');
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: RATING_TREND.labels,
+      datasets: [{
+        label: 'Rating',
+        data: RATING_TREND.data,
+        borderColor: '#eab308',
+        backgroundColor: 'rgba(234,179,8,0.1)',
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: '#eab308',
+        pointRadius: 4,
+        pointHoverRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `${ctx.raw}★` } } },
+      scales: {
+        y: {
+          min: 3.5, max: 5,
+          grid: { color: 'rgba(255,255,255,0.05)' },
+          ticks: { color: '#64748b', font: { size: 10 } }
+        },
+        x: { grid: { display: false }, ticks: { color: '#64748b', font: { size: 10 } } }
+      }
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+// PERFORMANCE CHARTS
+// ═══════════════════════════════════════════════════════════
+function initPerformanceCharts() {
+  const chartDefaults = {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { grid: { color:'rgba(255,255,255,0.05)' }, ticks: { color:'#64748b', font:{size:10} } },
+      x: { grid: { display:false }, ticks: { color:'#64748b', font:{size:10} } }
     }
   };
 
-  // ── Navigation ─────────────────────────────────────────────────
-  function showSection(id, el, mobile = false) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    const sec = document.getElementById('sec-' + id);
-    if (sec) { sec.classList.add('active'); sec.classList.remove('fade-in'); void sec.offsetWidth; sec.classList.add('fade-in'); }
-
-    if (!mobile) {
-      document.querySelectorAll('.sidebar .nav-item').forEach(n => n.classList.remove('active'));
-    } else {
-      document.querySelectorAll('.mobile-nav-item').forEach(n => n.classList.remove('active'));
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    if (el) el.classList.add('active');
-  }
-
-  // ── Transcripts ────────────────────────────────────────────────
-  function openTranscript(key) {
-    const data = TRANSCRIPTS[key];
-    if (!data) return;
-
-    document.getElementById('modal-title').textContent = data.title;
-
-    const body = document.getElementById('modal-body');
-    body.innerHTML = data.lines.map(line => `
-      <div class="transcript-line">
-        <div class="transcript-speaker ${line.s}">${line.s === 'agent' ? '🤖 Alex' : '👤 Caller'}</div>
-        <div class="transcript-text">${esc(line.t)}</div>
-      </div>
-    `).join('');
-
-    document.getElementById('transcript-modal').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeTranscript() {
-    document.getElementById('transcript-modal').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  function closeModal(e) {
-    if (e.target === document.getElementById('transcript-modal')) closeTranscript();
-  }
-
-  function esc(str) {
-    if (!str) return '';
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
-
-  // Auto-open the booking transcript to show it off
-  window.addEventListener('load', () => {
-    setTimeout(() => openTranscript('booking'), 800);
+  // Day of week chart
+  new Chart(document.getElementById('dow-chart'), {
+    type: 'bar',
+    data: {
+      labels: DOW_DATA.labels,
+      datasets: [{
+        data: DOW_DATA.data,
+        backgroundColor: DOW_DATA.data.map((v,i) => i===5 ? 'rgba(37,99,235,0.9)' : 'rgba(37,99,235,0.4)'),
+        borderRadius: 6,
+        borderSkipped: false
+      }]
+    },
+    options: { ...chartDefaults, plugins: { legend: { display:false } } }
   });
+
+  // Monthly trend
+  new Chart(document.getElementById('monthly-chart'), {
+    type: 'line',
+    data: {
+      labels: MONTHLY_DATA.labels,
+      datasets: [{
+        label: 'Calls',
+        data: MONTHLY_DATA.data,
+        borderColor: '#22c55e',
+        backgroundColor: 'rgba(34,197,94,0.1)',
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: '#22c55e',
+        pointRadius: 5,
+        pointHoverRadius: 7
+      }]
+    },
+    options: { ...chartDefaults }
+  });
+
+  // Call reasons donut
+  const reasonLabels = Object.keys(CALL_REASONS);
+  const reasonData = Object.values(CALL_REASONS);
+  const reasonColors = ['#2563eb','#22c55e','#a855f7','#eab308','#64748b'];
+  new Chart(document.getElementById('reasons-chart'), {
+    type: 'doughnut',
+    data: {
+      labels: reasonLabels,
+      datasets: [{ data: reasonData, backgroundColor: reasonColors, borderColor: '#111', borderWidth: 2 }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: true, position:'bottom', labels: { color:'#94a3b8', font:{size:10}, padding:12 } }
+      },
+      cutout: '65%'
+    }
+  });
+
+  // Heatmap
+  renderHeatmap();
+
+  // Funnel
+  renderFunnel();
+}
+
+function renderHeatmap() {
+  const hours = 24;
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const heatData = [
+    [0,0,0,0,0,0,1,2,3,4,4,3,2,2,3,3,2,1,1,0,0,0,0,0],
+    [0,0,0,0,0,0,2,4,5,6,7,6,4,5,6,5,4,3,2,1,0,0,0,0],
+    [0,0,0,0,0,0,1,3,5,7,8,7,5,5,7,6,5,3,2,1,0,0,0,0],
+    [0,0,0,0,0,0,1,3,4,6,7,6,4,5,6,5,4,3,2,1,0,0,0,0],
+    [0,0,0,0,0,0,2,3,5,6,7,6,5,5,6,6,5,4,3,2,1,0,0,0],
+    [0,0,0,0,0,0,3,5,6,7,8,7,6,6,7,7,6,5,4,3,2,1,0,0],
+    [0,0,0,0,0,0,1,2,3,4,3,2,2,2,2,2,2,1,1,0,0,0,0,0]
+  ];
+  const maxVal = 8;
+
+  const heatmap = document.getElementById('heatmap');
+  const labels = document.getElementById('heatmap-labels');
+  if (!heatmap) return;
+
+  heatmap.innerHTML = '';
+  labels.innerHTML = '';
+
+  for (let h = 0; h < hours; h++) {
+    const col = document.createElement('div');
+    col.className = 'heatmap-col';
+    for (let d = 0; d < 7; d++) {
+      const val = heatData[d][h];
+      const intensity = val / maxVal;
+      const cell = document.createElement('div');
+      cell.className = 'heat-cell';
+      cell.style.background = `rgba(37,99,235,${intensity > 0 ? 0.1 + intensity * 0.7 : 0.04})`;
+      cell.title = `${days[d]} ${h}:00 — ${val} calls`;
+      col.appendChild(cell);
+    }
+    heatmap.appendChild(col);
+
+    const lbl = document.createElement('div');
+    lbl.className = 'heat-label';
+    lbl.textContent = h % 3 === 0 ? (h === 0 ? '12a' : h < 12 ? h+'a' : h === 12 ? '12p' : (h-12)+'p') : '';
+    labels.appendChild(lbl);
+  }
+}
+
+function renderFunnel() {
+  const steps = [
+    { label:'Total Calls', value:47, pct:100, color:'#2563eb' },
+    { label:'Answered by Agent', value:45, pct:96, color:'#3b82f6' },
+    { label:'Engaged (>30s)', value:38, pct:81, color:'#22c55e' },
+    { label:'Warm Leads', value:3, pct:6, color:'#eab308' },
+    { label:'Appointments Booked', value:2, pct:4, color:'#a855f7' }
+  ];
+
+  document.getElementById('funnel-wrap').innerHTML = steps.map(s => `
+    <div class="funnel-step">
+      <div class="funnel-label">${s.label}</div>
+      <div class="funnel-bar-outer">
+        <div class="funnel-bar-inner" style="width:${s.pct}%;background:${s.color};">${s.value}</div>
+      </div>
+      <div class="funnel-pct">${s.pct}%</div>
+    </div>
+  `).join('');
+}
+
+function updatePerformanceRange(days) {
+  // In production, refetch data for range. For demo, just re-render.
+}
+
+// ═══════════════════════════════════════════════════════════
+// AGENT
+// ═══════════════════════════════════════════════════════════
+function renderAgent() {
+  document.getElementById('agent-hero').innerHTML = `
+    <div class="agent-avatar">🤖</div>
+    <div>
+      <div class="agent-name">${CONFIG.agent_name}</div>
+      <div class="agent-meta">
+        <div class="agent-meta-item">🎙 ${CONFIG.agent_voice}</div>
+        <div class="agent-meta-item">📞 ${CONFIG.phone_number}</div>
+        <div class="agent-meta-item">📋 ${CONFIG.plan}</div>
+        <div class="agent-meta-item">🗓 Active since ${CONFIG.start_date}</div>
+      </div>
+    </div>
+    <div class="agent-live-badge">
+      <div class="pulse-dot"></div>
+      LIVE
+    </div>
+  `;
+
+  document.getElementById('script-block').innerHTML = `
+    <div class="script-block-header">🗣 How ${CONFIG.agent_name} handles each situation</div>
+    ${SCRIPT_ITEMS.map(s => `
+      <div class="script-item">
+        <div class="script-item-trigger">${s.trigger}</div>
+        <div>${s.response}</div>
+      </div>
+    `).join('')}
+  `;
+
+  document.getElementById('updates-block').innerHTML = `
+    ${SCRIPT_UPDATES.map(u => `
+      <div class="update-item">
+        <div class="update-dot"></div>
+        <div class="update-text">${u.text}</div>
+        <div class="update-date">${u.date}</div>
+      </div>
+    `).join('')}
+  `;
+}
+
+// ═══════════════════════════════════════════════════════════
+// NOTIFICATIONS
+// ═══════════════════════════════════════════════════════════
+function renderNotifications() {
+  updateNotifBadges();
+  document.getElementById('notifications-list').innerHTML = NOTIFICATIONS.map(n => `
+    <div class="notif-item ${n.unread ? 'unread' : ''}" id="notif-${n.id}" onclick="markRead(${n.id})">
+      <div class="notif-icon ${n.type}">${n.icon}</div>
+      <div class="notif-body">
+        <div class="notif-title">${n.title}</div>
+        <div class="notif-desc">${n.desc}</div>
+      </div>
+      <div class="notif-time">${n.time}</div>
+    </div>
+  `).join('');
+}
+
+function markRead(id) {
+  const n = NOTIFICATIONS.find(n => n.id === id);
+  if (n && n.unread) {
+    n.unread = false;
+    unreadNotifs = Math.max(0, unreadNotifs - 1);
+    updateNotifBadges();
+    document.getElementById('notif-' + id)?.classList.remove('unread');
+  }
+}
+
+function markAllRead() {
+  NOTIFICATIONS.forEach(n => n.unread = false);
+  unreadNotifs = 0;
+  updateNotifBadges();
+  renderNotifications();
+}
+
+function updateNotifBadges() {
+  const count = NOTIFICATIONS.filter(n => n.unread).length;
+  const badge = document.getElementById('notif-badge');
+  const sidebarBadge = document.getElementById('sidebar-notif-badge');
+  const mobileBadge = document.getElementById('mobile-notif-badge');
+  [badge, sidebarBadge, mobileBadge].forEach(el => {
+    if (el) {
+      el.textContent = count;
+      el.style.display = count > 0 ? '' : 'none';
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+// SETTINGS / BILLING
+// ═══════════════════════════════════════════════════════════
+function renderBilling() {
+  const renewal = new Date('2026-04-01').toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
+  document.getElementById('billing-plan-card').innerHTML = `
+    <div class="plan-tag">Current Plan</div>
+    <div class="plan-name-big">${CONFIG.plan}</div>
+    <div class="plan-details">${CONFIG.price} &nbsp;·&nbsp; Renews ${renewal} &nbsp;·&nbsp; Started ${CONFIG.start_date}</div>
+    <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid rgba(37,99,235,0.2);display:flex;gap:1.5rem;font-size:0.78rem;color:var(--muted);">
+      <span>✅ Unlimited calls</span>
+      <span>✅ AI booking</span>
+      <span>✅ Warm lead alerts</span>
+      <span>✅ Review responses</span>
+    </div>
+  `;
+}
+
+function saveSettings() {
+  const btn = event.target;
+  btn.textContent = '✓ Saved!';
+  btn.style.background = 'var(--green)';
+  setTimeout(() => {
+    btn.textContent = 'Save Changes';
+    btn.style.background = '';
+  }, 2000);
+}
+
+function generateReport() {
+  alert('Monthly report generation is available on the Pro plan. Contact hello@pantrymate.net to upgrade.');
+}
+
+// ═══════════════════════════════════════════════════════════
+// KEYBOARD SHORTCUTS
+// ═══════════════════════════════════════════════════════════
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeTranscriptModal();
+});
+
+// Demo mode — auto-login, no password required
+window.DEMO_MODE = true;
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  initDashboard();
+});
 </script>
 </body>
 </html>
