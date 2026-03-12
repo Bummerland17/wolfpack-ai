@@ -33,6 +33,17 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    }
+
     /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -79,6 +90,55 @@
       background: radial-gradient(ellipse, rgba(37,99,235,0.12) 0%, transparent 70%);
       pointer-events: none;
     }
+
+    /* ── HERO ORBS ── */
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero-orb-1 {
+      width: 480px; height: 480px;
+      background: #2563eb;
+      opacity: 0.12;
+      top: -80px; left: -100px;
+      animation: orbDrift1 18s ease-in-out infinite;
+    }
+    .hero-orb-2 {
+      width: 420px; height: 420px;
+      background: #6366f1;
+      opacity: 0.12;
+      top: 10%; right: -120px;
+      animation: orbDrift2 22s ease-in-out infinite;
+    }
+    .hero-orb-3 {
+      width: 360px; height: 360px;
+      background: #10b981;
+      opacity: 0.10;
+      bottom: -60px; left: 30%;
+      animation: orbDrift3 26s ease-in-out infinite;
+    }
+    @keyframes orbDrift1 {
+      0%,100% { transform: translate(0, 0) scale(1); }
+      33%      { transform: translate(60px, 40px) scale(1.08); }
+      66%      { transform: translate(-30px, 70px) scale(0.95); }
+    }
+    @keyframes orbDrift2 {
+      0%,100% { transform: translate(0, 0) scale(1); }
+      33%      { transform: translate(-50px, 60px) scale(1.06); }
+      66%      { transform: translate(40px, -40px) scale(0.97); }
+    }
+    @keyframes orbDrift3 {
+      0%,100% { transform: translate(0, 0) scale(1); }
+      33%      { transform: translate(70px, -50px) scale(1.1); }
+      66%      { transform: translate(-60px, 30px) scale(0.93); }
+    }
+
+    /* ensure hero text is above orbs */
+    .hero > *:not(.hero-orb) { position: relative; z-index: 1; }
+
     .hero-badge {
       display: inline-flex; align-items: center; gap: 7px;
       background: rgba(37,99,235,0.12);
@@ -117,17 +177,18 @@
       display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
       margin-bottom: 56px;
     }
+    /* ── GRADIENT CTA BUTTONS ── */
     .btn-primary {
       padding: 14px 28px;
-      background: var(--blue);
+      background: linear-gradient(135deg, #2563eb, #6366f1);
       color: #fff;
       border-radius: 10px;
       font-size: 15px; font-weight: 700;
       text-decoration: none;
-      transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
-      box-shadow: 0 0 0 0 rgba(37,99,235,0);
+      transition: filter 0.15s, transform 0.1s, box-shadow 0.15s;
+      box-shadow: 0 4px 24px rgba(37,99,235,0.35);
     }
-    .btn-primary:hover { background: var(--blue-hot); transform: translateY(-1px); box-shadow: 0 8px 30px rgba(37,99,235,0.35); }
+    .btn-primary:hover { filter: brightness(1.15); transform: translateY(-1px); box-shadow: 0 8px 32px rgba(37,99,235,0.45); }
     .btn-ghost {
       padding: 14px 28px;
       background: transparent;
@@ -156,8 +217,12 @@
       gap: 48px; flex-wrap: wrap;
     }
     .proof-stat { text-align: center; }
-    .proof-stat strong { display: block; font-size: 26px; font-weight: 800; color: var(--white); }
+    .proof-stat strong { display: block; font-size: 26px; font-weight: 800; color: var(--white); transition: opacity 0.6s ease; }
     .proof-stat span { font-size: 12px; color: var(--steel); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+
+    /* proof-stat fade-in for special values */
+    .proof-stat strong.stat-hidden { opacity: 0; }
+    .proof-stat strong.stat-visible { opacity: 1; }
 
     /* ── SECTIONS ── */
     section { padding: 96px 24px; max-width: 1100px; margin: 0 auto; }
@@ -198,9 +263,12 @@
       border-radius: 14px;
       padding: 24px;
       display: flex; gap: 16px; align-items: flex-start;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .handle-card:hover { border-color: rgba(37,99,235,0.4); }
+    .handle-card:hover {
+      border-color: rgba(37,99,235,0.4);
+      box-shadow: 0 0 0 1px rgba(37,99,235,0.3), 0 8px 32px rgba(37,99,235,0.08);
+    }
     .handle-icon {
       width: 40px; height: 40px; flex-shrink: 0;
       background: var(--blue-glow);
@@ -222,10 +290,11 @@
       position: relative;
     }
     .price-card:hover { border-color: rgba(37,99,235,0.4); }
+    /* ── FEATURED PRICING CARD ── */
     .price-card.featured {
       border-color: var(--blue);
-      background: linear-gradient(180deg, rgba(37,99,235,0.08) 0%, var(--bg2) 100%);
-      box-shadow: 0 0 40px rgba(37,99,235,0.1);
+      background: linear-gradient(180deg, rgba(37,99,235,0.12) 0%, rgba(99,102,241,0.06) 100%);
+      box-shadow: 0 -1px 0 rgba(37,99,235,0.6), 0 0 40px rgba(37,99,235,0.12), 0 0 40px rgba(37,99,235,0.1);
     }
     .featured-tag {
       position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
@@ -253,12 +322,21 @@
       text-decoration: none;
       transition: all 0.15s;
     }
-    .price-cta.solid { background: var(--blue); color: #fff; }
-    .price-cta.solid:hover { background: var(--blue-hot); }
+    /* ── GRADIENT FEATURED CTA ── */
+    .price-cta.solid {
+      background: linear-gradient(135deg, #2563eb, #6366f1);
+      color: #fff;
+      box-shadow: 0 4px 24px rgba(37,99,235,0.35);
+    }
+    .price-cta.solid:hover { filter: brightness(1.15); box-shadow: 0 6px 28px rgba(37,99,235,0.45); }
     .price-cta.outline { border: 1px solid var(--border); color: var(--white); }
     .price-cta.outline:hover { border-color: rgba(37,99,235,0.4); background: var(--blue-glow); }
 
     /* ── GUARANTEE ── */
+    @keyframes guaranteePulse {
+      0%,100% { border-color: rgba(16,185,129,0.25); box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+      50%      { border-color: rgba(16,185,129,0.5);  box-shadow: 0 0 20px rgba(16,185,129,0.12); }
+    }
     .guarantee-box {
       background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(37,99,235,0.08));
       border: 1px solid rgba(16,185,129,0.25);
@@ -267,6 +345,7 @@
       text-align: center;
       margin: 0 auto;
       max-width: 680px;
+      animation: guaranteePulse 3.5s ease-in-out infinite;
     }
     .guarantee-box .g-icon {
       width: 56px; height: 56px;
@@ -295,6 +374,17 @@
       display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
       max-width: 1100px; margin: 0 auto;
       font-size: 13px; color: var(--muted);
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s cubic-bezier(.16,1,.3,1), transform 0.65s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.revealed {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     /* ── MOBILE ── */
@@ -328,6 +418,11 @@
 
 <!-- HERO -->
 <div class="hero">
+  <!-- Animated gradient orbs -->
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+
   <div class="hero-badge">
     <span></span> AI-Powered Business Operations
   </div>
@@ -350,19 +445,19 @@
 <!-- PROOF BAR -->
 <div class="proof-bar">
   <div class="proof-stat">
-    <strong>24/7</strong>
+    <strong class="stat-hidden" data-stat-special="true">24/7</strong>
     <span>Always On</span>
   </div>
   <div class="proof-stat">
-    <strong>&lt;2s</strong>
+    <strong class="stat-hidden" data-stat-special="true">&lt;2s</strong>
     <span>Answer Time</span>
   </div>
   <div class="proof-stat">
-    <strong>48hr</strong>
+    <strong class="stat-hidden" data-stat-special="true">48hr</strong>
     <span>Setup Time</span>
   </div>
   <div class="proof-stat">
-    <strong>$0</strong>
+    <strong class="stat-hidden" data-stat-special="true">$0</strong>
     <span>Risk to Start</span>
   </div>
 </div>
@@ -373,17 +468,17 @@
   <h2>Live in 48 hours. <br/>No technical setup.</h2>
   <p class="section-sub">We handle everything. You just answer warm leads.</p>
   <div class="steps">
-    <div class="step">
+    <div class="step reveal">
       <div class="step-num">1</div>
       <h3>We build your AI</h3>
       <p>We configure an AI agent trained on your business — your hours, your services, your tone. Sounds like a real person on your team.</p>
     </div>
-    <div class="step">
+    <div class="step reveal">
       <div class="step-num">2</div>
       <h3>Forward your calls</h3>
       <p>One simple call forward from your existing number. Takes 10 seconds. Nothing changes for your customers — they just always get an answer.</p>
     </div>
-    <div class="step">
+    <div class="step reveal">
       <div class="step-num">3</div>
       <h3>Watch leads come in</h3>
       <p>Every call answered, every lead captured, every warm prospect flagged in your dashboard. You only talk to people who are ready to book.</p>
@@ -397,7 +492,7 @@
   <h2>Everything that falls<br/>through the cracks.</h2>
   <p class="section-sub">Every call you miss is a job that went somewhere else.</p>
   <div class="handles-grid">
-    <div class="handle-card">
+    <div class="handle-card reveal">
       <div class="handle-icon">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 010 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
       </div>
@@ -406,7 +501,7 @@
         <p>Your AI answers every call after 5pm, weekends, and holidays. Captures the lead, books the callback. You wake up to a full queue.</p>
       </div>
     </div>
-    <div class="handle-card">
+    <div class="handle-card reveal">
       <div class="handle-icon">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       </div>
@@ -415,7 +510,7 @@
         <p>AI books directly into your calendar in real time. No back and forth. No missed slots. Confirmation texts sent automatically.</p>
       </div>
     </div>
-    <div class="handle-card">
+    <div class="handle-card reveal">
       <div class="handle-icon">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
       </div>
@@ -424,7 +519,7 @@
         <p>Every caller's name, number, and need captured automatically. Warm leads flagged instantly. Follow-up sequences triggered without you lifting a finger.</p>
       </div>
     </div>
-    <div class="handle-card">
+    <div class="handle-card reveal">
       <div class="handle-icon">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
       </div>
@@ -442,7 +537,7 @@
   <h2>Simple pricing.<br/>No surprises.</h2>
   <p class="section-sub">Start with a 7-day free trial. Cancel anytime.</p>
   <div class="pricing-grid">
-    <div class="price-card">
+    <div class="price-card reveal">
       <div class="price-name">Autopilot</div>
       <div class="price-amount">$497<span>/mo</span></div>
       <div class="price-setup">+ $197 setup</div>
@@ -455,7 +550,7 @@
       </ul>
       <a href="https://buy.stripe.com/00w5kC24k5Aj5Rx7wT3F600" class="price-cta outline">Get Started →</a>
     </div>
-    <div class="price-card featured">
+    <div class="price-card featured reveal">
       <div class="featured-tag">MOST POPULAR</div>
       <div class="price-name">Managed</div>
       <div class="price-amount">$1,497<span>/mo</span></div>
@@ -471,7 +566,7 @@
       </ul>
       <a href="https://buy.stripe.com/4gM4gy10ge6PdjZ2cz3F601" class="price-cta solid">Get Started →</a>
     </div>
-    <div class="price-card">
+    <div class="price-card reveal">
       <div class="price-name">Partner</div>
       <div class="price-amount">$2,997<span>/mo</span></div>
       <div class="price-setup">+ $1,497 setup</div>
@@ -490,7 +585,7 @@
 
 <!-- GUARANTEE -->
 <section style="padding-top: 0">
-  <div class="guarantee-box">
+  <div class="guarantee-box reveal">
     <div class="g-icon">🛡️</div>
     <h3>30-Day Money-Back Guarantee</h3>
     <p>If it's not working for your business within 30 days, we'll refund you minus only the actual AI processing costs used on your account. You won't lose money trying this.</p>
@@ -509,6 +604,57 @@
   <span>© 2026 Wolfpack Operations. All rights reserved.</span>
   <span>hello@pantrymate.net</span>
 </footer>
+
+<script>
+  // ── SCROLL REVEAL with stagger ──
+  (function() {
+    var revealEls = document.querySelectorAll('.reveal');
+    var staggerDelays = [0.05, 0.1, 0.15, 0.2];
+
+    // Group siblings for stagger
+    revealEls.forEach(function(el) {
+      var parent = el.parentElement;
+      var siblings = Array.from(parent.querySelectorAll(':scope > .reveal'));
+      var idx = siblings.indexOf(el);
+      var delay = staggerDelays[idx] !== undefined ? staggerDelays[idx] : 0.2;
+      el.style.transitionDelay = delay + 's';
+    });
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealEls.forEach(function(el) { observer.observe(el); });
+  })();
+
+  // ── PROOF BAR STAT FADE-IN ──
+  (function() {
+    var stats = document.querySelectorAll('.proof-stat strong[data-stat-special]');
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          // Stagger each stat slightly
+          var allStats = Array.from(stats);
+          var idx = allStats.indexOf(el);
+          setTimeout(function() {
+            el.classList.remove('stat-hidden');
+            el.classList.add('stat-visible');
+          }, idx * 120);
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    stats.forEach(function(el) { observer.observe(el); });
+  })();
+</script>
 
 </body>
 </html>
