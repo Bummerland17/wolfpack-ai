@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wolfpack Operations — Lowe Law Group Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-base:       #0b0f1a;
+      --bg-sidebar:    #0e1220;
+      --bg-card:       #131929;
+      --bg-card-hover: #182035;
+      --bg-input:      #1a2338;
+      --border:        #1e2d47;
+      --border-light:  #243450;
+      --blue:          #2f80ed;
+      --blue-bright:   #4d9fff;
+      --blue-glow:     rgba(47,128,237,0.18);
+      --green:         #27ae60;
+      --green-dim:     rgba(39,174,96,0.15);
+      --amber:         #f39c12;
+      --amber-dim:     rgba(243,156,18,0.15);
+      --red:           #e74c3c;
+      --red-dim:       rgba(231,76,60,0.15);
+      --purple:        #8b5cf6;
+      --purple-dim:    rgba(139,92,246,0.15);
+      --text-primary:  #e8edf5;
+      --text-secondary:#8a9bb5;
+      --text-muted:    #4a5d7a;
+      --sidebar-w:     240px;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-base);
+      color: var(--text-primary);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ── DEMO BANNER ── */
+    .demo-banner {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: linear-gradient(90deg, #1a0a0a 0%, #2a0f0f 50%, #1a0a0a 100%);
+      border-bottom: 1px solid rgba(231,76,60,0.4);
+      padding: 9px 20px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #ff6b6b;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .demo-banner span.dot { animation: pulse-red 1.8s ease-in-out infinite; display: inline-block; }
+    @keyframes pulse-red { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+    /* ── LAYOUT ── */
+    .layout {
+      display: flex;
+      height: 100vh;
+      padding-top: 38px; /* banner height */
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      overflow-y: auto;
+    }
+
+    .sidebar-logo {
+      padding: 22px 20px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sidebar-logo .logo-icon {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, var(--blue) 0%, #1a4fa0 100%);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .sidebar-logo .logo-text { line-height: 1.15; }
+    .sidebar-logo .logo-text strong { font-size: 13px; font-weight: 700; color: var(--text-primary); display: block; }
+    .sidebar-logo .logo-text span { font-size: 10px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; }
+
+    .sidebar-section-label {
+      padding: 18px 20px 6px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 0;
+      color: var(--text-secondary);
+      font-size: 13.5px;
+      font-weight: 500;
+      transition: background 0.15s, color 0.15s;
+      position: relative;
+      user-select: none;
+    }
+    .nav-item:hover { background: var(--bg-card); color: var(--text-primary); }
+    .nav-item.active {
+      background: var(--blue-glow);
+      color: var(--blue-bright);
+      font-weight: 600;
+    }
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 4px; bottom: 4px;
+      width: 3px;
+      background: var(--blue);
+      border-radius: 0 3px 3px 0;
+    }
+    .nav-item svg { flex-shrink: 0; opacity: 0.7; }
+    .nav-item.active svg { opacity: 1; }
+
+    .nav-badge {
+      margin-left: auto;
+      background: var(--blue);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 10px;
+      line-height: 16px;
+    }
+    .nav-badge.amber { background: var(--amber); }
+
+    .sidebar-bottom {
+      margin-top: auto;
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+    }
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: var(--bg-card);
+      cursor: pointer;
+    }
+    .user-chip:hover { background: var(--bg-card-hover); }
+    .avatar {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1a4fa0 0%, var(--blue) 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; color: #fff;
+      flex-shrink: 0;
+    }
+    .user-chip .info strong { font-size: 12px; font-weight: 600; display: block; }
+    .user-chip .info span { font-size: 11px; color: var(--text-muted); }
+
+    /* ── MAIN CONTENT ── */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      background: var(--bg-base);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(11,15,26,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 12px; }
+    .breadcrumb { font-size: 13px; color: var(--text-muted); }
+    .breadcrumb strong { color: var(--text-primary); font-weight: 600; }
+    .topbar-right { display: flex; align-items: center; gap: 10px; }
+    .plan-badge {
+      background: var(--blue-glow);
+      border: 1px solid rgba(47,128,237,0.3);
+      color: var(--blue-bright);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.04em;
+    }
+    .icon-btn {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: background 0.15s, color 0.15s;
+    }
+    .icon-btn:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+
+    .page-content {
+      padding: 28px;
+      max-width: 1160px;
+    }
+
+    /* ── TAB PANELS ── */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── PAGE HEADER ── */
+    .page-header { margin-bottom: 24px; }
+    .page-header h1 { font-size: 22px; font-weight: 700; margin-bottom: 2px; }
+    .page-header p { color: var(--text-secondary); font-size: 14px; }
+
+    /* ── STAT CARDS ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-start, var(--blue)), var(--accent-end, var(--blue-bright)));
+    }
+    .stat-card:hover { border-color: var(--border-light); box-shadow: 0 4px 24px rgba(0,0,0,0.3); }
+    .stat-card.green-accent { --accent-start: #1a9e56; --accent-end: #27ae60; }
+    .stat-card.amber-accent { --accent-start: #c0780a; --accent-end: #f39c12; }
+    .stat-card.purple-accent { --accent-start: #7c3aed; --accent-end: #a78bfa; }
+    .stat-label { font-size: 11.5px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .stat-value { font-size: 30px; font-weight: 800; color: var(--text-primary); line-height: 1; }
+    .stat-delta { margin-top: 8px; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+    .stat-delta.up { color: var(--green); }
+    .stat-delta.neutral { color: var(--text-muted); }
+
+    /* ── SECTION HEADERS ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .section-header h2 { font-size: 15px; font-weight: 700; }
+    .section-header a, .section-header .link-btn {
+      font-size: 12px;
+      color: var(--blue-bright);
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    .section-header a:hover, .section-header .link-btn:hover { text-decoration: underline; }
+
+    /* ── TABLE ── */
+    .card-table {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    thead tr { background: rgba(255,255,255,0.025); }
+    thead th {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.12s;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--bg-card-hover); }
+    tbody td {
+      padding: 13px 16px;
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      vertical-align: middle;
+    }
+    tbody td strong { color: var(--text-primary); font-weight: 500; }
+
+    /* ── OUTCOME BADGES ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .badge.interested { background: var(--green-dim); color: #4ade80; border: 1px solid rgba(39,174,96,0.3); }
+    .badge.voicemail { background: rgba(74,93,122,0.2); color: var(--text-secondary); border: 1px solid rgba(74,93,122,0.3); }
+    .badge.callback { background: var(--blue-glow); color: var(--blue-bright); border: 1px solid rgba(47,128,237,0.35); }
+    .badge.new-lead { background: var(--amber-dim); color: #fbbf24; border: 1px solid rgba(243,156,18,0.3); }
+
+    /* ── WARM LEADS GRID ── */
+    .lead-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .lead-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .lead-card:hover { border-color: rgba(47,128,237,0.4); box-shadow: 0 4px 20px rgba(47,128,237,0.08); }
+    .lead-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+    .lead-card-name { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+    .lead-card-biz { font-size: 12px; color: var(--text-muted); }
+    .lead-card-quote {
+      background: var(--bg-input);
+      border-left: 3px solid var(--blue);
+      border-radius: 0 6px 6px 0;
+      padding: 10px 12px;
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 14px;
+      line-height: 1.55;
+    }
+    .lead-card-meta { font-size: 11.5px; color: var(--text-muted); margin-bottom: 14px; }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: linear-gradient(135deg, var(--blue) 0%, #1a5dbf 100%);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+      font-family: 'Inter', sans-serif;
+      text-decoration: none;
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 13px;
+      background: transparent;
+      color: var(--blue-bright);
+      border: 1px solid rgba(47,128,237,0.4);
+      border-radius: 7px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-outline:hover { background: var(--blue-glow); border-color: var(--blue); }
+
+    /* ── INSIGHT CARDS ── */
+    .insight-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .insight-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .insight-card:hover { border-color: var(--border-light); box-shadow: 0 6px 32px rgba(0,0,0,0.25); }
+    .insight-card.gold { border-left: 4px solid var(--amber); }
+    .insight-card.red-card { border-left: 4px solid var(--red); }
+    .insight-card.star { border-left: 4px solid var(--purple); }
+    .insight-icon {
+      width: 46px; height: 46px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .insight-icon.gold-bg { background: var(--amber-dim); }
+    .insight-icon.red-bg { background: var(--red-dim); }
+    .insight-icon.purple-bg { background: var(--purple-dim); }
+    .insight-body { flex: 1; }
+    .insight-tag {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+    .insight-tag.amber { color: var(--amber); }
+    .insight-tag.red { color: var(--red); }
+    .insight-tag.purple { color: var(--purple); }
+    .insight-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .insight-desc { font-size: 13.5px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 14px; }
+    .insight-desc strong { color: var(--text-primary); }
+    .insight-actions { display: flex; gap: 10px; align-items: center; }
+    .btn-upgrade {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: linear-gradient(135deg, var(--blue) 0%, #1a5dbf 100%);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s, box-shadow 0.15s;
+      font-family: 'Inter', sans-serif;
+      box-shadow: 0 2px 10px rgba(47,128,237,0.35);
+      letter-spacing: 0.02em;
+    }
+    .btn-upgrade:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 18px rgba(47,128,237,0.5); }
+    .btn-upgrade.amber-btn {
+      background: linear-gradient(135deg, #d4850b 0%, var(--amber) 100%);
+      box-shadow: 0 2px 10px rgba(243,156,18,0.35);
+    }
+    .btn-upgrade.amber-btn:hover { box-shadow: 0 4px 18px rgba(243,156,18,0.5); }
+    .btn-upgrade.purple-btn {
+      background: linear-gradient(135deg, #7c3aed 0%, var(--purple) 100%);
+      box-shadow: 0 2px 10px rgba(139,92,246,0.35);
+    }
+    .btn-upgrade.purple-btn:hover { box-shadow: 0 4px 18px rgba(139,92,246,0.5); }
+    .dismiss-link { font-size: 12px; color: var(--text-muted); cursor: pointer; background: none; border: none; font-family: 'Inter', sans-serif; }
+    .dismiss-link:hover { color: var(--text-secondary); }
+
+    /* ── PRICE TAG ── */
+    .price-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 4px 10px;
+      background: var(--bg-input);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+    }
+
+    /* ── CALLS TAB ── */
+    .transcript-row td { padding-top: 0 !important; padding-bottom: 0 !important; }
+    .transcript-box {
+      background: var(--bg-base);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin: 0 0 12px 0;
+      font-size: 12.5px;
+      line-height: 1.7;
+    }
+    .t-line { margin-bottom: 6px; display: flex; gap: 8px; }
+    .t-speaker {
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 1px 6px;
+      border-radius: 4px;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+    .t-speaker.agent { background: var(--blue-glow); color: var(--blue-bright); }
+    .t-speaker.customer { background: var(--green-dim); color: #4ade80; }
+    .t-text { color: var(--text-secondary); }
+    .expand-btn {
+      background: none;
+      border: none;
+      color: var(--blue-bright);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .expand-btn:hover { text-decoration: underline; }
+
+    /* ── PLACEHOLDER TABS ── */
+    .placeholder-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 400px;
+      gap: 16px;
+      text-align: center;
+    }
+    .placeholder-tab .ph-icon {
+      width: 64px; height: 64px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+    }
+    .placeholder-tab h2 { font-size: 18px; font-weight: 700; }
+    .placeholder-tab p { color: var(--text-secondary); font-size: 14px; max-width: 320px; }
+    .placeholder-tab .coming-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+    /* ── MINI SPARKLINE ── */
+    .sparkline { display: inline-block; margin-left: 8px; vertical-align: middle; opacity: 0.7; }
+
+    /* ── HAMBURGER BUTTON (mobile only) ── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 36px; height: 36px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .hamburger span {
+      display: block;
+      width: 16px; height: 2px;
+      background: var(--text-secondary);
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    /* ── MOBILE OVERLAY ── */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 99;
+    }
+    .sidebar-overlay.open { display: block; }
+
+    /* ── BOTTOM NAV (mobile) ── */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--bg-sidebar);
+      border-top: 1px solid var(--border);
+      padding: 6px 0 env(safe-area-inset-bottom, 6px);
+    }
+    .bottom-nav-inner {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+    .bnav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 6px 10px;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: color 0.15s;
+      min-width: 56px;
+    }
+    .bnav-item.active { color: var(--blue-bright); }
+    .bnav-item svg { flex-shrink: 0; }
+
+    /* ── TABLET ── */
+    @media (max-width: 900px) {
+      .stat-grid { grid-template-columns: repeat(2,1fr); }
+      .lead-grid { grid-template-columns: repeat(2,1fr); }
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 640px) {
+      /* Show hamburger, hide sidebar by default */
+      .hamburger { display: flex; }
+      .sidebar {
+        position: fixed;
+        left: -260px;
+        top: 0; bottom: 0;
+        z-index: 100;
+        width: 260px;
+        transition: left 0.25s ease;
+        padding-top: 38px;
+      }
+      .sidebar.open { left: 0; }
+
+      /* Layout fills full width */
+      .layout { padding-top: 38px; }
+      .main { width: 100%; }
+
+      /* Topbar */
+      .topbar { padding: 0 14px; }
+      .topbar-right .plan-badge { display: none; }
+
+      /* Page content */
+      .page-content { padding: 16px 14px 80px; }
+      .page-header h1 { font-size: 18px; }
+      .page-header p { font-size: 13px; }
+
+      /* Stat grid — 2 col on mobile */
+      .stat-grid { grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 18px; }
+      .stat-card { padding: 14px; }
+      .stat-value { font-size: 24px; }
+
+      /* Lead grid — 1 col on mobile */
+      .lead-grid { grid-template-columns: 1fr; gap: 12px; }
+
+      /* Tables — horizontal scroll */
+      .card-table { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      table { min-width: 520px; }
+
+      /* Demo banner */
+      .demo-banner { font-size: 10px; padding: 7px 10px; }
+
+      /* Show bottom nav */
+      .bottom-nav { display: block; }
+
+      /* Section headers */
+      .section-header h2 { font-size: 14px; }
+
+      /* Insight cards */
+      .insight-grid { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- DEMO BANNER -->
+<div class="demo-banner">
+  <span class="dot">🔴</span>
+  DEMO — Lowe Law Group | Billings MT — Preview Dashboard
+</div>
+
+<div class="layout">
+
+  <!-- ═══════════════════════════ SIDEBAR ═══════════════════════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L4 7V12C4 16.42 7.36 20.55 12 22C16.64 20.55 20 16.42 20 12V7L12 2Z" fill="white" fill-opacity="0.9"/>
+          <path d="M9 12L11 14L15 10" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="logo-text">
+        <strong>Lowe Law Group</strong>
+        <span>Lowe Law Group Portal</span>
+      </div>
+    </div>
+
+    <div class="sidebar-section-label">Main</div>
+
+    <div class="nav-item active" onclick="switchTab('overview', this)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+      </svg>
+      Overview
+    </div>
+
+    <div class="nav-item" onclick="switchTab('calls', this)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81a2 2 0 01-1.99-2.18V3.8a2 2 0 012.06-2 19.79 19.79 0 012.32.37 2 2 0 011.3 2.46l-.28.7A2 2 0 007.28 7.5l1 1.6a16 16 0 006.72 6.72l1.6 1a2 2 0 002.14-.2l.7-.28a2 2 0 012.46 1.3c.14.77.23 1.55.27 2.33z"/>
+      </svg>
+      Calls
+      <span class="nav-badge">47</span>
+    </div>
+
+    <div class="nav-item" onclick="switchTab('leads', this)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+      </svg>
+      Leads
+      <span class="nav-badge amber">3</span>
+    </div>
+
+    <div class="nav-item" onclick="switchTab('insights', this)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      Insights
+      <span class="nav-badge" style="background:#e74c3c">3</span>
+    </div>
+
+    <div class="nav-item" onclick="switchTab('sms', this)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+      </svg>
+      SMS
+    </div>
+
+    <div class="sidebar-section-label">Account</div>
+
+    <div class="nav-item" onclick="switchTab('settings', this)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+      </svg>
+      Settings
+    </div>
+
+    <div class="sidebar-bottom">
+      <div class="user-chip">
+        <div class="avatar">L</div>
+        <div class="info">
+          <strong>Lowe Law Group</strong>
+          <span>Lowe Law Group</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════════ MAIN ═══════════════════════════ -->
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="hamburger" onclick="toggleSidebar()" id="hamburger">
+          <span></span><span></span><span></span>
+        </div>
+        <span class="breadcrumb" id="breadcrumb"><strong>Overview</strong></span>
+      </div>
+      <div class="topbar-right">
+        <span class="plan-badge">Wolfpack Ops — Business Plan</span>
+        <div class="icon-btn" title="Notifications">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/>
+          </svg>
+        </div>
+        <div class="icon-btn" title="Help">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-content">
+
+      <!-- ════════════ OVERVIEW TAB ════════════ -->
+      <div id="tab-overview" class="tab-panel active">
+
+        <div class="page-header">
+          <h1>Good morning, Lowe Law Group 👋</h1>
+          <p>Lowe Law Group &nbsp;·&nbsp; Week of Mar 3 – 8, 2026</p>
+        </div>
+
+        <!-- Stat Cards -->
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81a2 2 0 01-1.99-2.18V3.8a2 2 0 012.06-2 19.79 19.79 0 012.32.37 2 2 0 011.3 2.46l-.28.7A2 2 0 007.28 7.5l1 1.6a16 16 0 006.72 6.72l1.6 1a2 2 0 002.14-.2l.7-.28a2 2 0 012.46 1.3c.14.77.23 1.55.27 2.33z"/></svg>
+              Calls This Week
+            </div>
+            <div class="stat-value">47</div>
+            <div class="stat-delta up">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+              +12% vs last week
+            </div>
+          </div>
+
+          <div class="stat-card green-accent">
+            <div class="stat-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              Conversations
+            </div>
+            <div class="stat-value">18</div>
+            <div class="stat-delta up">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+              +3 from last week
+            </div>
+          </div>
+
+          <div class="stat-card amber-accent">
+            <div class="stat-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Warm Leads
+            </div>
+            <div class="stat-value">3</div>
+            <div class="stat-delta neutral">Ready for follow-up</div>
+          </div>
+
+          <div class="stat-card purple-accent">
+            <div class="stat-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+              Revenue Impact Est.
+            </div>
+            <div class="stat-value">$1,350</div>
+            <div class="stat-delta up">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+              Based on 3 warm leads
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Calls Table -->
+        <div class="section-header">
+          <h2>Recent Calls</h2>
+          <button class="link-btn" onclick="switchTab('calls', document.querySelector('.nav-item:nth-child(3)'))">View all 47 calls →</button>
+        </div>
+
+        <div class="card-table" style="margin-bottom:28px">
+          <table>
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Contact</th>
+                <th>Duration</th>
+                <th>Outcome</th>
+              </tr>
+            </thead>
+            <tbody><!-- OVERVIEW_CALLS_START -->
+              <tr>
+                <td><strong>Today, 10:14 AM</strong></td>
+                <td><strong>Valley Services Co.</strong></td>
+                <td>3m 42s</td>
+                <td><span class="badge callback">📅 Callback Booked</span></td>
+              </tr>
+              <tr>
+                <td><strong>Today, 9:02 AM</strong></td>
+                <td><strong>Eastside Solutions</strong></td>
+                <td>1m 18s</td>
+                <td><span class="badge interested">✅ Interested</span></td>
+              </tr>
+              <tr>
+                <td><strong>Yesterday, 4:51 PM</strong></td>
+                <td><strong>Northside Partners</strong></td>
+                <td>0m 49s</td>
+                <td><span class="badge voicemail">📬 Voicemail</span></td>
+              </tr>
+              <tr>
+                <td><strong>Yesterday, 2:33 PM</strong></td>
+                <td><strong>Summit Group LLC</strong></td>
+                <td>5m 07s</td>
+                <td><span class="badge interested">✅ Interested</span></td>
+              </tr>
+              <tr>
+                <td><strong>Mon, 11:21 AM</strong></td>
+                <td><strong>Local Business Assoc.</strong></td>
+                <td>2m 55s</td>
+                <td><span class="badge voicemail">📬 Voicemail</span></td>
+              </tr>
+<!-- OVERVIEW_CALLS_END -->            </tbody>
+          </table>
+        </div>
+
+        <!-- Warm Leads -->
+        <div class="section-header">
+          <h2>🔥 Warm Leads This Week</h2>
+          <button class="link-btn" onclick="switchTab('leads', document.querySelector('.nav-item:nth-child(4)'))">View all leads →</button>
+        </div>
+
+        <div class="lead-grid"><!-- LEAD_CARDS_START -->
+          <div class="lead-card">
+            <div class="lead-card-top">
+              <div>
+                <div class="lead-card-name">Alex M.</div>
+                <div class="lead-card-biz">High-Intent Inquiry</div>
+              </div>
+              <span class="badge callback" style="font-size:10.5px">Callback Booked</span>
+            </div>
+            <div class="lead-card-quote">
+              "Called after hours — high intent, left contact info and said it's urgent. Wants to move forward quickly."
+            </div>
+            <div class="lead-card-meta">📞 Called Today, 10:14 AM &nbsp;·&nbsp; 3m 42s</div>
+            <button class="btn-primary">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Book Follow-up
+            </button>
+          </div>
+
+          <div class="lead-card">
+            <div class="lead-card-top">
+              <div>
+                <div class="lead-card-name">Jamie R.</div>
+                <div class="lead-card-biz">Missed Call Capture</div>
+              </div>
+              <span class="badge interested" style="font-size:10.5px">Interested</span>
+            </div>
+            <div class="lead-card-quote">
+              "Missed call — AI captured the lead and booked a callback for Thursday. Said they've been looking for a solution like this."
+            </div>
+            <div class="lead-card-meta">📞 Called Today, 9:02 AM &nbsp;·&nbsp; 1m 18s</div>
+            <button class="btn-primary">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Book Follow-up
+            </button>
+          </div>
+
+          <div class="lead-card">
+            <div class="lead-card-top">
+              <div>
+                <div class="lead-card-name">Chris T.</div>
+                <div class="lead-card-biz">Website Inquiry</div>
+              </div>
+              <span class="badge new-lead" style="font-size:10.5px">New Lead</span>
+            </div>
+            <div class="lead-card-quote">
+              "Website inquiry — AI flagged as warm lead. Asked about pricing and availability. Ready for a follow-up call."
+            </div>
+            <div class="lead-card-meta">📞 Called Yesterday, 2:33 PM &nbsp;·&nbsp; 5m 07s</div>
+            <button class="btn-primary">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Book Follow-up
+            </button>
+          </div>
+<!-- LEAD_CARDS_END -->        </div>
+
+      </div><!-- /tab-overview -->
+
+
+      <!-- ════════════ CALLS TAB ════════════ -->
+      <div id="tab-calls" class="tab-panel">
+
+        <div class="page-header">
+          <h1>All Calls</h1>
+          <p>47 calls this week &nbsp;·&nbsp; AI agent active Mon–Fri, 8 AM – 5 PM</p>
+        </div>
+
+        <div class="card-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Contact</th>
+                <th>Contact</th>
+                <th>Duration</th>
+                <th>Outcome</th>
+                <th>Transcript</th>
+              </tr>
+            </thead>
+            <tbody><!-- CALLS_TAB_START -->
+
+              <tr>
+                <td><strong>Today, 10:14 AM</strong></td>
+                <td><strong>Valley Services Co.</strong></td>
+                <td>Alex M.</td>
+                <td>3m 42s</td>
+                <td><span class="badge callback">📅 Callback Booked</span></td>
+                <td>
+                  <button class="expand-btn" onclick="toggleTranscript(this)">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    Hide
+                  </button>
+                </td>
+              </tr>
+              <tr class="transcript-row">
+                <td colspan="6" style="padding:0 16px 14px">
+                  <div class="transcript-box">
+                    <div class="t-line">
+                      <span class="t-speaker agent">AI Agent</span>
+                      <span class="t-text">Hi! This is Aria calling on behalf of Lowe Law Group. I'm reaching out to see if you might benefit from our AI-powered service. Is this a good time for 60 seconds?</span>
+                    </div>
+                    <div class="t-line">
+                      <span class="t-speaker customer">Alex</span>
+                      <span class="t-text">Sure, go ahead.</span>
+                    </div>
+                    <div class="t-line">
+                      <span class="t-speaker agent">AI Agent</span>
+                      <span class="t-text">We help businesses capture more leads and book more appointments automatically — without extra staff. What does your current follow-up process look like?</span>
+                    </div>
+                    <div class="t-line">
+                      <span class="t-speaker customer">Alex</span>
+                      <span class="t-text">Honestly it's pretty manual. We miss calls all the time after hours.</span>
+                    </div>
+                    <div class="t-line">
+                      <span class="t-speaker agent">AI Agent</span>
+                      <span class="t-text">That's exactly what we solve. I'd love to set up a callback from Lowe Law Group to walk you through how it works. Does Thursday work?</span>
+                    </div>
+                    <div class="t-line">
+                      <span class="t-speaker customer">Alex</span>
+                      <span class="t-text">Thursday afternoon is fine.</span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><strong>Today, 9:02 AM</strong></td>
+                <td><strong>Eastside Solutions</strong></td>
+                <td>Jamie R.</td>
+                <td>1m 18s</td>
+                <td><span class="badge interested">✅ Interested</span></td>
+                <td>
+                  <button class="expand-btn" onclick="toggleTranscript(this)">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    View
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td><strong>Yesterday, 4:51 PM</strong></td>
+                <td><strong>Northside Partners</strong></td>
+                <td>Unknown</td>
+                <td>0m 49s</td>
+                <td><span class="badge voicemail">📬 Voicemail</span></td>
+                <td>
+                  <button class="expand-btn" onclick="toggleTranscript(this)">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    View
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td><strong>Yesterday, 2:33 PM</strong></td>
+                <td><strong>Summit Group LLC</strong></td>
+                <td>Chris T.</td>
+                <td>5m 07s</td>
+                <td><span class="badge interested">✅ Interested</span></td>
+                <td>
+                  <button class="expand-btn" onclick="toggleTranscript(this)">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    View
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td><strong>Mon, 11:21 AM</strong></td>
+                <td><strong>Local Business Assoc.</strong></td>
+                <td>Janet K.</td>
+                <td>2m 55s</td>
+                <td><span class="badge voicemail">📬 Voicemail</span></td>
+                <td>
+                  <button class="expand-btn" onclick="toggleTranscript(this)">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    View
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td><strong>Mon, 9:45 AM</strong></td>
+                <td><strong>Metro Services Inc.</strong></td>
+                <td>Dave R.</td>
+                <td>4m 12s</td>
+                <td><span class="badge callback">📅 Callback Booked</span></td>
+                <td>
+                  <button class="expand-btn" onclick="toggleTranscript(this)">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    View
+                  </button>
+                </td>
+              </tr>
+
+<!-- CALLS_TAB_END -->            </tbody>
+          </table>
+        </div>
+
+      </div><!-- /tab-calls -->
+
+
+      <!-- ════════════ LEADS TAB ════════════ -->
+      <div id="tab-leads" class="tab-panel">
+        <div class="placeholder-tab">
+          <div class="ph-icon">👥</div>
+          <h2>Leads</h2>
+          <p>Full lead management, scoring, and pipeline view loads here.</p>
+          <span class="coming-pill">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Coming in your full portal
+          </span>
+          <button class="btn-primary" style="margin-top:8px">Request Access</button>
+        </div>
+      </div>
+
+
+      <!-- ════════════ INSIGHTS TAB ════════════ -->
+      <div id="tab-insights" class="tab-panel">
+
+        <div class="page-header">
+          <h1>💡 Growth Opportunities — This Week</h1>
+          <p>Personalized intelligence based on your call data, local market, and competitor signals.</p>
+        </div>
+
+        <div class="insight-grid"><!-- INSIGHTS_START -->
+
+          <div class="insight-card gold">
+            <div class="insight-icon gold-bg">🏆</div>
+            <div class="insight-body">
+              <div class="insight-tag amber">Competitor Alert</div>
+              <div class="insight-title">Top Local Competitor is pulling ahead on booking speed</div>
+              <div class="insight-desc">
+                <strong>Top Local Competitor (4.8 ⭐)</strong> upgraded their response time and booking system this week. Customers increasingly pick whoever responds fastest — and right now, they're winning that race. You're at <strong>4.1 ⭐</strong>. Customers increasingly pick whoever responds fastest — and right now, they're winning that race. One CTA change on your homepage could close that gap.
+              </div>
+              <div class="insight-actions">
+                <button class="btn-upgrade amber-btn">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  Fix it for $149 →
+                </button>
+                <span class="price-tag">One-time optimization</span>
+                <button class="dismiss-link">Dismiss</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="insight-card red-card">
+            <div class="insight-icon red-bg">📞</div>
+            <div class="insight-body">
+              <div class="insight-tag red">Missed Revenue</div>
+              <div class="insight-title">10 after-hours calls went unanswered this week</div>
+              <div class="insight-desc">
+                You missed <strong>10 calls after 5 PM</strong> this week. Based on your average job/appointment value of <strong>$450 avg value</strong>, that's <strong>~$4,500 in potential revenue</strong> that went to a competitor or got forgotten. Your AI agent handled <strong>0 of them</strong> — you're on the Autopilot plan, which covers business hours only. Upgrade to <strong>Assisted</strong> to activate after-hours coverage.
+              </div>
+              <div class="insight-actions">
+                <button class="btn-upgrade">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+                  Upgrade to Assisted →
+                </button>
+                <span class="price-tag">+$97/mo · 24/7 AI coverage</span>
+                <button class="dismiss-link">Remind me later</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="insight-card star">
+            <div class="insight-icon purple-bg">⭐</div>
+            <div class="insight-body">
+              <div class="insight-tag purple">Review Gap</div>
+              <div class="insight-title">You're 8 reviews behind competitors this month</div>
+              <div class="insight-desc">
+                Your last <strong>3 Google reviews are from 4 months ago</strong>. Local competitors are averaging <strong>2 new reviews/week</strong> — that freshness signal directly affects how high you rank in Google Maps. Want us to activate <strong>automated review requests</strong> after every completed service call? It takes 10 minutes to set up.
+              </div>
+              <div class="insight-actions">
+                <button class="btn-upgrade purple-btn">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  Add Review Automation →
+                </button>
+                <span class="price-tag">$49/mo add-on</span>
+                <button class="dismiss-link">Not now</button>
+              </div>
+            </div>
+          </div>
+
+<!-- INSIGHTS_END -->        </div>
+
+      </div><!-- /tab-insights -->
+
+
+      <!-- ════════════ SMS TAB ════════════ -->
+      <div id="tab-sms" class="tab-panel">
+        <div class="placeholder-tab">
+          <div class="ph-icon">💬</div>
+          <h2>SMS Campaigns</h2>
+          <p>2-way SMS inbox, drip sequences, and follow-up automation live here.</p>
+          <span class="coming-pill">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Coming in your full portal
+          </span>
+          <button class="btn-primary" style="margin-top:8px">Request Access</button>
+        </div>
+      </div>
+
+
+      <!-- ════════════ SETTINGS TAB ════════════ -->
+      <div id="tab-settings" class="tab-panel">
+        <div class="placeholder-tab">
+          <div class="ph-icon">⚙️</div>
+          <h2>Settings</h2>
+          <p>Manage your AI agent script, call schedule, integrations, and billing here.</p>
+          <span class="coming-pill">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Coming in your full portal
+          </span>
+          <button class="btn-primary" style="margin-top:8px">Request Access</button>
+        </div>
+      </div>
+
+    </div><!-- /page-content -->
+  </main>
+
+</div><!-- /layout -->
+
+<script>
+  // ── Tab switching ──
+  const tabLabels = {
+    overview: 'Overview',
+    calls: 'Calls',
+    leads: 'Leads',
+    insights: 'Insights',
+    sms: 'SMS',
+    settings: 'Settings'
+  };
+
+  function switchTab(tabId, navEl) {
+    // Hide all panels
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    // Deactivate all nav items
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+    // Activate target panel
+    const panel = document.getElementById('tab-' + tabId);
+    if (panel) panel.classList.add('active');
+
+    // Activate nav item
+    if (navEl) navEl.classList.add('active');
+
+    // Update breadcrumb
+    document.getElementById('breadcrumb').innerHTML = '<strong>' + tabLabels[tabId] + '</strong>';
+  }
+
+  // ── Toggle transcript rows ──
+  function toggleTranscript(btn) {
+    const row = btn.closest('tr');
+    const nextRow = row.nextElementSibling;
+
+    if (!nextRow || !nextRow.classList.contains('transcript-row')) {
+      // Stub: no transcript loaded yet (for rows without one pre-built)
+      const stub = document.createElement('tr');
+      stub.classList.add('transcript-row');
+      stub.innerHTML = '<td colspan="6" style="padding:0 16px 14px">' +
+        '<div class="transcript-box" style="color:var(--text-muted);font-style:italic;text-align:center;padding:20px">' +
+        'Transcript loading... (full transcripts available in the complete portal)' +
+        '</div></td>';
+      row.parentNode.insertBefore(stub, row.nextSibling);
+      btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg> Hide';
+      return;
+    }
+
+    const isHidden = nextRow.style.display === 'none';
+    if (isHidden) {
+      nextRow.style.display = '';
+      btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg> Hide';
+    } else {
+      nextRow.style.display = 'none';
+      btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg> View';
+    }
+  }
+
+  // ── Mobile sidebar toggle ──
+  function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('open');
+  }
+
+  function closeSidebar() {
+    document.querySelector('.sidebar').classList.remove('open');
+    document.getElementById('sidebar-overlay').classList.remove('open');
+  }
+
+  // ── Bottom nav switch ──
+  function bnavSwitch(tabId, el) {
+    switchTab(tabId, null);
+    document.querySelectorAll('.bnav-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+    closeSidebar();
+  }
+
+  // Close sidebar when a nav item is clicked on mobile
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      if (window.innerWidth <= 640) closeSidebar();
+    });
+  });
+</script>
+
+<!-- Mobile overlay -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- Bottom nav (mobile only) -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <div class="bnav-item active" onclick="bnavSwitch('overview', this)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+      </svg>
+      Overview
+    </div>
+    <div class="bnav-item" onclick="bnavSwitch('calls', this)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.0 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+      </svg>
+      Calls
+    </div>
+    <div class="bnav-item" onclick="bnavSwitch('leads', this)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+      </svg>
+      Leads
+    </div>
+    <div class="bnav-item" onclick="bnavSwitch('insights', this)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+      </svg>
+      Insights
+    </div>
+    <div class="bnav-item" onclick="bnavSwitch('settings', this)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+      </svg>
+      Settings
+    </div>
+  </div>
+</nav>
+
+
+<!-- ── STICKY CTA BAR ──────────────────────────────────────────────────────── -->
+<div id="cta-bar" style="
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
+  background: linear-gradient(135deg, #0a0e1a 0%, #0d1220 100%);
+  border-top: 1px solid rgba(26,107,255,0.3);
+  padding: 14px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.5);
+">
+  <div style="flex:1; min-width:0;">
+    <div style="font-size:14px; font-weight:700; color:#fff;">
+      Ready to run this for <span id="cta-biz-name" style="color:#1a6bff;">your business</span>?
+    </div>
+    <div style="font-size:12px; color:#8892a4; margin-top:2px;">7-day free trial · No setup headaches · Live in 48hrs</div>
+  </div>
+  <div style="display:flex; gap:10px; flex-shrink:0; align-items:center;">
+    <button onclick="startAria()" style="
+      background: none; border: 1px solid rgba(26,107,255,0.5); color: #1a6bff;
+      padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;
+      cursor: pointer; white-space: nowrap; transition: all 0.2s;
+    ">💬 Ask a question</button>
+    <a href="https://buy.stripe.com/00w5kC24k5Aj5Rx7wT3F600" target="_blank" style="
+      background: linear-gradient(135deg, #1a6bff, #6366f1);
+      color: #fff; padding: 10px 22px; border-radius: 8px;
+      font-size: 13px; font-weight: 700; text-decoration: none;
+      white-space: nowrap; box-shadow: 0 4px 16px rgba(26,107,255,0.4);
+    ">Start Free Trial →</a>
+  </div>
+</div>
+
+<!-- ── ARIA VOICE WIDGET ───────────────────────────────────────────────────── -->
+<div id="aria-widget" style="
+  display:none; position:fixed; bottom:80px; right:24px; z-index:10000;
+  background: #0d1220; border: 1px solid rgba(26,107,255,0.3);
+  border-radius: 16px; padding: 20px; width: 300px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+    <div style="font-size:14px; font-weight:700; color:#fff;">💬 Talk to Aria</div>
+    <button onclick="document.getElementById('aria-widget').style.display='none'" style="background:none;border:none;color:#8892a4;cursor:pointer;font-size:20px;">×</button>
+  </div>
+  <div style="font-size:13px; color:#8892a4; margin-bottom:16px; line-height:1.5;">
+    Aria can answer questions about pricing, setup, or the free trial. One click to start a 60-second voice call.
+  </div>
+  <button id="aria-call-btn" onclick="launchVapi()" style="
+    width:100%; background: linear-gradient(135deg, #1a6bff, #6366f1);
+    color:#fff; border:none; padding:12px; border-radius:8px;
+    font-size:14px; font-weight:700; cursor:pointer;
+  ">🎙️ Talk to Aria now</button>
+  <div id="aria-status" style="font-size:12px; color:#8892a4; text-align:center; margin-top:8px; min-height:16px;"></div>
+</div>
+
+<script>
+  function startAria() { document.getElementById('aria-widget').style.display='block'; }
+  var vapiInstance = null;
+  function launchVapi() {
+    var btn = document.getElementById('aria-call-btn');
+    var status = document.getElementById('aria-status');
+    btn.textContent = '⏳ Connecting...'; btn.disabled = true;
+    status.textContent = 'Loading...';
+    if (!window.Vapi) {
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/vapi.js';
+      s.onload = initVapi; document.head.appendChild(s);
+    } else { initVapi(); }
+  }
+  function initVapi() {
+    var btn = document.getElementById('aria-call-btn');
+    var status = document.getElementById('aria-status');
+    try {
+      vapiInstance = new window.Vapi('0aaae7fe-be63-472a-a46d-5d9224e0fa89');
+      vapiInstance.start('9cf2ae0a-f38b-429b-8606-e201b0bbc46b');
+      btn.textContent = '🔴 End call'; btn.disabled = false;
+      status.textContent = 'Connected — Aria is listening';
+      btn.onclick = function() {
+        if (vapiInstance) { vapiInstance.stop(); vapiInstance = null; }
+        btn.textContent = '🎙️ Talk to Aria now'; btn.onclick = launchVapi;
+        status.textContent = '';
+      };
+    } catch(e) {
+      btn.textContent = '🎙️ Talk to Aria now'; btn.disabled = false;
+      status.textContent = 'Connection failed — try refreshing.';
+    }
+  }
+</script>
+<div style="height:72px;"></div>
+
+</body>
+</html>
