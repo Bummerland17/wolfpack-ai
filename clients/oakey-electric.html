@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Oakey Electric — Wolfpack AI Dashboard</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f172a;color:#f1f5f9;min-height:100vh;padding:24px}
+  .header{max-width:720px;margin:0 auto 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+  .logo{font-size:12px;font-weight:700;letter-spacing:2px;color:#3b82f6;text-transform:uppercase}
+  .tier-badge{background:#6366f122;color:#6366f1;border:1px solid #6366f144;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600}
+  .main{max-width:720px;margin:0 auto}
+  h1{font-size:24px;font-weight:700;margin-bottom:4px}
+  .sub{color:#64748b;font-size:14px;margin-bottom:28px}
+  .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px}
+  @media(min-width:480px){.stats-grid{grid-template-columns:repeat(4,1fr)}}
+  .stat-card{background:#1e293b;border-radius:12px;padding:16px;text-align:center}
+  .stat-card.highlight{background:#1e3a5f;border:1px solid #2563eb44}
+  .stat-num{font-size:28px;font-weight:700;color:#f1f5f9}
+  .stat-label{font-size:11px;color:#64748b;margin-top:4px}
+  .module{background:#1e293b;border-radius:12px;padding:20px;margin-bottom:16px}
+  .module-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .module-title{font-weight:600;font-size:15px}
+  .badge.live{background:#d1fae511;color:#10b981;border:1px solid #10b98133;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+  .site-link{color:#3b82f6;text-decoration:none;font-size:15px;display:block;margin-bottom:12px}
+  .site-link:hover{text-decoration:underline}
+  .building{color:#f59e0b;font-size:14px;margin-bottom:12px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:16px;font-size:12px;color:#64748b}
+  .module.locked{opacity:0.7;position:relative;overflow:hidden}
+  .module.locked::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,#0f172acc);pointer-events:none}
+  .lock-badge{font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+  .locked-content h3{font-size:15px;font-weight:600;margin-bottom:6px}
+  .locked-content p{color:#64748b;font-size:13px;line-height:1.5;margin-bottom:12px}
+  .upgrade-row{display:flex;align-items:center;gap:12px}
+  .price{font-weight:700;color:#f1f5f9;font-size:15px}
+  .upgrade-btn{background:#2563eb;color:#fff;padding:7px 16px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:background 0.2s}
+  .upgrade-btn:hover{background:#1d4ed8}
+  .support{text-align:center;margin-top:32px;padding-bottom:32px;color:#475569;font-size:13px}
+  .support a{color:#3b82f6;text-decoration:none}
+  .updated{font-size:11px;color:#334155;text-align:right;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="logo">Wolfpack AI</div>
+  <div class="tier-badge">Website</div>
+</div>
+<div class="main">
+  <h1>Oakey Electric</h1>
+  <p class="sub">Hey Drew — here is everything in one place.</p>
+
+  
+  
+        <div class="module">
+          <div class="module-header">
+            <span class="badge live">🟢 Live</span>
+            <span class="module-title">Your Website</span>
+          </div>
+          <p class="building">⏳ Building now — preview link coming within 24 hours</p>
+          <div class="meta-row">
+            <span>📍 Idaho Falls, ID</span>
+            <span>📅 Client since 2026-03-14</span>
+            <span>📞 +12085245611</span>
+          </div>
+        </div>
+  
+        <div class="module locked">
+          <div class="lock-badge">🔒 Website + Hosting</div>
+          <div class="locked-content">
+            <h3>Keep your site live & updated</h3>
+            <p>SSL, uptime monitoring, monthly updates included. Never touch your site again.</p>
+            <div class="upgrade-row">
+              <span class="price">$49/mo</span>
+              <a href="https://buy.stripe.com/00w5kC24k5Aj5Rx7wT3F600" class="upgrade-btn" target="_blank">Add this →</a>
+            </div>
+          </div>
+        </div>
+        <div class="module locked">
+          <div class="lock-badge">🔒 Autopilot</div>
+          <div class="locked-content">
+            <h3>Your AI answers every call</h3>
+            <p>Never miss a job call again. AI receptionist answers 24/7, captures leads, tells callers you'll call back.</p>
+            <div class="upgrade-row">
+              <span class="price">$697/mo</span>
+              <a href="https://buy.stripe.com/00w5kC24k5Aj5Rx7wT3F600" class="upgrade-btn" target="_blank">Add this →</a>
+            </div>
+          </div>
+        </div>
+        <div class="module locked">
+          <div class="lock-badge">🔒 Managed</div>
+          <div class="locked-content">
+            <h3>Outbound follow-up + email sequences</h3>
+            <p>AI follows up on every warm lead automatically. Email sequences, review alerts, competitor pricing.</p>
+            <div class="upgrade-row">
+              <span class="price">$1,497/mo</span>
+              <a href="https://buy.stripe.com/4gM4gy10ge6PdjZ2cz3F601" class="upgrade-btn" target="_blank">Add this →</a>
+            </div>
+          </div>
+        </div>
+        <div class="module locked">
+          <div class="lock-badge">🔒 Partner</div>
+          <div class="locked-content">
+            <h3>Full ops — lead sourcing + outbound calling</h3>
+            <p>We source leads, call them, and send you warm ones ready to close. A full sales team for less than one salary.</p>
+            <div class="upgrade-row">
+              <span class="price">$2,997/mo</span>
+              <a href="https://buy.stripe.com/fZu28qcIY6Enfs73gD3F602" class="upgrade-btn" target="_blank">Add this →</a>
+            </div>
+          </div>
+        </div>
+        <div class="module locked">
+          <div class="lock-badge">🔒 Enterprise</div>
+          <div class="locked-content">
+            <h3>Complete business backend</h3>
+            <p>Multi-location management, strategic pricing analysis, custom agents, dedicated ops manager.</p>
+            <div class="upgrade-row">
+              <span class="price">$4,997/mo</span>
+              <a href="https://buy.stripe.com/00wdR838ofaT2Fl8AX3F603" class="upgrade-btn" target="_blank">Add this →</a>
+            </div>
+          </div>
+        </div>
+
+  <div class="support">
+    Questions or changes? <a href="mailto:hello@wolfpackai.io">Email us</a> — we reply same day.<br>
+    <span style="font-size:11px;color:#1e293b;margin-top:8px;display:block">A portion of every Wolfpack subscription funds free mental health check-in calls for people who can't afford help.</span>
+  </div>
+  <div class="updated">Last updated: March 14, 2026</div>
+</div>
+</body>
+</html>
